@@ -2090,7 +2090,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.1 • SECURITY • OWNER MONITOR • SHOUT OUT</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.2 • AUTO FRONT MONITOR • SECURITY • SHOUT OUT</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -11528,6 +11528,7 @@ function quickEnterRole(selectedRole){
   if(ownerRoleUnlocked){if($('quickRole'))$('quickRole').value='Owner';if($('quickContextRole'))$('quickContextRole').textContent='Owner';if($('quickManagerLogout'))$('quickManagerLogout').textContent='OWNER LOG OUT'}
   else if($('quickManagerLogout'))$('quickManagerLogout').textContent='MANAGER LOG OUT';
   quickApplyAccessVisibility();quickCloseRoleGate();quickShowPane('board');
+  if(selectedRole==='Front Host')setTimeout(()=>{try{r3mAutoFrontSetup()}catch(e){}},150);
 }
 let quickPendingProtectedRole='Manager';
 function quickChooseEntryRole(selectedRole){
@@ -12057,16 +12058,41 @@ async function r3mWrite(path,data){const r=await fetch(R3M_MON_ROOT+path+".json"
 const r3mIce={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]};
 function r3mWaitIce(pc){return new Promise(res=>{if(pc.iceGatheringState==="complete")return res();const f=()=>{if(pc.iceGatheringState==="complete"){pc.removeEventListener("icegatheringstatechange",f);res()}};pc.addEventListener("icegatheringstatechange",f);setTimeout(res,5000)})}
 let r3mArmed=localStorage.getItem("fz_r3m_front_armed")==="1",r3mFrontPc=null,r3mFrontStream=null,r3mFrontSession="",r3mFrontBusy=false;
-async function r3mPresence(){if(!r3mArmed)return;try{await r3mWrite("/devices/"+r3mKey(),{id:r3mKey(),label:r3mLabel(),armed:true,lastSeen:Date.now(),monitoring:!!r3mFrontSession})}catch(e){}}
-async function r3mArmThisDevice(){if(!ownerRoleUnlocked)return toast('Owner only');try{const st=await navigator.mediaDevices.getUserMedia({video:true,audio:true});st.getTracks().forEach(t=>t.stop());r3mArmed=true;localStorage.setItem("fz_r3m_front_armed","1");await r3mPresence();r3mUpdateArmState();toast('This device is ready as Front Monitor')}catch(e){toast('Camera / microphone permission not granted')}}
+function r3mIsFrontRole(){try{return !ownerRoleUnlocked&&!managerRoleUnlocked&&$('role')&&$('role').value==='Front Host'}catch(e){return false}}
+async function r3mPresence(){
+  if(!r3mIsFrontRole())return;
+  try{await r3mWrite("/devices/"+r3mKey(),{id:r3mKey(),label:r3mLabel(),armed:!!r3mArmed,lastSeen:Date.now(),monitoring:!!r3mFrontSession})}catch(e){}
+}
+async function r3mAutoFrontSetup(){
+  if(!r3mIsFrontRole())return;
+  if(r3mArmed){await r3mPresence();return}
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+    st.getTracks().forEach(t=>t.stop());
+    r3mArmed=true;
+    localStorage.setItem("fz_r3m_front_armed","1");
+  }catch(e){
+    r3mArmed=false;
+  }
+  await r3mPresence();
+}
+async function r3mArmThisDevice(){
+  if(!ownerRoleUnlocked)return toast('Owner only');
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+    st.getTracks().forEach(t=>t.stop());
+    r3mArmed=true;localStorage.setItem("fz_r3m_front_armed","1");
+    r3mUpdateArmState();toast('This device is ready as Front Monitor')
+  }catch(e){toast('Camera / microphone permission not granted')}
+}
 function r3mUpdateArmState(){const e=$('r3mArmState');if(e)e.innerHTML=r3mArmed?'<span class="r3mBadge">READY ON THIS DEVICE</span>':'Not set on this device'}
 async function r3mStopFront(){try{r3mFrontPc&&r3mFrontPc.close()}catch(e){}r3mFrontPc=null;if(r3mFrontStream){r3mFrontStream.getTracks().forEach(t=>t.stop());r3mFrontStream=null}r3mFrontSession="";r3mFrontBusy=false;r3mPresence()}
-async function r3mFrontPoll(){if(!r3mArmed)return;try{const req=await r3mRead("/devices/"+r3mKey()+"/request");if(!req||!req.session)return;if(req.stop&&req.session===r3mFrontSession){await r3mStopFront();await r3mWrite("/devices/"+r3mKey()+"/request",null);return}if(r3mFrontSession||r3mFrontBusy)return;const data=await r3mRead("/sessions/"+req.session);if(!data||!data.offer)return;r3mFrontBusy=true;r3mFrontSession=req.session;r3mFrontStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});r3mFrontPc=new RTCPeerConnection(r3mIce);r3mFrontStream.getTracks().forEach(t=>r3mFrontPc.addTrack(t,r3mFrontStream));await r3mFrontPc.setRemoteDescription(data.offer);const a=await r3mFrontPc.createAnswer();await r3mFrontPc.setLocalDescription(a);await r3mWaitIce(r3mFrontPc);await r3mWrite("/sessions/"+r3mFrontSession+"/answer",r3mFrontPc.localDescription);await r3mPresence()}catch(e){if(r3mFrontBusy)r3mStopFront()}}
+async function r3mFrontPoll(){if(!r3mArmed||!r3mIsFrontRole())return;try{const req=await r3mRead("/devices/"+r3mKey()+"/request");if(!req||!req.session)return;if(req.stop&&req.session===r3mFrontSession){await r3mStopFront();await r3mWrite("/devices/"+r3mKey()+"/request",null);return}if(r3mFrontSession||r3mFrontBusy)return;const data=await r3mRead("/sessions/"+req.session);if(!data||!data.offer)return;r3mFrontBusy=true;r3mFrontSession=req.session;r3mFrontStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});r3mFrontPc=new RTCPeerConnection(r3mIce);r3mFrontStream.getTracks().forEach(t=>r3mFrontPc.addTrack(t,r3mFrontStream));await r3mFrontPc.setRemoteDescription(data.offer);const a=await r3mFrontPc.createAnswer();await r3mFrontPc.setLocalDescription(a);await r3mWaitIce(r3mFrontPc);await r3mWrite("/sessions/"+r3mFrontSession+"/answer",r3mFrontPc.localDescription);await r3mPresence()}catch(e){if(r3mFrontBusy)r3mStopFront()}}
 setInterval(()=>{r3mPresence();r3mFrontPoll()},2000);
 
 let r3mSelected="",r3mOwnerPc=null,r3mRemote=null,r3mSession="",r3mCameraOn=true,r3mListenOn=true,r3mRecorder=null,r3mChunks=[];
 function r3mSetStatus(x){if($('r3mStatus'))$('r3mStatus').textContent=x}
-async function r3mLoadDevices(){if(!$('r3mOwnerLayer')||!$('r3mOwnerLayer').classList.contains('show'))return;try{const raw=await r3mRead('/devices')||{},now=Date.now(),arr=Object.values(raw).filter(x=>x&&x.armed&&now-(x.lastSeen||0)<30000);$('r3mDevices').innerHTML=arr.length?arr.map(x=>`<button class="r3mDevice ${x.id===r3mSelected?'sel':''}" data-r3m-device="${esc(x.id)}"><b>${esc(x.label)}</b><br><span class="r3mMuted">Online • ${Math.round((now-x.lastSeen)/1000)} sec ago ${x.monitoring?'• MONITORING':''}</span></button>`).join(''):'<div class="r3mMuted">No Front device online.</div>';$('r3mDevices').querySelectorAll('[data-r3m-device]').forEach(b=>b.onclick=()=>{r3mSelected=b.dataset.r3mDevice;r3mLoadDevices()})}catch(e){}}
+async function r3mLoadDevices(){if(!$('r3mOwnerLayer')||!$('r3mOwnerLayer').classList.contains('show'))return;try{const raw=await r3mRead('/devices')||{},now=Date.now(),online=Object.values(raw).filter(x=>x&&now-(x.lastSeen||0)<30000),arr=online.filter(x=>x.armed);$('r3mDevices').innerHTML=arr.length?arr.map(x=>`<button class="r3mDevice ${x.id===r3mSelected?'sel':''}" data-r3m-device="${esc(x.id)}"><b>${esc(x.label)}</b><br><span class="r3mMuted">Online • ${Math.round((now-x.lastSeen)/1000)} sec ago ${x.monitoring?'• MONITORING':''}</span></button>`).join(''):(online.length?'<div class="r3mMuted">Front device online • camera/microphone permission still required on that device.</div>':'<div class="r3mMuted">No Front device online.</div>');$('r3mDevices').querySelectorAll('[data-r3m-device]').forEach(b=>b.onclick=()=>{r3mSelected=b.dataset.r3mDevice;r3mLoadDevices()})}catch(e){}}
 function r3mOpen(){if(!ownerRoleUnlocked)return toast('Owner only');$('r3mOwnerLayer').classList.add('show');$('r3mOwnerLayer').setAttribute('aria-hidden','false');r3mUpdateArmState();r3mLoadDevices()}
 async function r3mClose(){await r3mStopOwner(true);$('r3mOwnerLayer').classList.remove('show');$('r3mOwnerLayer').setAttribute('aria-hidden','true')}
 async function r3mStartOwner(){if(!ownerRoleUnlocked)return toast('Owner only');if(!r3mSelected)return toast('Select a Front device');await r3mStopOwner(false);r3mSession="s_"+Date.now()+"_"+Math.random().toString(36).slice(2,6);try{r3mSetStatus("CONNECTING…");r3mOwnerPc=new RTCPeerConnection(r3mIce);r3mOwnerPc.addTransceiver("video",{direction:"recvonly"});r3mOwnerPc.addTransceiver("audio",{direction:"recvonly"});r3mOwnerPc.ontrack=e=>{r3mRemote=e.streams[0]||r3mRemote||new MediaStream();if(!e.streams[0])r3mRemote.addTrack(e.track);$('r3mVideo').srcObject=r3mRemote;r3mSetStatus("LIVE")};const o=await r3mOwnerPc.createOffer();await r3mOwnerPc.setLocalDescription(o);await r3mWaitIce(r3mOwnerPc);await r3mWrite("/sessions/"+r3mSession,{offer:r3mOwnerPc.localDescription,target:r3mSelected,at:Date.now()});await r3mWrite("/devices/"+r3mSelected+"/request",{session:r3mSession,at:Date.now()});let ans=null,t=Date.now();while(Date.now()-t<18000&&!ans){await new Promise(r=>setTimeout(r,700));ans=await r3mRead("/sessions/"+r3mSession+"/answer")}if(!ans)throw Error("No answer");await r3mOwnerPc.setRemoteDescription(ans)}catch(e){r3mSetStatus("FAILED");toast("Connection failed: "+e.message);r3mStopOwner(false)}}
