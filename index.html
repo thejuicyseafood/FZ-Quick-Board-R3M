@@ -2063,7 +2063,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
     </div>
     <div id="quickManagerGate" class="quickManagerGate" hidden>
       <label for="quickManagerPassword">MANAGER PASSWORD</label>
-      <input id="quickManagerPassword" type="password" autocomplete="current-password" placeholder="Enter password">
+      <input id="quickManagerPassword" type="password" name="fz_protected_access_code" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Enter password">
       <div id="quickManagerGateError" class="quickManagerGateError" role="alert"></div>
       <div class="quickManagerGateActions"><button id="quickManagerBack" type="button">BACK</button><button id="quickManagerEnter" type="button">ENTER</button></div>
     </div>
@@ -2090,7 +2090,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M • OWNER MONITOR • SHOUT OUT</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.1 • SECURITY • OWNER MONITOR • SHOUT OUT</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -3970,7 +3970,9 @@ const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},
 const WORK_SHIFTS=["AM","PM","Double","Long Shift"],ASSIGN_COLORS=["#FACC15","#22D3EE","#A78BFA","#FB923C","#F472B6","#A3E635","#2DD4BF","#60A5FA","#E879F9","#FDE047"];
 const MANAGER_PASSWORD="Laopho$1988",RESET_PASSWORD="888",BAR_AUTO_SKIP_KIND="barAuto";
 const MANAGER_PASSWORD_STORAGE_KEY="fzqb_manager_password_v207r3";
-function currentManagerPassword(){return localStorage.getItem(MANAGER_PASSWORD_STORAGE_KEY)||MANAGER_PASSWORD}
+try{localStorage.removeItem(MANAGER_PASSWORD_STORAGE_KEY)}catch(e){}
+
+function currentManagerPassword(){return MANAGER_PASSWORD}
 function managerPasswordMatches(value){return String(value||'')===currentManagerPassword()}
 
 const FLOOR_FORMATIONS={
@@ -11475,8 +11477,7 @@ function quickEditManagerPassword(){
   const confirmPw=prompt('Confirm NEW Manager password:');
   if(confirmPw===null)return;
   if(next!==String(confirmPw))return toast('Password confirmation does not match');
-  localStorage.setItem(MANAGER_PASSWORD_STORAGE_KEY,next);
-  toast('Manager password updated on this device');
+  toast('Security mode: protected passwords are not stored on this device. Use Users & Roles for account-based access.');
 }
 function quickShowRoleGate(){
   if(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight){toast('AN OPERATION IS STILL SAVING…');return}
@@ -12030,6 +12031,20 @@ function quickInstallHooks(){
   const oldUpdateNext=updateNextServerSuggestion;updateNextServerSuggestion=function(){const value=oldUpdateNext.apply(this,arguments);quickScheduleRefresh();return value};
   const oldSync=sync;sync=function(ok){const value=oldSync.call(this,ok);quickSyncHeader();return value};
 }
+
+/* ===== R3M.1 SECURITY HARDENING =====
+   Manager/Owner credentials are never persisted by the app.
+   Protected access must be re-authenticated after logout/reload.
+*/
+function r3mSecurityLockProtectedAccess(){
+  try{if(document.getElementById('quickManagerPassword'))document.getElementById('quickManagerPassword').value=''}catch(e){}
+  ownerRoleUnlocked=false;
+  managerRoleUnlocked=false;
+  try{document.body.classList.remove('quickOwner','quickManager')}catch(e){}
+}
+window.addEventListener('pagehide',()=>{try{if(document.getElementById('quickManagerPassword'))document.getElementById('quickManagerPassword').value=''}catch(e){}});
+window.addEventListener('beforeunload',()=>{try{if(document.getElementById('quickManagerPassword'))document.getElementById('quickManagerPassword').value=''}catch(e){}});
+
 /* ===== R3M OWNER MONITOR =====
    Front Host UI contains no monitoring controls/status.
    Browser/OS privacy indicators remain controlled by the device/browser.
