@@ -2101,7 +2101,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
     <div class="teamDayHead"><div><h1>Today's Team</h1><div id="teamDayDate" class="teamDayDate"></div></div><div id="teamDayRole" class="teamDayRole"></div></div>
     <div class="teamDayCard">
       <h2>Select Today's Employees</h2>
-      <div class="teamDayHint">Pilih semua employee yang bekerja hari ini. Untuk setiap nama pilih Position dan Shift.</div>
+      <div class="teamDayHint">Select everyone working today. Choose a Position and Shift for each employee.</div>
       <div class="teamDayTopActions"><button id="teamDayAddNewToggle" class="teamAddNewBtn" type="button">ADD NEW EMPLOYEE</button></div>
       <div id="teamNewEmployee" class="teamNewEmployee">
         <input id="teamNewName" type="text" placeholder="New employee name">
@@ -2139,7 +2139,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8 • SHIFT AUTOMATION • TEAM SELECTOR • SMART JOIN SKIP</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.1 • DATA BINDING • SHIFT AUTOMATION • TEAM SELECTOR</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2268,7 +2268,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
   <section id="mapView" class="view active">
     <div class="mapWrap">
-      <div class="mapBar"><span class="mapTitle">FLOOR OPERATIONS</span><span id="readyCount" class="readyPill"></span><span id="formationMeta" class="formationMeta">FORMASI: NONE</span><button id="formationBtn" class="formationBtn">FORMASI</button><button id="sectionControlTopBtn" class="mapActionBtn" style="background:#1d4ed8;border-color:#93c5fd">CLEAR / MOVE SECTION</button><button id="staffStatusTopBtn" class="mapActionBtn staffDutyBtn">BREAK / CUT</button><button id="moveChangeTopBtn" class="moveChangeBtn">MOVE / CHANGE</button><button id="floorAssignBtn" class="mapActionBtn assign">MANUAL ASSIGN</button><button id="allClearFloorBtn" class="mapActionBtn clearAll">ALL READY</button></div>
+      <div class="mapBar"><span class="mapTitle">FLOOR OPERATIONS</span><span id="readyCount" class="readyPill"></span><span id="formationMeta" class="formationMeta">FORMATION: NONE</span><button id="formationBtn" class="formationBtn">FORMATION</button><button id="sectionControlTopBtn" class="mapActionBtn" style="background:#1d4ed8;border-color:#93c5fd">CLEAR / MOVE SECTION</button><button id="staffStatusTopBtn" class="mapActionBtn staffDutyBtn">BREAK / CUT</button><button id="moveChangeTopBtn" class="moveChangeBtn">MOVE / CHANGE</button><button id="floorAssignBtn" class="mapActionBtn assign">MANUAL ASSIGN</button><button id="allClearFloorBtn" class="mapActionBtn clearAll">ALL READY</button></div>
       <div id="rotationDash" class="rotationDash simple">
         <div id="rotationNextBanner" class="rotationNextBanner">
           <span class="nextLabel">NEXT SERVER</span>
@@ -2325,7 +2325,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
       <div class="beeperBar">
         <span class="beeperTitle">BEEPER ASSIGNMENT</span>
         <span class="beeperHint">Section automatically follows the active formation. Server name comes from the current section assignment.</span>
-        <span id="beeperFormationMeta" class="beeperFormation">FORMASI: NONE</span>
+        <span id="beeperFormationMeta" class="beeperFormation">FORMATION: NONE</span>
       </div>
       <div class="beeperBody"><div id="beeperGrid" class="beeperGrid"></div></div>
     </div>
@@ -2338,9 +2338,9 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <span id="sectionEditStatus" class="sectionEditHint">Select a formation, choose the destination section, then tap tables to move them.</span>
       </div>
       <div class="sectionEditControls">
-        <div class="sectionEditField"><label>FORMASI</label><select id="sectionEditFormation"></select></div>
+        <div class="sectionEditField"><label>FORMATION</label><select id="sectionEditFormation"></select></div>
         <div class="sectionEditField"><label>MOVE TABLE TO</label><select id="sectionEditTarget"></select></div>
-        <button id="sectionEditLoadCurrent" class="btn wideBtn" style="height:42px;background:#17334e">USE CURRENT FORMASI</button>
+        <button id="sectionEditLoadCurrent" class="btn wideBtn" style="height:42px;background:#17334e">USE CURRENT FORMATION</button>
         <button id="sectionEditReset" class="sectionEditReset wideBtn">RESET DEFAULT</button>
       </div>
       <div id="sectionEditTargetHint" class="sectionEditTargetHint">Choose a target section. Every table button shows its current section.</div>
@@ -2360,7 +2360,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
       <div class="breaktimeBar">
         <span class="breaktimeTitle">BREAKTIME</span>
         <span class="breaktimeHint">Ganti server dalam row rotation yang sama. Untuk 2 SERVER, pilih ALL atau hanya Section 2 / 4 / 3 / 5.</span>
-        <span id="breaktimeFormationMeta" class="breaktimeFormation">SHIFT — • FORMASI —</span>
+        <span id="breaktimeFormationMeta" class="breaktimeFormation">SHIFT — • FORMATION —</span>
       </div>
       <div class="breaktimeControls">
         <div class="breaktimeField"><label>SERVER 1 • BREAK / CUT</label><select id="breaktimeServer1"></select></div>
@@ -2407,15 +2407,15 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
 <div id="formationModal" class="modalBack"><div class="modal formationModal">
   <h2>Floor Map Formasi</h2>
-  <p>Pilih formasi, lalu pilih Section dan Assigned Server. Nomor Beeper diatur terpisah melalui tab BEEPER.</p>
+  <p>Choose a formation, then select a Section and Assigned Server. Beeper numbers are managed separately in the BEEPER tab.</p>
   <div class="formationGrid">
-    <div class="field"><label>FORMASI</label><select id="formationSelect"></select></div>
+    <div class="field"><label>FORMATION</label><select id="formationSelect"></select></div>
     <div class="field"><label>SECTION</label><select id="formationSection"></select></div>
   </div>
   <div id="formationTablesBox" class="formationTablesBox">Select a formation and section.</div>
   <div class="formationGrid formationAssignGrid">
     <div class="field"><label>ASSIGNED SERVER</label><select id="formationServer"></select></div>
-    <div class="field"><label>SHIFT • REQUIRED</label><select id="formationWorkShift"><option value="">— Choose Shift —</option><option value="AM">AM</option><option value="PM">PM</option><option value="Double">Double Shift</option><option value="Long Shift">Long Shift</option></select></div>
+    <div class="field"><label>SHIFT • AUTO FROM TODAY'S TEAM</label><select id="formationWorkShift"><option value="">— Choose Shift —</option><option value="AM">AM</option><option value="PM">PM</option><option value="Double">Double Shift</option><option value="Long Shift">Long Shift</option></select></div>
     <div class="field" style="display:flex;align-items:end"><button id="formationAddServer" class="btn" style="width:100%">+ ADD SERVER</button></div>
   </div>
   <div class="actions">
@@ -2431,7 +2431,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 <div id="sectionControlModal" class="modalBack"><div class="modal sectionControlModal">
   <h2>Clear / Move Section</h2>
   <p>Pindahkan server ke Section kosong, atau kosongkan tepat satu Section. Meja yang sedang SEATED / RESERVED dan seluruh Host Board history tetap aman.</p>
-  <div id="sectionControlMeta" class="sectionControlMeta">SHIFT — • FORMASI —</div>
+  <div id="sectionControlMeta" class="sectionControlMeta">SHIFT — • FORMATION —</div>
   <div class="sectionControlGrid">
     <div class="field"><label>FROM • CURRENT SECTION</label><select id="sectionControlSource"></select></div>
     <div class="field"><label>ACTION / MOVE TO</label><select id="sectionControlTarget"></select></div>
@@ -4054,7 +4054,7 @@ const FLOOR_FORMATIONS={
     "5":["R1","R2","R3","R4","R5","R6","R7","F6","E5"],
     "BAR":["H1","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
   },
-  "6 SERVER - FORMASI 1":{
+  "6 SERVER - FORMATION 1":{
     "1":["H1","H2","H3","H4","C1"],
     "2":["A1","A2","A3","B1","B2","B3"],
     "3":["F1","F2","F3","F4","F5","F6","E2","E3","E4","E5"],
@@ -4063,7 +4063,7 @@ const FLOOR_FORMATIONS={
     "6":["C2","C3","C4","D1","D2","D3"],
     "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
   },
-  "6 SERVER - FORMASI 2":{
+  "6 SERVER - FORMATION 2":{
     "1":["H1","H2","H3","H4"],
     "2":["A1","A2","A3","B1","B2","B3"],
     "3":["F1","F2","F3","F4","F5","E2","E3","E4"],
@@ -4141,11 +4141,11 @@ const FORMATION_OVERLAY_ANCHORS={
     "1":[{x:28,y:70}],"2":[{x:90,y:63}],"3":[{x:11,y:76}],
     "4":[{x:73,y:13}],"5":[{x:24,y:13}],"BAR":[{x:54,y:60}]
   },
-  "6 SERVER - FORMASI 1":{
+  "6 SERVER - FORMATION 1":{
     "1":[{x:44,y:69}],"2":[{x:87,y:62}],"3":[{x:11,y:54}],
     "4":[{x:73,y:12}],"5":[{x:24,y:13}],"6":[{x:28,y:58}],"BAR":[{x:56,y:58}]
   },
-  "6 SERVER - FORMASI 2":{
+  "6 SERVER - FORMATION 2":{
     "1":[{x:44,y:59}],"2":[{x:87,y:62}],"3":[{x:13,y:50}],
     "4":[{x:73,y:12}],"5":[{x:24,y:14}],"6":[{x:27,y:74}],"BAR":[{x:56,y:58}]
   },
@@ -6456,7 +6456,7 @@ async function applyFloorSeat(autoMode=false){
   }
   if(!server){
     floorAutoSaving=false;
-    return toast('No server assigned. Set FORMASI / TABLE ASSIGNMENT first');
+    return toast('No server assigned. Set FORMATION / TABLE ASSIGNMENT first');
   }
   const flexDuty=staffDutyState(server);
   if(flexDuty.state==='BREAK'||flexDuty.state==='CUT'){
@@ -7822,7 +7822,7 @@ function renderFormationOverlays(){
   floor.querySelectorAll('.sectionOverlay').forEach(x=>x.remove());
 
   const form=floorFormation.formation;
-  if($('formationMeta'))$('formationMeta').textContent=form?("FORMASI: "+form+(String(floorFormation.sectionMode||'').toUpperCase()==='SPLIT'?' • PARTIAL SECTIONS':'')):"FORMASI: NONE";
+  if($('formationMeta'))$('formationMeta').textContent=form?("FORMATION: "+form+(String(floorFormation.sectionMode||'').toUpperCase()==='SPLIT'?' • PARTIAL SECTIONS':'')):"FORMATION: NONE";
   if(!form||!FLOOR_FORMATIONS[form]){
     renderTables();
     return;
@@ -8030,7 +8030,7 @@ async function handleFormationChange(){
     if(!claimed.length)throw new Error('Action is being processed.');
     await fetchTables();
     const latestFormation=normalizeFloorFormation((await readJ(FLOOR_FORMATION_ROOT+'/'+key+'.json'))||{});
-    if(String(latestFormation.formation||'')!==String(previousFormation.formation||''))throw new Error('Formation changed on another device. Reopen FORMASI.');
+    if(String(latestFormation.formation||'')!==String(previousFormation.formation||''))throw new Error('Formation changed on another device. Reopen FORMATION.');
     floorFormation=latestFormation;
     const oldServers=[...new Set(Object.values(latestFormation.sectionServers||{}).filter(Boolean))];
     const blockers=oldServers.flatMap(activePrimaryTablesForServer);
@@ -8044,7 +8044,7 @@ async function handleFormationChange(){
     await writeJ(ROOT+'.json',rootPatch,'PATCH');
     board=await readBoardStrict(key,'FORMATION CHANGE READ-BACK');boardBaseline=cloneBoard(board);
     formationDraftServer='';formationEditorDirty=false;populateFormationSections();populateFormationServers();updateFormationTablesBox();renderSheet();renderFormationCurrent();renderFormationOverlays();
-    toast(next?('FORMASI '+next+' ready • assign each section'):'Formation cleared • history kept');
+    toast(next?('FORMATION '+next+' ready • assign each section'):'Formation cleared • history kept');
   }catch(e){floorFormation=previousFormation;floorAssignments=previousAssignments;$('formationSelect').value=previousFormation.formation||'';renderFormationOverlays();renderFormationCurrent();toast((e&&e.message)||'Formation change failed')}
   finally{for(const lock of claimed)await releaseTableLock(lock,lockOwner);formationSaveInFlight=false}
 }
@@ -8071,7 +8071,7 @@ function closeJoinSkipDialog(waiting){$('joinSkipOverlay').classList.remove('sho
 function smartJoinBaselineFromBoard(source,server){const k=doubleSeatGuardKey(server),rows=(source&&source.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt&&doubleSeatGuardKey(r.server)!==k);return rows.length?Math.min(...rows.map(r=>Math.max(0,rotationEffectiveCount(r)))):0}
 
 async function saveFormationSection(){
-  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||''),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
+  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||''),_teamBound=bindTodayTeamToFormation(server),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
   if(!form)return toast("Choose Formasi");
   if(!sec)return toast("Choose Section");
   if(!server)return toast("Choose Assigned Server");
@@ -8088,7 +8088,7 @@ async function saveFormationSection(){
     if(saveBtn)saveBtn.textContent='READING LIVE DATA…';
     const [,latestBoard,rawLatestFormation]=await Promise.all([fetchTables(),readBoardStrict(key,'FORMATION SAVE'),readJ(FLOOR_FORMATION_ROOT+'/'+key+'.json')]);
     const latestFormation=normalizeFloorFormation(rawLatestFormation||{});
-    if(latestFormation.formation&&latestFormation.formation!==form)throw new Error('Formation changed on another device. Reopen FORMASI.');
+    if(latestFormation.formation&&latestFormation.formation!==form)throw new Error('Formation changed on another device. Reopen FORMATION.');
     latestFormation.formation=form;
     board=latestBoard;boardBaseline=cloneBoard(latestBoard);loadedBoardKey=key;floorFormation=latestFormation;
     const assignmentsBefore=assignmentsFromFormationSnapshot(floorFormation).tables;
@@ -8447,7 +8447,7 @@ async function performStaffDutyChange(server,action,sectionHint='',options={}){
 
     const mappedSections=Object.entries(floorFormation.sectionServers||{}).filter(([,name])=>String(name||'')===server).map(([sec])=>sec);
     const assignedTables=Object.entries(floorAssignments.tables||{}).filter(([,v])=>v&&String(v.server||'')===server).map(([id])=>id);
-    if(action==='RETURN'&&!mappedSections.length&&!assignedTables.length&&(floorFormation.formation||!String(board.rows[ri].section||'')))throw new Error('Section is no longer held. Assign '+server+' again through FORMASI.');
+    if(action==='RETURN'&&!mappedSections.length&&!assignedTables.length&&(floorFormation.formation||!String(board.rows[ri].section||'')))throw new Error('Section is no longer held. Assign '+server+' again through FORMATION.');
     const boardBefore=cloneBoard(board),assignmentsBefore=JSON.parse(JSON.stringify(floorAssignments.tables||{}));
     const turnsBefore=JSON.stringify(board.rows[ri].turns||[]),rootPatch={};
     if(action==='BREAK'){
@@ -8754,11 +8754,11 @@ function beeperSelectOptions(selected=""){
 }
 function renderBeeperView(){
   const box=$('beeperGrid');if(!box)return;
-  const meta=$('beeperFormationMeta');if(meta)meta.textContent=floorFormation.formation?('FORMASI: '+floorFormation.formation):'FORMASI: NONE';
+  const meta=$('beeperFormationMeta');if(meta)meta.textContent=floorFormation.formation?('FORMATION: '+floorFormation.formation):'FORMATION: NONE';
   box.innerHTML='';
   const secs=beeperSections();
   if(!secs.length){
-    box.innerHTML='<div class="beeperEmpty">No active section yet. Choose a FORMASI and assign servers to sections first.</div>';
+    box.innerHTML='<div class="beeperEmpty">No active section yet. Choose a FORMATION and assign servers to sections first.</div>';
     return;
   }
   secs.forEach(sec=>{
@@ -9146,7 +9146,7 @@ function breaktimeFormationDisplay(name=floorFormation.formation,currentShift=sh
   name=String(name||'').trim();currentShift=String(currentShift||'').toUpperCase();
   const visibleName=currentShift==='AM'&&name==='5/4 SERVER'?'4 SERVER':(name||'NONE');
   const mode=name==='2 SERVER'&&String(floorFormation&&floorFormation.sectionMode||'').toUpperCase()==='SPLIT'?' • PARTIAL SECTIONS':'';
-  return currentShift+' • FORMASI: '+visibleName+mode;
+  return currentShift+' • FORMATION: '+visibleName+mode;
 }
 function breaktimeMappedSectionsForServer(server,sourceFormation=floorFormation){
   server=String(server||'').trim();
@@ -11633,13 +11633,15 @@ function quickLogoutManager(){
 
 let shiftAutoResolver=null,shiftAutomationLast={pm:'',short:new Set()};
 function todayTeamEntry(name){const k=doubleSeatGuardKey(name);return (teamDayRows||[]).find(x=>doubleSeatGuardKey(x.name)===k)||null}
-function applyTodayTeamShiftToFormation(name){const e=todayTeamEntry(name),sel=$('formationShift');if(!e||!sel)return;const map={'Double':'Double Shift','Longshift 2PM':'Long Shift','Short Shift 2-4 PM':'Short Shift 2-4 PM'},wanted=map[e.shift]||e.shift,opt=[...sel.options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());if(opt){sel.value=opt.value;formationEditorDirty=true}}
+function todayTeamShiftToFormationValue(shift){const map={'Double':'Double Shift','Longshift 2PM':'Long Shift','Short Shift 2-4 PM':'Short Shift 2-4 PM'};return map[shift]||shift||''}
+function bindTodayTeamToFormation(name){const entry=todayTeamEntry(name),sel=$('formationShift');if(!sel)return false;if(!entry){sel.disabled=false;sel.removeAttribute('data-team-bound');return false}const wanted=todayTeamShiftToFormationValue(entry.shift);let opt=[...sel.options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());if(!opt&&wanted){opt=document.createElement('option');opt.value=wanted;opt.textContent=wanted;sel.appendChild(opt)}if(opt)sel.value=opt.value;sel.disabled=true;sel.setAttribute('data-team-bound','1');sel.title="Auto-filled from Today's Team";formationEditorDirty=true;return true}
+function applyTodayTeamShiftToFormation(name){return bindTodayTeamToFormation(name)}
 function showShiftAutoDialog(title,text,fields,yes='CONTINUE',no='NOT YET'){return new Promise(resolve=>{shiftAutoResolver=resolve;$('shiftAutoTitle').textContent=title;$('shiftAutoText').textContent=text;$('shiftAutoFields').innerHTML=fields||'';$('shiftAutoConfirm').textContent=yes;$('shiftAutoCancel').textContent=no;$('shiftAutoOverlay').classList.add('show')})}
 function closeShiftAutoDialog(v){$('shiftAutoOverlay').classList.remove('show');const r=shiftAutoResolver;shiftAutoResolver=null;if(r)r(!!v)}
 async function maybePmShiftReminder(){if(shiftAutoResolver)return;const d=new Date(),day=d.getDay(),weekend=day===5||day===6||day===0,key=dateKey(d),h=d.getHours(),m=d.getMinutes(),ready=weekend?(h===15&&m>=25):(h===15&&m>=50);if(!ready||shiftAutomationLast.pm===key)return;shiftAutomationLast.pm=key;const label=weekend?'3:30 PM':'4:00 PM',yes=await showShiftAutoDialog('PM SHIFT STARTS AT '+label,'Prepare the PM rotation and section assignments.','','START CHANGE TO PM','NOT YET');if(yes){setShift('PM');quickShowPane('more');setTimeout(()=>{try{openFormationManager()}catch(e){}},100)}}
 async function maybeShortShiftArrival(){if(shiftAutoResolver)return;const d=new Date();if(!(d.getHours()===13&&d.getMinutes()>=50))return;for(const e of (teamDayRows||[]).filter(x=>x.shift==='Short Shift 2-4 PM')){const token=dateKey(d)+'|'+doubleSeatGuardKey(e.name);if(shiftAutomationLast.short.has(token))continue;shiftAutomationLast.short.add(token);const rows=(board.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt),serverOpts=rows.map(r=>'<option>'+esc(r.server)+'</option>').join(''),secs=Object.keys(floorFormation.sectionServers||{}).filter(s=>String(s).toUpperCase()!=='BAR'),secOpts=secs.map(s=>'<option>'+esc(s)+'</option>').join(''),fields='<select id="shiftCutServer"><option value="">— SELECT SERVER TO CUT —</option>'+serverOpts+'</select><select id="shiftArrivalSection"><option value="">— SELECT SECTION —</option>'+secOpts+'</select>';const yes=await showShiftAutoDialog(e.name+' STARTS AT 2:00 PM','Select the server to CUT and the section for '+e.name+'. Smart Join Skip will run after confirmation.',fields,'CONFIRM CHANGE','NOT YET');if(!yes)continue;const cut=$('shiftCutServer').value,sec=$('shiftArrivalSection').value;if(!cut||!sec){toast('Select a server to CUT and a section');continue}const ri=(board.rows||[]).findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(cut));if(ri>=0)await applyServerStatusChange(ri,'CUT');try{await fetchFormation();floorFormation.sectionServers[sec]=e.name;floorFormation.serverShifts=floorFormation.serverShifts||{};floorFormation.serverShifts[e.name]='Short Shift 2-4 PM';await saveFormation();await fetchBoard();const baseline=smartJoinBaselineFromBoard(board,e.name);if(baseline>0){const waiting=await showJoinSkipDialog(e.name,baseline),skip=waiting?baseline:Math.max(0,baseline-1),idx=(board.rows||[]).findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(e.name));if(idx>=0&&skip>0)await saveMultipleSkipsImmediately(idx,null,skip)}}catch(err){toast('Shift change failed')}}}
 setInterval(()=>{maybePmShiftReminder();maybeShortShiftArrival()},15000);
-document.addEventListener('change',e=>{if(e.target&&e.target.id==='formationServer')setTimeout(()=>applyTodayTeamShiftToFormation(e.target.value),0)});
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='formationServer')setTimeout(()=>bindTodayTeamToFormation(e.target.value),0)});
 
 let teamDayRoleSelected='Front Host',teamDayRows=[],teamDayEditing=false;
 const TEAM_DAY_SHIFTS=['AM','PM','Double','Longshift 2PM','Short Shift 2-4 PM'];
@@ -11672,7 +11674,7 @@ function renderTeamDay(){
  document.querySelectorAll('[data-team-delete]').forEach(el=>el.onclick=()=>{teamDayRows.splice(+el.dataset.teamDelete,1);renderTeamDay()});
  const edit=$('teamDayEdit');if(edit){edit.style.display=can?'block':'none';edit.textContent=teamDayEditing?'DONE EDITING':'EDIT TEAM'}
 }
-async function saveTeamDay(){const clean=normalizeTeamDay(teamDayRows);try{await writeJ(teamDayPath()+'.json',clean);const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');teamDayRows=confirmed;toast('TODAY TEAM UPDATED • VERIFIED');renderTeamDay();return true}catch(e){toast((e&&e.message)||'Team update failed');return false}}
+async function saveTeamDay(){const clean=normalizeTeamDay(teamDayRows);try{await writeJ(teamDayPath()+'.json',clean);const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');teamDayRows=confirmed;try{await fetchFormation();floorFormation.serverShifts=floorFormation.serverShifts||{};confirmed.forEach(e=>{if(e.position==='Server'||e.position==='Bartender')floorFormation.serverShifts[canonicalServerName(e.name)]=todayTeamShiftToFormationValue(e.shift)});await saveFormation()}catch(syncErr){}toast('TODAY TEAM UPDATED • SYNCED');renderTeamDay();return true}catch(e){toast((e&&e.message)||'Team update failed');return false}}
 async function openTeamDay(roleName){teamDayRoleSelected=roleName||'Front Host';teamDayEditing=teamDayCanEdit();$('teamDayLayer').classList.add('show');$('teamDayLayer').setAttribute('aria-hidden','false');await loadTeamDay()}
 function closeTeamDay(){$('teamDayLayer').classList.remove('show');$('teamDayLayer').setAttribute('aria-hidden','true');quickShowPane('board')}
 function toggleNewEmployee(){const e=$('teamNewEmployee');if(e)e.classList.toggle('show')}
