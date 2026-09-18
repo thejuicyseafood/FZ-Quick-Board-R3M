@@ -2139,7 +2139,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.2 • DIRECT TEAM BINDING • SHIFT AUTOMATION • TEAM SELECTOR</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.3 • FORMATION BINDING REAL FIX • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2406,7 +2406,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
 
 <div id="formationModal" class="modalBack"><div class="modal formationModal">
-  <h2>Floor Map Formasi</h2>
+  <h2>Floor Map Formation</h2>
   <p>Choose a formation, then select a Section and Assigned Server. Beeper numbers are managed separately in the BEEPER tab.</p>
   <div class="formationGrid">
     <div class="field"><label>FORMATION</label><select id="formationSelect"></select></div>
@@ -7869,7 +7869,7 @@ function renderFormationOverlays(){
 }
 function populateFormationSelect(){
   const sel=$('formationSelect');if(!sel)return;
-  sel.innerHTML='<option value="">— Choose Formasi —</option>'+Object.keys(FLOOR_FORMATIONS).map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');
+  sel.innerHTML='<option value="">— Choose Formation —</option>'+Object.keys(FLOOR_FORMATIONS).map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');
   sel.value=floorFormation.formation||'';
 }
 function populateFormationServers(selected=""){
@@ -8054,15 +8054,20 @@ async function addFormationServer(){
   const existing=allKnownServers().find(x=>x.toLowerCase()===name.toLowerCase());
   const finalName=existing||name;
   if(!existing){servers.push(finalName);await saveServers();toast(finalName+" added")}
-  formationDraftServer=finalName;formationEditorDirty=true;populateFormationServers(finalName);populateFormationWorkShift(boardWorkShiftForServer(finalName));
+  formationDraftServer=canonicalServerName(finalName);formationEditorDirty=true;populateFormationServers(formationDraftServer);populateFormationWorkShift('');await bindTodayTeamToFormation(formationDraftServer);
 }
 function handleFormationSectionDraftChange(){
-  const sec=$('formationSection').value,assigned=sec?String(floorFormation.sectionServers[sec]||''):'';
-  if(assigned)formationDraftServer=assigned;populateFormationWorkShift(assigned?boardWorkShiftForServer(assigned):'');
+  const sec=$('formationSection').value,assigned=sec?canonicalServerName(floorFormation.sectionServers[sec]||''):'';
+  if(assigned)formationDraftServer=assigned;
+  populateFormationWorkShift(assigned?boardWorkShiftForServer(assigned):'');
   formationEditorDirty=true;updateFormationTablesBox();
+  if(assigned)setTimeout(()=>bindTodayTeamToFormation(assigned),0);
 }
 function handleFormationServerDraftChange(){
-  formationDraftServer=String($('formationServer').value||'');populateFormationWorkShift(boardWorkShiftForServer(formationDraftServer));formationEditorDirty=true;
+  formationDraftServer=canonicalServerName($('formationServer').value||'');
+  populateFormationWorkShift('');
+  formationEditorDirty=true;
+  bindTodayTeamToFormation(formationDraftServer);
 }
 
 let joinSkipResolver=null;
@@ -8071,21 +8076,22 @@ function closeJoinSkipDialog(waiting){$('joinSkipOverlay').classList.remove('sho
 function smartJoinBaselineFromBoard(source,server){const k=doubleSeatGuardKey(server),rows=(source&&source.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt&&doubleSeatGuardKey(r.server)!==k);return rows.length?Math.min(...rows.map(r=>Math.max(0,rotationEffectiveCount(r)))):0}
 
 async function saveFormationSection(){
-  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||''),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
-  if(!form)return toast("Choose Formasi");
+  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||'');let selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
+  if(!form)return toast("Choose Formation");
   if(!sec)return toast("Choose Section");
   if(!server)return toast("Choose Assigned Server");
     const directTeamEntry=await todayTeamEntryDirect(server);
     if(directTeamEntry){
       const wanted=todayTeamShiftToFormationValue(directTeamEntry.shift);
-      let shiftOption=[...$('formationShift').options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());
-      if(!shiftOption&&wanted){shiftOption=document.createElement('option');shiftOption.value=wanted;shiftOption.textContent=wanted;$('formationShift').appendChild(shiftOption)}
-      if(shiftOption)$('formationShift').value=shiftOption.value;
-      selectedWorkShift=$('formationShift').value;
-      $('formationShift').disabled=true;
+      let shiftOption=[...$('formationWorkShift').options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());
+      if(!shiftOption&&wanted){shiftOption=document.createElement('option');shiftOption.value=wanted;shiftOption.textContent=wanted;$('formationWorkShift').appendChild(shiftOption)}
+      if(shiftOption)$('formationWorkShift').value=shiftOption.value;
+      selectedWorkShift=$('formationWorkShift').value;
+      $('formationWorkShift').disabled=true;
     }
 
-  if(!selectedWorkShift)return toast("SHIFT IS REQUIRED • Choose AM, PM, Double Shift, or Long Shift");
+  selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
+   if(!selectedWorkShift)return toast("SHIFT IS REQUIRED • Choose AM, PM, Double Shift, or Long Shift");
   if(formationSaveInFlight)return toast('SERVER ASSIGNMENT IS ALREADY SAVING…');
   formationSaveInFlight=true;formationEditorDirty=true;
   const saveBtn=$('formationSaveSection'),idleSaveLabel=saveBtn?saveBtn.textContent:'SAVE SECTION';if(saveBtn){saveBtn.disabled=true;saveBtn.setAttribute('aria-busy','true');saveBtn.textContent='SAVING SERVER…'}
@@ -8842,7 +8848,7 @@ async function saveSectionBeeper(section,value){
 
 function populateSectionEditFormation(){
   const sel=$('sectionEditFormation');if(!sel)return;
-  sel.innerHTML='<option value="">— Choose Formasi —</option>'+Object.keys(FLOOR_FORMATIONS).map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');
+  sel.innerHTML='<option value="">— Choose Formation —</option>'+Object.keys(FLOOR_FORMATIONS).map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');
   sel.value=sectionEditFormation||'';
 }
 function populateSectionEditTarget(){
@@ -8907,7 +8913,7 @@ function loadSectionEditFormation(name,markClean=true){
   renderSectionEditEditor();
 }
 function moveSectionEditTable(tableId){
-  if(!sectionEditFormation||!sectionEditDraft)return toast('Choose Formasi');
+  if(!sectionEditFormation||!sectionEditDraft)return toast('Choose Formation');
   if(!sectionEditTarget)return toast('Choose destination Section');
   Object.keys(sectionEditDraft).forEach(sec=>{sectionEditDraft[sec]=(sectionEditDraft[sec]||[]).filter(id=>id!==tableId)});
   if(sectionEditTarget!=='__UNASSIGNED__'){
@@ -8919,7 +8925,7 @@ function moveSectionEditTable(tableId){
   renderSectionEditSummary();renderSectionEditGroups();updateSectionEditStatus();
 }
 async function saveSectionEdit(){
-  if(!sectionEditFormation||!sectionEditDraft)return toast('Choose Formasi');
+  if(!sectionEditFormation||!sectionEditDraft)return toast('Choose Formation');
   if(!sectionEditDirty)return toast('No changes to save');
   const normalizedDraft=normalizeCustomFormation(sectionEditFormation,sectionEditDraft);
   if(!normalizedDraft)return toast('Section table map is invalid. Nothing was saved.');
@@ -8941,7 +8947,7 @@ async function saveSectionEdit(){
   finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
 }
 async function resetSectionEditDefault(){
-  if(!sectionEditFormation)return toast('Choose Formasi');
+  if(!sectionEditFormation)return toast('Choose Formation');
   if(!confirm('Reset '+sectionEditFormation+' table map back to the original default?'))return;
   const name=sectionEditFormation,key=boardKey(),owner=operationId('section-reset'),lockNames=['FORMATION CONFIG '+name];
   if(floorFormation.formation===name)lockNames.push('FORMATION '+key);
@@ -11658,7 +11664,7 @@ async function todayTeamEntryDirect(name){
 }
 function todayTeamShiftToFormationValue(shift){const map={'Double':'Double Shift','Longshift 2PM':'Long Shift','Short Shift 2-4 PM':'Short Shift 2-4 PM'};return map[shift]||shift||''}
 async function bindTodayTeamToFormation(name){
-  const sel=$('formationShift');if(!sel)return false;
+  const sel=$('formationWorkShift');if(!sel)return false;
   const entry=await todayTeamEntryDirect(name);
   if(!entry){sel.disabled=false;sel.value='';sel.removeAttribute('data-team-bound');return false}
   const wanted=todayTeamShiftToFormationValue(entry.shift);
@@ -12412,7 +12418,7 @@ function bind(){
   $('sectionControlTopBtn').onclick=()=>openSectionControl('');$('sectionControlSource').onchange=()=>{$('sectionControlTarget').value='__CLEAR__';renderSectionControl()};$('sectionControlTarget').onchange=renderSectionControl;$('sectionControlClose').onclick=()=>closeM('sectionControlModal');$('sectionControlSubmit').onclick=submitSectionControl;
   $('staffStatusTopBtn').onclick=()=>openStaffStatus('');$('formationStaffStatus').onclick=()=>openStaffStatus(String($('formationServer').value||rawServerForSection($('formationSection').value)||''));$('staffStatusServer').onchange=renderStaffStatusModal;$('staffStartBreak').onclick=()=>performStaffDutyChange($('staffStatusServer').value,'BREAK');$('staffReturn').onclick=()=>performStaffDutyChange($('staffStatusServer').value,'RETURN');$('staffCut').onclick=()=>performStaffDutyChange($('staffStatusServer').value,'CUT');$('staffStatusClose').onclick=()=>closeM('staffStatusModal');
   $('formationSelect').onchange=handleFormationChange;$('formationSection').onchange=handleFormationSectionDraftChange;$('formationAddServer').onclick=addFormationServer;$('formationEditTables').onclick=()=>openSectionEditor(true);$('formationSaveSection').onclick=saveFormationSection;$('formationClearSection').onclick=clearFormationSection;
-  $('sectionEditFormation').onchange=()=>loadSectionEditFormation($('sectionEditFormation').value,true);$('sectionEditTarget').onchange=()=>{sectionEditTarget=$('sectionEditTarget').value;renderSectionEditEditor()};$('sectionEditLoadCurrent').onclick=()=>{if(floorFormation.formation)loadSectionEditFormation(floorFormation.formation,true);else toast('No current Formasi')};$('sectionEditReload').onclick=()=>loadSectionEditFormation(sectionEditFormation,true);$('sectionEditSave').onclick=saveSectionEdit;$('sectionEditReset').onclick=resetSectionEditDefault;
+  $('sectionEditFormation').onchange=()=>loadSectionEditFormation($('sectionEditFormation').value,true);$('sectionEditTarget').onchange=()=>{sectionEditTarget=$('sectionEditTarget').value;renderSectionEditEditor()};$('sectionEditLoadCurrent').onclick=()=>{if(floorFormation.formation)loadSectionEditFormation(floorFormation.formation,true);else toast('No current Formation')};$('sectionEditReload').onclick=()=>loadSectionEditFormation(sectionEditFormation,true);$('sectionEditSave').onclick=saveSectionEdit;$('sectionEditReset').onclick=resetSectionEditDefault;
   $('floorAssignBtn').onclick=openFloorAssignmentManager;$('allClearFloorBtn').onclick=allClearFloor;$('floorAssignServer').onchange=()=>{if($('floorAssignBeeper')&&!$('floorAssignBeeper').value)$('floorAssignBeeper').value=assignedBeeperForServer($('floorAssignServer').value);updateFloorAssignSummary()};$('floorAssignBeeper').oninput=()=>{const n=parseInt($('floorAssignBeeper').value||'',10);if(n>20)$('floorAssignBeeper').value='20';if(n<1&&$('floorAssignBeeper').value!=='')$('floorAssignBeeper').value='1';updateFloorAssignSummary()};$('floorAssignAddServer').onclick=addServerForFloorAssign;$('floorAssignClearForm').onclick=resetFloorAssignForm;$('floorAssignClearServer').onclick=clearFloorServerAssignment;$('floorAssignSave').onclick=saveFloorServerAssignment;
   $('shiftAlertAck').onclick=closeShiftAlert;$('reservationAlarmAck').onclick=closeReservationAlarm;
 $('teamShoutCancel').onclick=()=>closeM('teamShoutComposeModal');$('teamShoutSend').onclick=sendTeamShout;$('teamShoutClear').onclick=clearTeamShout;$('teamShoutAcknowledge').onclick=acknowledgeTeamShout;
