@@ -1894,7 +1894,19 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .teamDayLayer.show{display:block}.teamDayWrap{width:min(900px,100%);margin:auto}.teamDayHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.teamDayHead h1{font-size:clamp(30px,6vw,48px);margin:0}.teamDayDate{margin-top:7px;color:#9ed3f7;font-size:16px;font-weight:1000}.teamDayRole{padding:8px 12px;border:1px solid #5791b9;border-radius:999px;background:#0d3048;font-weight:1000}.teamDayCard{border:1px solid #315a76;border-radius:20px;background:linear-gradient(180deg,#102f46,#081c2b);padding:18px;margin:12px 0}.teamDayCard h2{margin:0 0 12px;font-size:22px}.teamDayAdd{display:grid;grid-template-columns:1.3fr 1fr auto;gap:9px}.teamDayAdd select,.teamDayAdd button{min-height:50px;border-radius:11px;font-weight:1000}.teamDayAdd select{border:1px solid #4c7896;background:#071d2c;color:#fff;padding:0 10px}.teamDayAdd button{border:1px solid #75e4a3;background:#15804a;color:#fff;padding:0 18px}.teamDayList{display:grid;gap:8px;margin-top:13px}.teamDayRow{display:grid;grid-template-columns:minmax(0,1fr) 180px auto;gap:8px;align-items:center;padding:11px;border:1px solid #315a76;border-radius:12px;background:#0a2233}.teamDayRow strong{font-size:17px}.teamDayRow select{height:42px;border:1px solid #456983;border-radius:9px;background:#071d2c;color:#fff;padding:0 8px;font-weight:900}.teamDayDelete{height:42px;border:1px solid #fca5a5;border-radius:9px;background:#8c2430;color:#fff;font-weight:1000}.teamDayFooter{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px}.teamDayUpdate{min-height:58px;border:1px solid #86efac;border-radius:14px;background:linear-gradient(180deg,#22a35c,#13733f);color:#fff;font-size:19px;font-weight:1000}.teamDayEdit{min-height:58px;border:1px solid #8dcaff;border-radius:14px;background:#164b70;color:#fff;font-weight:1000;padding:0 18px}.teamDayHint{color:#9db8cb;font-size:12px;font-weight:800;line-height:18px}.cutRecommendLayer{position:fixed;inset:0;z-index:2147483300;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.84)}.cutRecommendLayer.show{display:flex}.cutRecommendBox{width:min(600px,96vw);border:2px solid #60a5fa;border-radius:20px;background:linear-gradient(180deg,#12314a,#071522);padding:20px;color:#fff}.cutRecommendBox h2{margin:7px 0 5px;font-size:26px}.cutRecommendNames{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.cutRecommendName{padding:9px 12px;border:1px solid #5d8baa;border-radius:999px;background:#0c2a40;font-weight:1000}.cutRecommendClose{width:100%;height:52px;border:1px solid #8dcaff;border-radius:12px;background:#17679b;color:#fff;font-weight:1000}
 @media(max-width:650px){.teamDayAdd,.teamDayRow{grid-template-columns:1fr}.teamDayFooter{grid-template-columns:1fr}.teamDayDelete{width:100%}}
 
-.joinSkipOverlay{position:fixed;inset:0;z-index:2147483400;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.joinSkipOverlay.show{display:flex}.joinSkipBox{width:min(590px,96vw);border:2px solid #38bdf8;border-radius:22px;background:#071522;padding:21px;color:#fff}.joinSkipServer{font-size:22px;font-weight:1000;color:#fbbf24}.joinSkipMath{padding:11px;border-radius:12px;background:#071d2c;border:1px solid #315a76;color:#b9d8ed;font-weight:900;margin:12px 0}.joinSkipActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.joinSkipActions button{min-height:56px;border-radius:13px;font-weight:1000}.joinSkipNo{background:#166534;color:#fff}.joinSkipYes{background:#9a3412;color:#fff}</style>
+.joinSkipOverlay{position:fixed;inset:0;z-index:2147483400;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.joinSkipOverlay.show{display:flex}.joinSkipBox{width:min(590px,96vw);border:2px solid #38bdf8;border-radius:22px;background:#071522;padding:21px;color:#fff}.joinSkipServer{font-size:22px;font-weight:1000;color:#fbbf24}.joinSkipMath{padding:11px;border-radius:12px;background:#071d2c;border:1px solid #315a76;color:#b9d8ed;font-weight:900;margin:12px 0}.joinSkipActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.joinSkipActions button{min-height:56px;border-radius:13px;font-weight:1000}.joinSkipNo{background:#166534;color:#fff}.joinSkipYes{background:#9a3412;color:#fff}
+.teamPickerGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.teamPickCard{display:flex;align-items:center;gap:10px;min-height:64px;padding:12px;border:1px solid #315a76;border-radius:14px;background:#0a2233;cursor:pointer}
+.teamPickCard input{width:22px;height:22px;accent-color:#22a3d1;flex:0 0 auto}.teamPickCard span{font-size:15px;font-weight:1000;line-height:19px}
+.teamSelectedEditor{display:grid;grid-template-columns:1.25fr 1fr 1fr auto;gap:8px;align-items:center;padding:10px;border:1px solid #315a76;border-radius:12px;background:#081d2c}
+.teamSelectedEditor input,.teamSelectedEditor select{height:44px;border:1px solid #456983;border-radius:9px;background:#071d2c;color:#fff;padding:0 9px;font-weight:900}
+.teamNewEmployee{display:none;grid-template-columns:1.3fr 1fr 1fr auto;gap:8px;margin-top:12px;padding:12px;border:1px dashed #60a5fa;border-radius:14px;background:#071d2c}
+.teamNewEmployee.show{display:grid}.teamNewEmployee input,.teamNewEmployee select,.teamNewEmployee button{min-height:46px;border-radius:9px;font-weight:900}.teamNewEmployee input,.teamNewEmployee select{border:1px solid #456983;background:#061722;color:#fff;padding:0 9px}
+.teamNewEmployee button{border:1px solid #86efac;background:#15804a;color:#fff;padding:0 14px}
+.teamDayTopActions{display:flex;justify-content:flex-end;margin-top:12px}.teamAddNewBtn{min-height:48px;border:1px solid #8dcaff;border-radius:11px;background:#17679b;color:#fff;font-weight:1000;padding:0 18px}
+@media(max-width:900px){.teamPickerGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.teamSelectedEditor,.teamNewEmployee{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.teamPickerGrid{grid-template-columns:1fr}.teamSelectedEditor,.teamNewEmployee{grid-template-columns:1fr}}
+</style>
 
 <style id="flexFloorCss">
 .flexServerChoiceGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:7px;margin:4px 0 7px}
@@ -2088,13 +2100,17 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <div class="teamDayWrap">
     <div class="teamDayHead"><div><h1>Today's Team</h1><div id="teamDayDate" class="teamDayDate"></div></div><div id="teamDayRole" class="teamDayRole"></div></div>
     <div class="teamDayCard">
-      <h2>Daftar Nama Team Hari Ini</h2>
-      <div class="teamDayHint">Pilih nama server dan shift. Hari dan tanggal otomatis mengikuti device.</div>
-      <div id="teamDayAddArea" class="teamDayAdd" style="margin-top:12px">
-        <select id="teamDayServer"></select>
-        <select id="teamDayShift"><option>AM</option><option>PM</option><option>Double</option><option>Longshift 2PM</option><option>Short Shift 2-4 PM</option></select>
-        <button id="teamDayAdd" type="button">ADD USER</button>
+      <h2>Select Today's Employees</h2>
+      <div class="teamDayHint">Pilih semua employee yang bekerja hari ini. Untuk setiap nama pilih Position dan Shift.</div>
+      <div class="teamDayTopActions"><button id="teamDayAddNewToggle" class="teamAddNewBtn" type="button">ADD NEW EMPLOYEE</button></div>
+      <div id="teamNewEmployee" class="teamNewEmployee">
+        <input id="teamNewName" type="text" placeholder="New employee name">
+        <select id="teamNewPosition"><option>Server</option><option>Bartender</option><option>Host</option><option>Cashier</option><option>Busser</option><option>Runner</option><option>Manager</option></select>
+        <select id="teamNewShift"><option>AM</option><option>PM</option><option>Double</option><option>Longshift 2PM</option><option>Short Shift 2-4 PM</option></select>
+        <button id="teamNewSave" type="button">ADD</button>
       </div>
+      <div id="teamPickerGrid" class="teamPickerGrid"></div>
+      <h2 style="margin-top:20px">Today's Team</h2>
       <div id="teamDayList" class="teamDayList"></div>
       <div class="teamDayFooter"><button id="teamDayUpdate" class="teamDayUpdate" type="button">UPDATE TEAM</button><button id="teamDayEdit" class="teamDayEdit" type="button">EDIT TEAM</button></div>
     </div>
@@ -2123,7 +2139,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.6 • SMART JOIN SKIP • TEAM DAY • DOUBLE SEAT GUARD</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.7 • TEAM SELECTOR • SMART JOIN SKIP • DOUBLE SEAT GUARD</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -11616,60 +11632,44 @@ function quickLogoutManager(){
 
 let teamDayRoleSelected='Front Host',teamDayRows=[],teamDayEditing=false;
 const TEAM_DAY_SHIFTS=['AM','PM','Double','Longshift 2PM','Short Shift 2-4 PM'];
+const TEAM_DAY_POSITIONS=['Server','Bartender','Host','Cashier','Busser','Runner','Manager'];
 function teamDayDateKey(){return dateKey()}
 function teamDayPath(){return TEAM_DAY_ROOT+'/'+teamDayDateKey()}
-function teamDayPrettyDate(){
-  const d=new Date();return d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})
-}
+function teamDayPrettyDate(){const d=new Date();return d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
 function teamDayCanEdit(){return teamDayRoleSelected==='Manager'||teamDayRoleSelected==='Owner'}
 function normalizeTeamDay(raw){
-  const arr=Array.isArray(raw)?raw:Object.values(raw&&typeof raw==='object'?raw:{});
-  const seen=new Set(),out=[];
-  arr.forEach(v=>{if(!v)return;const name=canonicalServerName(v.name||v.server),shift=TEAM_DAY_SHIFTS.includes(v.shift)?v.shift:'AM',key=doubleSeatGuardKey(name);if(name&&!seen.has(key)){seen.add(key);out.push({name,shift})}});
-  return out;
+ const arr=Array.isArray(raw)?raw:Object.values(raw&&typeof raw==='object'?raw:{}),seen=new Set(),out=[];
+ arr.forEach(v=>{if(!v)return;const name=canonicalServerName(v.name||v.server),shift=TEAM_DAY_SHIFTS.includes(v.shift)?v.shift:'AM',position=TEAM_DAY_POSITIONS.includes(v.position)?v.position:'Server',key=doubleSeatGuardKey(name);if(name&&!seen.has(key)){seen.add(key);out.push({name,position,shift})}});
+ return out;
 }
-async function loadTeamDay(){
-  try{teamDayRows=normalizeTeamDay(await readJ(teamDayPath()+'.json'))}catch(e){teamDayRows=[]}
-  renderTeamDay();
-}
-function teamDayServerOptions(){
-  const used=new Set(teamDayRows.map(x=>doubleSeatGuardKey(x.name)));
-  return normalizeServerList(servers).filter(n=>!used.has(doubleSeatGuardKey(n)));
+async function loadTeamDay(){try{teamDayRows=normalizeTeamDay(await readJ(teamDayPath()+'.json'))}catch(e){teamDayRows=[]}renderTeamDay()}
+function allTeamCandidates(){
+ const map=new Map();
+ normalizeServerList(servers).forEach(n=>map.set(doubleSeatGuardKey(n),canonicalServerName(n)));
+ teamDayRows.forEach(x=>map.set(doubleSeatGuardKey(x.name),x.name));
+ return [...map.values()].sort((a,b)=>a.localeCompare(b));
 }
 function renderTeamDay(){
-  if(!$('teamDayList'))return;
-  $('teamDayDate').textContent=teamDayPrettyDate();
-  $('teamDayRole').textContent=teamDayRoleSelected;
-  const can=teamDayCanEdit(),add=$('teamDayAddArea'),edit=$('teamDayEdit');
-  if(add)add.style.display=(can||teamDayEditing)?'grid':'grid';
-  if(edit){edit.style.display=can?'block':'none';edit.textContent=teamDayEditing?'DONE EDITING':'EDIT TEAM'}
-  const select=$('teamDayServer');if(select)select.innerHTML='<option value="">— Nama Server —</option>'+teamDayServerOptions().map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');
-  $('teamDayList').innerHTML=teamDayRows.length?teamDayRows.map((x,i)=>'<div class="teamDayRow"><strong>'+esc(x.name)+'</strong><select data-team-shift="'+i+'">'+TEAM_DAY_SHIFTS.map(s=>'<option '+(s===x.shift?'selected':'')+'>'+esc(s)+'</option>').join('')+'</select>'+(can&&teamDayEditing?'<button class="teamDayDelete" data-team-delete="'+i+'" type="button">DELETE USER</button>':'<span></span>')+'</div>').join(''):'<div class="teamDayHint">Belum ada nama team untuk hari ini.</div>';
-  document.querySelectorAll('[data-team-shift]').forEach(el=>{el.disabled=!(can&&teamDayEditing);el.onchange=()=>{const i=Number(el.dataset.teamShift);if(teamDayRows[i])teamDayRows[i].shift=el.value}});
-  document.querySelectorAll('[data-team-delete]').forEach(el=>el.onclick=()=>{teamDayRows.splice(Number(el.dataset.teamDelete),1);renderTeamDay()});
+ if(!$('teamDayList'))return;
+ $('teamDayDate').textContent=teamDayPrettyDate();$('teamDayRole').textContent=teamDayRoleSelected;
+ const can=teamDayCanEdit(),selected=new Set(teamDayRows.map(x=>doubleSeatGuardKey(x.name)));
+ $('teamPickerGrid').innerHTML=allTeamCandidates().map(n=>'<label class="teamPickCard"><input type="checkbox" data-team-pick="'+esc(n)+'" '+(selected.has(doubleSeatGuardKey(n))?'checked':'')+'><span>'+esc(n)+'</span></label>').join('');
+ document.querySelectorAll('[data-team-pick]').forEach(cb=>cb.onchange=()=>{const name=canonicalServerName(cb.dataset.teamPick),key=doubleSeatGuardKey(name),i=teamDayRows.findIndex(x=>doubleSeatGuardKey(x.name)===key);if(cb.checked&&i<0)teamDayRows.push({name,position:'Server',shift:'AM'});if(!cb.checked&&i>=0)teamDayRows.splice(i,1);renderTeamDay()});
+ $('teamDayList').innerHTML=teamDayRows.length?teamDayRows.map((x,i)=>'<div class="teamSelectedEditor"><input value="'+esc(x.name)+'" disabled><select data-team-position="'+i+'">'+TEAM_DAY_POSITIONS.map(p=>'<option '+(p===x.position?'selected':'')+'>'+p+'</option>').join('')+'</select><select data-team-shift="'+i+'">'+TEAM_DAY_SHIFTS.map(s=>'<option '+(s===x.shift?'selected':'')+'>'+s+'</option>').join('')+'</select>'+(can&&teamDayEditing?'<button class="teamDayDelete" data-team-delete="'+i+'" type="button">DELETE</button>':'<span></span>')+'</div>').join(''):'<div class="teamDayHint">Belum ada employee dipilih.</div>';
+ document.querySelectorAll('[data-team-position]').forEach(el=>el.onchange=()=>{const i=+el.dataset.teamPosition;if(teamDayRows[i])teamDayRows[i].position=el.value});
+ document.querySelectorAll('[data-team-shift]').forEach(el=>el.onchange=()=>{const i=+el.dataset.teamShift;if(teamDayRows[i])teamDayRows[i].shift=el.value});
+ document.querySelectorAll('[data-team-delete]').forEach(el=>el.onclick=()=>{teamDayRows.splice(+el.dataset.teamDelete,1);renderTeamDay()});
+ const edit=$('teamDayEdit');if(edit){edit.style.display=can?'block':'none';edit.textContent=teamDayEditing?'DONE EDITING':'EDIT TEAM'}
 }
-async function saveTeamDay(){
-  const clean=normalizeTeamDay(teamDayRows);
-  try{
-    await writeJ(teamDayPath()+'.json',clean);
-    const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));
-    if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');
-    teamDayRows=confirmed;toast('TODAY TEAM UPDATED • VERIFIED');renderTeamDay();return true
-  }catch(e){toast((e&&e.message)||'Team update failed');return false}
-}
-async function openTeamDay(roleName){
-  teamDayRoleSelected=roleName||'Front Host';teamDayEditing=teamDayCanEdit();
-  $('teamDayLayer').classList.add('show');$('teamDayLayer').setAttribute('aria-hidden','false');
-  await loadTeamDay()
-}
-function closeTeamDay(){
-  $('teamDayLayer').classList.remove('show');$('teamDayLayer').setAttribute('aria-hidden','true');
-  quickShowPane('board');
-}
-async function addTeamDayUser(){
-  const name=canonicalServerName($('teamDayServer').value),sh=$('teamDayShift').value;if(!name)return toast('Choose server name');
-  if(teamDayRows.some(x=>doubleSeatGuardKey(x.name)===doubleSeatGuardKey(name)))return toast(name+' is already on today team');
-  teamDayRows.push({name,shift:TEAM_DAY_SHIFTS.includes(sh)?sh:'AM'});renderTeamDay()
+async function saveTeamDay(){const clean=normalizeTeamDay(teamDayRows);try{await writeJ(teamDayPath()+'.json',clean);const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');teamDayRows=confirmed;toast('TODAY TEAM UPDATED • VERIFIED');renderTeamDay();return true}catch(e){toast((e&&e.message)||'Team update failed');return false}}
+async function openTeamDay(roleName){teamDayRoleSelected=roleName||'Front Host';teamDayEditing=teamDayCanEdit();$('teamDayLayer').classList.add('show');$('teamDayLayer').setAttribute('aria-hidden','false');await loadTeamDay()}
+function closeTeamDay(){$('teamDayLayer').classList.remove('show');$('teamDayLayer').setAttribute('aria-hidden','true');quickShowPane('board')}
+function toggleNewEmployee(){const e=$('teamNewEmployee');if(e)e.classList.toggle('show')}
+function addNewEmployeeToday(){
+ const name=canonicalServerName($('teamNewName').value),position=$('teamNewPosition').value,shift=$('teamNewShift').value;if(!name)return toast('Enter employee name');
+ if(!servers.some(n=>doubleSeatGuardKey(n)===doubleSeatGuardKey(name))){servers.push(name);servers=normalizeServerList(servers);saveServers()}
+ if(!teamDayRows.some(x=>doubleSeatGuardKey(x.name)===doubleSeatGuardKey(name)))teamDayRows.push({name,position,shift});
+ $('teamNewName').value='';$('teamNewEmployee').classList.remove('show');renderTeamDay()
 }
 function workingTeamAfterCut(cutServer){
   const cutKey=doubleSeatGuardKey(cutServer);
@@ -11678,7 +11678,7 @@ function workingTeamAfterCut(cutServer){
 async function showCutRecommendations(cutServer){
   try{teamDayRows=normalizeTeamDay(await readJ(teamDayPath()+'.json'))}catch(e){}
   const list=workingTeamAfterCut(cutServer),box=$('cutRecommendNames');
-  box.innerHTML=list.length?list.map(x=>'<span class="cutRecommendName">'+esc(x.name)+' • '+esc(x.shift)+'</span>').join(''):'<span class="teamDayHint">Tidak ada server lain di Today Team.</span>';
+  box.innerHTML=list.length?list.map(x=>'<span class="cutRecommendName">'+esc(x.name)+' • '+esc(x.position||'Server')+' • '+esc(x.shift)+'</span>').join(''):'<span class="teamDayHint">Tidak ada server lain di Today Team.</span>';
   $('cutRecommendLayer').classList.add('show');$('cutRecommendLayer').setAttribute('aria-hidden','false')
 }
 
@@ -12272,7 +12272,7 @@ function r3mBind(){if($('quickOwnerMonitor'))$('quickOwnerMonitor').onclick=r3mO
 function quickBind(){
   document.querySelectorAll('[data-quick-nav]').forEach(button=>button.onclick=()=>quickShowPane(button.dataset.quickNav));
   document.querySelectorAll('[data-entry-role]').forEach(button=>button.onclick=()=>quickChooseEntryRole(button.dataset.entryRole));
-  if($('teamDayAdd'))$('teamDayAdd').onclick=addTeamDayUser;
+  if($('teamDayAddNewToggle'))$('teamDayAddNewToggle').onclick=toggleNewEmployee;if($('teamNewSave'))$('teamNewSave').onclick=addNewEmployeeToday;
   if($('teamDayUpdate'))$('teamDayUpdate').onclick=async()=>{if(await saveTeamDay())closeTeamDay()};
   if($('teamDayEdit'))$('teamDayEdit').onclick=()=>{if(!teamDayCanEdit())return;teamDayEditing=!teamDayEditing;renderTeamDay()};
   if($('cutRecommendClose'))$('cutRecommendClose').onclick=()=>{$('cutRecommendLayer').classList.remove('show');$('cutRecommendLayer').setAttribute('aria-hidden','true')};
