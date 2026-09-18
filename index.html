@@ -2139,7 +2139,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.1 • DATA BINDING • SHIFT AUTOMATION • TEAM SELECTOR</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.2 • DIRECT TEAM BINDING • SHIFT AUTOMATION • TEAM SELECTOR</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -8071,10 +8071,20 @@ function closeJoinSkipDialog(waiting){$('joinSkipOverlay').classList.remove('sho
 function smartJoinBaselineFromBoard(source,server){const k=doubleSeatGuardKey(server),rows=(source&&source.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt&&doubleSeatGuardKey(r.server)!==k);return rows.length?Math.min(...rows.map(r=>Math.max(0,rotationEffectiveCount(r)))):0}
 
 async function saveFormationSection(){
-  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||''),_teamBound=bindTodayTeamToFormation(server),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
+  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||''),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
   if(!form)return toast("Choose Formasi");
   if(!sec)return toast("Choose Section");
   if(!server)return toast("Choose Assigned Server");
+    const directTeamEntry=await todayTeamEntryDirect(server);
+    if(directTeamEntry){
+      const wanted=todayTeamShiftToFormationValue(directTeamEntry.shift);
+      let shiftOption=[...$('formationShift').options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());
+      if(!shiftOption&&wanted){shiftOption=document.createElement('option');shiftOption.value=wanted;shiftOption.textContent=wanted;$('formationShift').appendChild(shiftOption)}
+      if(shiftOption)$('formationShift').value=shiftOption.value;
+      selectedWorkShift=$('formationShift').value;
+      $('formationShift').disabled=true;
+    }
+
   if(!selectedWorkShift)return toast("SHIFT IS REQUIRED • Choose AM, PM, Double Shift, or Long Shift");
   if(formationSaveInFlight)return toast('SERVER ASSIGNMENT IS ALREADY SAVING…');
   formationSaveInFlight=true;formationEditorDirty=true;
@@ -11633,15 +11643,39 @@ function quickLogoutManager(){
 
 let shiftAutoResolver=null,shiftAutomationLast={pm:'',short:new Set()};
 function todayTeamEntry(name){const k=doubleSeatGuardKey(name);return (teamDayRows||[]).find(x=>doubleSeatGuardKey(x.name)===k)||null}
+async function todayTeamEntryDirect(name){
+  const key=doubleSeatGuardKey(name);
+  try{
+    const raw=await readJ(TEAM_DAY_ROOT+'/'+dateKey()+'.json');
+    const rows=normalizeTeamDay(raw);
+    const found=rows.find(x=>doubleSeatGuardKey(x.name)===key)||null;
+    if(found){
+      const i=(teamDayRows||[]).findIndex(x=>doubleSeatGuardKey(x.name)===key);
+      if(i>=0)teamDayRows[i]=found; else teamDayRows.push(found);
+    }
+    return found;
+  }catch(e){return todayTeamEntry(name)}
+}
 function todayTeamShiftToFormationValue(shift){const map={'Double':'Double Shift','Longshift 2PM':'Long Shift','Short Shift 2-4 PM':'Short Shift 2-4 PM'};return map[shift]||shift||''}
-function bindTodayTeamToFormation(name){const entry=todayTeamEntry(name),sel=$('formationShift');if(!sel)return false;if(!entry){sel.disabled=false;sel.removeAttribute('data-team-bound');return false}const wanted=todayTeamShiftToFormationValue(entry.shift);let opt=[...sel.options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());if(!opt&&wanted){opt=document.createElement('option');opt.value=wanted;opt.textContent=wanted;sel.appendChild(opt)}if(opt)sel.value=opt.value;sel.disabled=true;sel.setAttribute('data-team-bound','1');sel.title="Auto-filled from Today's Team";formationEditorDirty=true;return true}
-function applyTodayTeamShiftToFormation(name){return bindTodayTeamToFormation(name)}
+async function bindTodayTeamToFormation(name){
+  const sel=$('formationShift');if(!sel)return false;
+  const entry=await todayTeamEntryDirect(name);
+  if(!entry){sel.disabled=false;sel.value='';sel.removeAttribute('data-team-bound');return false}
+  const wanted=todayTeamShiftToFormationValue(entry.shift);
+  let opt=[...sel.options].find(o=>String(o.value||o.textContent).trim().toLowerCase()===wanted.toLowerCase());
+  if(!opt&&wanted){opt=document.createElement('option');opt.value=wanted;opt.textContent=wanted;sel.appendChild(opt)}
+  if(opt)sel.value=opt.value;
+  sel.disabled=true;sel.setAttribute('data-team-bound','1');sel.title="Auto-filled from Today's Team";
+  formationEditorDirty=true;
+  return true;
+}
+async function applyTodayTeamShiftToFormation(name){return await bindTodayTeamToFormation(name)}
 function showShiftAutoDialog(title,text,fields,yes='CONTINUE',no='NOT YET'){return new Promise(resolve=>{shiftAutoResolver=resolve;$('shiftAutoTitle').textContent=title;$('shiftAutoText').textContent=text;$('shiftAutoFields').innerHTML=fields||'';$('shiftAutoConfirm').textContent=yes;$('shiftAutoCancel').textContent=no;$('shiftAutoOverlay').classList.add('show')})}
 function closeShiftAutoDialog(v){$('shiftAutoOverlay').classList.remove('show');const r=shiftAutoResolver;shiftAutoResolver=null;if(r)r(!!v)}
 async function maybePmShiftReminder(){if(shiftAutoResolver)return;const d=new Date(),day=d.getDay(),weekend=day===5||day===6||day===0,key=dateKey(d),h=d.getHours(),m=d.getMinutes(),ready=weekend?(h===15&&m>=25):(h===15&&m>=50);if(!ready||shiftAutomationLast.pm===key)return;shiftAutomationLast.pm=key;const label=weekend?'3:30 PM':'4:00 PM',yes=await showShiftAutoDialog('PM SHIFT STARTS AT '+label,'Prepare the PM rotation and section assignments.','','START CHANGE TO PM','NOT YET');if(yes){setShift('PM');quickShowPane('more');setTimeout(()=>{try{openFormationManager()}catch(e){}},100)}}
 async function maybeShortShiftArrival(){if(shiftAutoResolver)return;const d=new Date();if(!(d.getHours()===13&&d.getMinutes()>=50))return;for(const e of (teamDayRows||[]).filter(x=>x.shift==='Short Shift 2-4 PM')){const token=dateKey(d)+'|'+doubleSeatGuardKey(e.name);if(shiftAutomationLast.short.has(token))continue;shiftAutomationLast.short.add(token);const rows=(board.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt),serverOpts=rows.map(r=>'<option>'+esc(r.server)+'</option>').join(''),secs=Object.keys(floorFormation.sectionServers||{}).filter(s=>String(s).toUpperCase()!=='BAR'),secOpts=secs.map(s=>'<option>'+esc(s)+'</option>').join(''),fields='<select id="shiftCutServer"><option value="">— SELECT SERVER TO CUT —</option>'+serverOpts+'</select><select id="shiftArrivalSection"><option value="">— SELECT SECTION —</option>'+secOpts+'</select>';const yes=await showShiftAutoDialog(e.name+' STARTS AT 2:00 PM','Select the server to CUT and the section for '+e.name+'. Smart Join Skip will run after confirmation.',fields,'CONFIRM CHANGE','NOT YET');if(!yes)continue;const cut=$('shiftCutServer').value,sec=$('shiftArrivalSection').value;if(!cut||!sec){toast('Select a server to CUT and a section');continue}const ri=(board.rows||[]).findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(cut));if(ri>=0)await applyServerStatusChange(ri,'CUT');try{await fetchFormation();floorFormation.sectionServers[sec]=e.name;floorFormation.serverShifts=floorFormation.serverShifts||{};floorFormation.serverShifts[e.name]='Short Shift 2-4 PM';await saveFormation();await fetchBoard();const baseline=smartJoinBaselineFromBoard(board,e.name);if(baseline>0){const waiting=await showJoinSkipDialog(e.name,baseline),skip=waiting?baseline:Math.max(0,baseline-1),idx=(board.rows||[]).findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(e.name));if(idx>=0&&skip>0)await saveMultipleSkipsImmediately(idx,null,skip)}}catch(err){toast('Shift change failed')}}}
 setInterval(()=>{maybePmShiftReminder();maybeShortShiftArrival()},15000);
-document.addEventListener('change',e=>{if(e.target&&e.target.id==='formationServer')setTimeout(()=>bindTodayTeamToFormation(e.target.value),0)});
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='formationServer'){const n=e.target.value;setTimeout(()=>bindTodayTeamToFormation(n),0)}});
 
 let teamDayRoleSelected='Front Host',teamDayRows=[],teamDayEditing=false;
 const TEAM_DAY_SHIFTS=['AM','PM','Double','Longshift 2PM','Short Shift 2-4 PM'];
