@@ -1882,7 +1882,19 @@ body:not(.quickManager) [data-res-final]{display:none!important}
   .quickFloorMount .floor{transform-origin:top left}
 }
 
-</style>
+
+/* R3M.4 DOUBLE / LARGE PARTY SEAT GUARD */
+.seatGuardOverlay{position:fixed;inset:0;z-index:2147483200;background:rgba(1,8,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+.seatGuardOverlay.show{display:flex}.seatGuardBox{width:min(560px,96vw);border:2px solid #f59e0b;border-radius:22px;background:linear-gradient(180deg,#172033,#09111f);box-shadow:0 24px 80px rgba(0,0,0,.58);padding:22px;color:#fff}
+.seatGuardBadge{display:inline-block;border-radius:999px;padding:6px 11px;background:#7c2d12;color:#fed7aa;font-size:11px;font-weight:1000;letter-spacing:.8px}.seatGuardTitle{font-size:27px;line-height:31px;font-weight:1000;margin:12px 0 7px;color:#fbbf24}.seatGuardServer{font-size:24px;font-weight:1000;margin-bottom:10px}.seatGuardReason{font-size:16px;line-height:23px;font-weight:800;color:#e5e7eb;white-space:pre-line}.seatGuardAsk{margin-top:15px;padding:12px;border-radius:13px;background:#241b08;border:1px solid #a16207;font-size:15px;font-weight:1000;color:#fde68a}.seatGuardActions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.seatGuardActions button{height:54px;border:0;border-radius:14px;font-size:18px;font-weight:1000}#seatGuardNo{background:#334155;color:#fff}#seatGuardYes{background:linear-gradient(180deg,#22c55e,#15803d);color:#fff}
+
+
+/* ===== R3M.5 TEAM DAY OPENING ===== */
+.teamDayLayer{position:fixed;inset:0;z-index:11800;display:none;overflow:auto;background:radial-gradient(circle at 50% 12%,#123d5d 0,#071522 48%,#02070c 100%);padding:max(18px,env(safe-area-inset-top)) 14px max(24px,env(safe-area-inset-bottom));color:#fff;font-family:Arial,sans-serif}
+.teamDayLayer.show{display:block}.teamDayWrap{width:min(900px,100%);margin:auto}.teamDayHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.teamDayHead h1{font-size:clamp(30px,6vw,48px);margin:0}.teamDayDate{margin-top:7px;color:#9ed3f7;font-size:16px;font-weight:1000}.teamDayRole{padding:8px 12px;border:1px solid #5791b9;border-radius:999px;background:#0d3048;font-weight:1000}.teamDayCard{border:1px solid #315a76;border-radius:20px;background:linear-gradient(180deg,#102f46,#081c2b);padding:18px;margin:12px 0}.teamDayCard h2{margin:0 0 12px;font-size:22px}.teamDayAdd{display:grid;grid-template-columns:1.3fr 1fr auto;gap:9px}.teamDayAdd select,.teamDayAdd button{min-height:50px;border-radius:11px;font-weight:1000}.teamDayAdd select{border:1px solid #4c7896;background:#071d2c;color:#fff;padding:0 10px}.teamDayAdd button{border:1px solid #75e4a3;background:#15804a;color:#fff;padding:0 18px}.teamDayList{display:grid;gap:8px;margin-top:13px}.teamDayRow{display:grid;grid-template-columns:minmax(0,1fr) 180px auto;gap:8px;align-items:center;padding:11px;border:1px solid #315a76;border-radius:12px;background:#0a2233}.teamDayRow strong{font-size:17px}.teamDayRow select{height:42px;border:1px solid #456983;border-radius:9px;background:#071d2c;color:#fff;padding:0 8px;font-weight:900}.teamDayDelete{height:42px;border:1px solid #fca5a5;border-radius:9px;background:#8c2430;color:#fff;font-weight:1000}.teamDayFooter{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px}.teamDayUpdate{min-height:58px;border:1px solid #86efac;border-radius:14px;background:linear-gradient(180deg,#22a35c,#13733f);color:#fff;font-size:19px;font-weight:1000}.teamDayEdit{min-height:58px;border:1px solid #8dcaff;border-radius:14px;background:#164b70;color:#fff;font-weight:1000;padding:0 18px}.teamDayHint{color:#9db8cb;font-size:12px;font-weight:800;line-height:18px}.cutRecommendLayer{position:fixed;inset:0;z-index:2147483300;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.84)}.cutRecommendLayer.show{display:flex}.cutRecommendBox{width:min(600px,96vw);border:2px solid #60a5fa;border-radius:20px;background:linear-gradient(180deg,#12314a,#071522);padding:20px;color:#fff}.cutRecommendBox h2{margin:7px 0 5px;font-size:26px}.cutRecommendNames{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.cutRecommendName{padding:9px 12px;border:1px solid #5d8baa;border-radius:999px;background:#0c2a40;font-weight:1000}.cutRecommendClose{width:100%;height:52px;border:1px solid #8dcaff;border-radius:12px;background:#17679b;color:#fff;font-weight:1000}
+@media(max-width:650px){.teamDayAdd,.teamDayRow{grid-template-columns:1fr}.teamDayFooter{grid-template-columns:1fr}.teamDayDelete{width:100%}}
+
+.joinSkipOverlay{position:fixed;inset:0;z-index:2147483400;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.joinSkipOverlay.show{display:flex}.joinSkipBox{width:min(590px,96vw);border:2px solid #38bdf8;border-radius:22px;background:#071522;padding:21px;color:#fff}.joinSkipServer{font-size:22px;font-weight:1000;color:#fbbf24}.joinSkipMath{padding:11px;border-radius:12px;background:#071d2c;border:1px solid #315a76;color:#b9d8ed;font-weight:900;margin:12px 0}.joinSkipActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.joinSkipActions button{min-height:56px;border-radius:13px;font-weight:1000}.joinSkipNo{background:#166534;color:#fff}.joinSkipYes{background:#9a3412;color:#fff}</style>
 
 <style id="flexFloorCss">
 .flexServerChoiceGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:7px;margin:4px 0 7px}
@@ -2071,6 +2083,27 @@ body.quickOwner #quickManagerLogout{display:block!important}
 </div>
 
 
+
+<div id="joinSkipOverlay" class="joinSkipOverlay"><div class="joinSkipBox"><b>NEW SERVER JOINING ACTIVE ROTATION</b><h2>Guest Waiting Check</h2><div id="joinSkipServer" class="joinSkipServer"></div><p>Apakah ada tamu di depan Anda yang sedang menunggu untuk diseat sekarang?</p><div id="joinSkipMath" class="joinSkipMath"></div><div class="joinSkipActions"><button id="joinSkipNo" class="joinSkipNo">NO • TIDAK ADA TAMU</button><button id="joinSkipYes" class="joinSkipYes">YES • ADA TAMU</button></div></div></div><div id="teamDayLayer" class="teamDayLayer" aria-hidden="true">
+  <div class="teamDayWrap">
+    <div class="teamDayHead"><div><h1>Today's Team</h1><div id="teamDayDate" class="teamDayDate"></div></div><div id="teamDayRole" class="teamDayRole"></div></div>
+    <div class="teamDayCard">
+      <h2>Daftar Nama Team Hari Ini</h2>
+      <div class="teamDayHint">Pilih nama server dan shift. Hari dan tanggal otomatis mengikuti device.</div>
+      <div id="teamDayAddArea" class="teamDayAdd" style="margin-top:12px">
+        <select id="teamDayServer"></select>
+        <select id="teamDayShift"><option>AM</option><option>PM</option><option>Double</option><option>Longshift 2PM</option><option>Short Shift 2-4 PM</option></select>
+        <button id="teamDayAdd" type="button">ADD USER</button>
+      </div>
+      <div id="teamDayList" class="teamDayList"></div>
+      <div class="teamDayFooter"><button id="teamDayUpdate" class="teamDayUpdate" type="button">UPDATE TEAM</button><button id="teamDayEdit" class="teamDayEdit" type="button">EDIT TEAM</button></div>
+    </div>
+  </div>
+</div>
+<div id="cutRecommendLayer" class="cutRecommendLayer" aria-hidden="true">
+  <div class="cutRecommendBox"><div style="color:#93c5fd;font-size:11px;font-weight:1000;letter-spacing:1px">CUT RECOMMENDATION</div><h2>Team yang masih bekerja hari ini</h2><div class="teamDayHint">Setelah CUT, gunakan daftar ini sebagai referensi server yang masih dijadwalkan bekerja.</div><div id="cutRecommendNames" class="cutRecommendNames"></div><button id="cutRecommendClose" class="cutRecommendClose" type="button">CLOSE</button></div>
+</div>
+
 <div id="r3mOwnerLayer" class="r3mLayer" aria-hidden="true">
   <div class="r3mWrap">
     <div class="r3mTop"><h2>Owner Monitor</h2><button id="r3mClose" class="r3mBtn">BACK</button></div>
@@ -2090,7 +2123,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.3 • STABLE OWNER MONITOR • SECURITY • SHOUT OUT</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.6 • SMART JOIN SKIP • TEAM DAY • DOUBLE SEAT GUARD</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -3965,8 +3998,8 @@ module.exports = QRCode;
 })(globalThis);
 
 const FB="https://table-live-by-iwanto-zhang-default-rtdb.firebaseio.com",BASE_ROOT=FB+"/juicyTableLive/JUICY-HUNTSVILLE",ROOT=BASE_ROOT+"/flexibleFloorV1";
-const TABLE_ROOT=ROOT+"/tables",ANNOUNCE_ROOT=ROOT+"/statusAnnouncements",TEAM_SHOUT_ROOT=BASE_ROOT+"/teamShoutOutV1",MESSAGE_ROOT=BASE_ROOT+"/messages",ALARM_ROOT=BASE_ROOT+"/alarms",SERVER_ROOT=ROOT+"/serverListV30",BOARD_ROOT=ROOT+"/rotationBoardV31",BOARD_BACKUP_ROOT=ROOT+"/rotationBoardBackupsV1094",BREAKTIME_AUDIT_ROOT=ROOT+"/breaktimeTransfersV1096",SECTION_CONTROL_AUDIT_ROOT=ROOT+"/sectionTransfersV1097",RESERVATION_ROOT=ROOT+"/reservationsV34",MANAGER_QR_ROOT=BASE_ROOT+"/managerQrV50",FLOOR_ASSIGN_ROOT=ROOT+"/floorAssignmentsV64",FLOOR_FORMATION_ROOT=ROOT+"/floorFormationV66",FORMATION_TABLE_ROOT=ROOT+"/formationTableConfigV92",CHAT_ROOT=BASE_ROOT+"/managerFrontChatV95",CHAT_VOICE_ROOT=BASE_ROOT+"/managerFrontVoiceV109",CALL_ROOT=BASE_ROOT+"/managerFrontCallsV1098",CALL_INBOX_ROOT=BASE_ROOT+"/managerFrontCallInboxV1098",CALL_PRESENCE_ROOT=BASE_ROOT+"/managerFrontCallPresenceV1098",CALL_CONFIG_ROOT=BASE_ROOT+"/managerFrontCallConfigV1098",SKIP_LOCK_ROOT=ROOT+"/rotationSkipLocksV101",TABLE_LOCK_ROOT=ROOT+"/tableOperationLocksV109",CUT_UNDO_ROOT=ROOT+"/staffCutUndoV11",ACCESS_USER_ROOT=ROOT+"/accessUsersV2",ACCESS_AUDIT_ROOT=ROOT+"/accessAuditV2";
-const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},{"id":"R6","label":"R6","x":16.0,"y":8.0,"w":8.0,"h":6.0,"r":-18},{"id":"R5","label":"R5","x":25.3,"y":6.8,"w":8.0,"h":6.0,"r":0},{"id":"R4","label":"R4","x":35.0,"y":7.5,"w":7.5,"h":6.0,"r":0},{"id":"R3","label":"R3","x":43.8,"y":8.7,"w":7.5,"h":6.0,"r":0},{"id":"R1","label":"R1","x":31.5,"y":15.8,"w":7.3,"h":6.0,"r":0},{"id":"R2","label":"R2","x":40.0,"y":16.1,"w":7.3,"h":6.0,"r":0},{"id":"L3","label":"L3","x":58.3,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L4","label":"L4","x":68.0,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L5","label":"L5","x":77.3,"y":12.0,"w":7.5,"h":6.0,"r":0},{"id":"L6","label":"L6","x":87.0,"y":15.6,"w":8.5,"h":6.2,"r":20},{"id":"L2","label":"L2","x":61.0,"y":20.1,"w":7.5,"h":6.0,"r":0},{"id":"L1","label":"L1","x":70.0,"y":21.1,"w":7.5,"h":6.0,"r":0},{"id":"F6","label":"F6","x":5.7,"y":33.0,"w":6.5,"h":6.6,"r":0},{"id":"E5","label":"E5","x":15.8,"y":33.0,"w":7.4,"h":7.6,"r":0},{"id":"F5","label":"F5","x":5.6,"y":41.5,"w":6.5,"h":6.6,"r":0},{"id":"E4","label":"E4","x":15.8,"y":42.3,"w":7.4,"h":7.6,"r":0},{"id":"F4","label":"F4","x":5.6,"y":50.2,"w":6.5,"h":6.6,"r":0},{"id":"E3","label":"E3","x":15.9,"y":51.0,"w":7.4,"h":7.6,"r":0},{"id":"F3","label":"F3","x":5.7,"y":59.6,"w":6.5,"h":6.6,"r":0},{"id":"E2","label":"E2","x":16.1,"y":59.4,"w":7.4,"h":7.6,"r":0},{"id":"F2","label":"F2","x":5.6,"y":72.3,"w":6.8,"h":7.2,"r":0},{"id":"F1","label":"F1","x":5.6,"y":87.2,"w":6.8,"h":7.2,"r":0},{"id":"E1","label":"E1","x":16.2,"y":86.2,"w":7.4,"h":7.6,"r":0},{"id":"D3","label":"D3","x":25.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"D2","label":"D2","x":25.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"D1","label":"D1","x":25.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C4","label":"C4","x":35.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"C3","label":"C3","x":35.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"C2","label":"C2","x":35.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C1","label":"C1","x":35.0,"y":69.0,"w":6.8,"h":7.3,"r":0},{"id":"H3","label":"H3","x":47.0,"y":68.2,"w":8.9,"h":6.8,"r":0},{"id":"H4","label":"H4","x":47.0,"y":48.8,"w":8.9,"h":6.8,"r":0},{"id":"H2","label":"H2","x":48.3,"y":88.8,"w":8.7,"h":6.5,"r":0},{"id":"H1","label":"H1","x":57.6,"y":89.0,"w":7.6,"h":6.5,"r":0},{"id":"M2","label":"M2","x":57.5,"y":51.0,"w":6.0,"h":8.0,"r":0},{"id":"M1","label":"M1","x":57.4,"y":73.0,"w":6.0,"h":8.0,"r":0},{"id":"A4","label":"A4","x":88.2,"y":49.5,"w":5.9,"h":7.4,"r":0},{"id":"A3","label":"A3","x":88.2,"y":58.5,"w":5.9,"h":7.4,"r":0},{"id":"A2","label":"A2","x":88.2,"y":68.0,"w":5.9,"h":7.4,"r":0},{"id":"A1","label":"A1","x":88.2,"y":79.2,"w":5.9,"h":7.4,"r":0},{"id":"B3","label":"B3","x":81.0,"y":54.5,"w":5.8,"h":7.2,"r":0},{"id":"B2","label":"B2","x":81.0,"y":63.3,"w":5.8,"h":7.2,"r":0},{"id":"B1","label":"B1","x":81.0,"y":74.3,"w":5.8,"h":7.2,"r":0},{"id":"Bar 3","label":"Bar 3","x":65.3,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 2","label":"Bar 2","x":72.0,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 1","label":"Bar 1","x":78.6,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 4","label":"Bar 4","x":63.5,"y":52.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 5","label":"Bar 5","x":63.5,"y":59.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 6","label":"Bar 6","x":63.5,"y":66.4,"w":5.8,"h":6.0,"r":0},{"id":"Bar 7","label":"Bar 7","x":63.5,"y":73.6,"w":5.8,"h":6.0,"r":0},{"id":"Bar 8","label":"Bar 8","x":63.5,"y":80.8,"w":5.8,"h":6.0,"r":0},{"id":"Bar 9","label":"Bar 9","x":63.5,"y":88.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 10","label":"Bar 10","x":63.5,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 11","label":"Bar 11","x":70.2,"y":95.2,"w":5.8,"h":6.0,"r":0}],TABLE_IDS=["A1","A2","A3","A4","B1","B2","B3","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","C1","C2","C3","C4","D1","D2","D3","E1","E2","E3","E4","E5","F1","F2","F3","F4","F5","F6","H1","H2","H3","H4","L1","L2","L3","L4","L5","L6","M1","M2","R1","R2","R3","R4","R5","R6","R7"],DEFAULT_SERVERS=["Adrieanna Walker", "Alaina Montalvo", "Angela Grizzad", "Ariana Garner", "Ashley Garcia", "Brandi Copeland", "Caitlin Dillon", "Christina Gurley", "Cynthia Risner", "Dorothy Makovicka", "Hannah Dempsey", "Jesus Ovalle-Munoz", "Katelyn Ramsey", "Libby Lane", "Megan Meadows", "Megan Sisk", "Mia Burress", "Sara Swift", "Sarah Kibler", "Aida", "Leonardo Sanchez-Miguel"],SECTIONS=["1", "2", "3", "4", "5", "6", "7", "8", "9", "BAR", "1-Bar", "2-4", "3-5"];
+const TABLE_ROOT=ROOT+"/tables",ANNOUNCE_ROOT=ROOT+"/statusAnnouncements",TEAM_SHOUT_ROOT=BASE_ROOT+"/teamShoutOutV1",MESSAGE_ROOT=BASE_ROOT+"/messages",ALARM_ROOT=BASE_ROOT+"/alarms",SERVER_ROOT=ROOT+"/serverListV30",BOARD_ROOT=ROOT+"/rotationBoardV31",BOARD_BACKUP_ROOT=ROOT+"/rotationBoardBackupsV1094",BREAKTIME_AUDIT_ROOT=ROOT+"/breaktimeTransfersV1096",SECTION_CONTROL_AUDIT_ROOT=ROOT+"/sectionTransfersV1097",RESERVATION_ROOT=ROOT+"/reservationsV34",MANAGER_QR_ROOT=BASE_ROOT+"/managerQrV50",FLOOR_ASSIGN_ROOT=ROOT+"/floorAssignmentsV64",FLOOR_FORMATION_ROOT=ROOT+"/floorFormationV66",FORMATION_TABLE_ROOT=ROOT+"/formationTableConfigV92",CHAT_ROOT=BASE_ROOT+"/managerFrontChatV95",CHAT_VOICE_ROOT=BASE_ROOT+"/managerFrontVoiceV109",CALL_ROOT=BASE_ROOT+"/managerFrontCallsV1098",CALL_INBOX_ROOT=BASE_ROOT+"/managerFrontCallInboxV1098",CALL_PRESENCE_ROOT=BASE_ROOT+"/managerFrontCallPresenceV1098",CALL_CONFIG_ROOT=BASE_ROOT+"/managerFrontCallConfigV1098",SKIP_LOCK_ROOT=ROOT+"/rotationSkipLocksV101",TABLE_LOCK_ROOT=ROOT+"/tableOperationLocksV109",CUT_UNDO_ROOT=ROOT+"/staffCutUndoV11",ACCESS_USER_ROOT=ROOT+"/accessUsersV2",ACCESS_AUDIT_ROOT=ROOT+"/accessAuditV2",RECENT_SEAT_ROOT=ROOT+"/recentSeatGuardV1",TEAM_DAY_ROOT=ROOT+"/teamDayV1";
+const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},{"id":"R6","label":"R6","x":16.0,"y":8.0,"w":8.0,"h":6.0,"r":-18},{"id":"R5","label":"R5","x":25.3,"y":6.8,"w":8.0,"h":6.0,"r":0},{"id":"R4","label":"R4","x":35.0,"y":7.5,"w":7.5,"h":6.0,"r":0},{"id":"R3","label":"R3","x":43.8,"y":8.7,"w":7.5,"h":6.0,"r":0},{"id":"R1","label":"R1","x":31.5,"y":15.8,"w":7.3,"h":6.0,"r":0},{"id":"R2","label":"R2","x":40.0,"y":16.1,"w":7.3,"h":6.0,"r":0},{"id":"L3","label":"L3","x":58.3,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L4","label":"L4","x":68.0,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L5","label":"L5","x":77.3,"y":12.0,"w":7.5,"h":6.0,"r":0},{"id":"L6","label":"L6","x":87.0,"y":15.6,"w":8.5,"h":6.2,"r":20},{"id":"L2","label":"L2","x":61.0,"y":20.1,"w":7.5,"h":6.0,"r":0},{"id":"L1","label":"L1","x":70.0,"y":21.1,"w":7.5,"h":6.0,"r":0},{"id":"F6","label":"F6","x":5.7,"y":33.0,"w":6.5,"h":6.6,"r":0},{"id":"E5","label":"E5","x":15.8,"y":33.0,"w":7.4,"h":7.6,"r":0},{"id":"F5","label":"F5","x":5.6,"y":41.5,"w":6.5,"h":6.6,"r":0},{"id":"E4","label":"E4","x":15.8,"y":42.3,"w":7.4,"h":7.6,"r":0},{"id":"F4","label":"F4","x":5.6,"y":50.2,"w":6.5,"h":6.6,"r":0},{"id":"E3","label":"E3","x":15.9,"y":51.0,"w":7.4,"h":7.6,"r":0},{"id":"F3","label":"F3","x":5.7,"y":59.6,"w":6.5,"h":6.6,"r":0},{"id":"E2","label":"E2","x":16.1,"y":59.4,"w":7.4,"h":7.6,"r":0},{"id":"F2","label":"F2","x":5.6,"y":72.3,"w":6.8,"h":7.2,"r":0},{"id":"F1","label":"F1","x":5.6,"y":87.2,"w":6.8,"h":7.2,"r":0},{"id":"E1","label":"E1","x":16.2,"y":86.2,"w":7.4,"h":7.6,"r":0},{"id":"D3","label":"D3","x":25.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"D2","label":"D2","x":25.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"D1","label":"D1","x":25.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C4","label":"C4","x":35.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"C3","label":"C3","x":35.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"C2","label":"C2","x":35.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C1","label":"C1","x":35.0,"y":69.0,"w":6.8,"h":7.3,"r":0},{"id":"H3","label":"H3","x":47.0,"y":68.2,"w":8.9,"h":6.8,"r":0},{"id":"H4","label":"H4","x":47.0,"y":48.8,"w":8.9,"h":6.8,"r":0},{"id":"H2","label":"H2","x":48.3,"y":88.8,"w":8.7,"h":6.5,"r":0},{"id":"H1","label":"H1","x":57.6,"y":89.0,"w":7.6,"h":6.5,"r":0},{"id":"M2","label":"M2","x":57.5,"y":51.0,"w":6.0,"h":8.0,"r":0},{"id":"M1","label":"M1","x":57.4,"y":73.0,"w":6.0,"h":8.0,"r":0},{"id":"A4","label":"A4","x":88.2,"y":49.5,"w":5.9,"h":7.4,"r":0},{"id":"A3","label":"A3","x":88.2,"y":58.5,"w":5.9,"h":7.4,"r":0},{"id":"A2","label":"A2","x":88.2,"y":68.0,"w":5.9,"h":7.4,"r":0},{"id":"A1","label":"A1","x":88.2,"y":79.2,"w":5.9,"h":7.4,"r":0},{"id":"B3","label":"B3","x":81.0,"y":54.5,"w":5.8,"h":7.2,"r":0},{"id":"B2","label":"B2","x":81.0,"y":63.3,"w":5.8,"h":7.2,"r":0},{"id":"B1","label":"B1","x":81.0,"y":74.3,"w":5.8,"h":7.2,"r":0},{"id":"Bar 3","label":"Bar 3","x":65.3,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 2","label":"Bar 2","x":72.0,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 1","label":"Bar 1","x":78.6,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 4","label":"Bar 4","x":63.5,"y":52.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 5","label":"Bar 5","x":63.5,"y":59.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 6","label":"Bar 6","x":63.5,"y":66.4,"w":5.8,"h":6.0,"r":0},{"id":"Bar 7","label":"Bar 7","x":63.5,"y":73.6,"w":5.8,"h":6.0,"r":0},{"id":"Bar 8","label":"Bar 8","x":63.5,"y":80.8,"w":5.8,"h":6.0,"r":0},{"id":"Bar 9","label":"Bar 9","x":63.5,"y":88.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 10","label":"Bar 10","x":63.5,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 11","label":"Bar 11","x":70.2,"y":95.2,"w":5.8,"h":6.0,"r":0}],TABLE_IDS=["A1","A2","A3","A4","B1","B2","B3","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","C1","C2","C3","C4","D1","D2","D3","E1","E2","E3","E4","E5","F1","F2","F3","F4","F5","F6","H1","H2","H3","H4","L1","L2","L3","L4","L5","L6","M1","M2","R1","R2","R3","R4","R5","R6","R7"],DEFAULT_SERVERS=["Adrieanna Walker", "Alaina Montalvo", "Angela Grizzad", "A.J.", "Ashley Garcia", "Brandi Copeland", "Caitlin Dillon", "Christina Gurley", "Cynthia Risner", "Dorothy Makovicka", "Hannah Dempsey", "Jesus Ovalle-Munoz", "Katelyn Ramsey", "Libby Lane", "Megan Meadows", "Megan Sisk", "Mia Burress", "Sara Swift", "Sarah Kibler", "Aida", "Leonardo Sanchez-Miguel"],SECTIONS=["1", "2", "3", "4", "5", "6", "7", "8", "9", "BAR", "1-Bar", "2-4", "3-5"];
 const WORK_SHIFTS=["AM","PM","Double","Long Shift"],ASSIGN_COLORS=["#FACC15","#22D3EE","#A78BFA","#FB923C","#F472B6","#A3E635","#2DD4BF","#60A5FA","#E879F9","#FDE047"];
 const MANAGER_PASSWORD="Laopho$1988",RESET_PASSWORD="888",BAR_AUTO_SKIP_KIND="barAuto";
 const MANAGER_PASSWORD_STORAGE_KEY="fzqb_manager_password_v207r3";
@@ -5464,9 +5497,22 @@ async function handleServerSelect(ri,sel){
   if(next){const existing=board.rows.findIndex((row,index)=>index!==ri&&row&&breaktimeServerKey(row.server)===breaktimeServerKey(next));if(existing>=0){toast(next+' already has a Host Board row.');renderSheet();return}}
   await updateBoardRowMetadataVerified(ri,{server:next,active:!!next,cutAt:next?0:Date.now(),cutReason:next?'':'MANUAL',workShift:next?(board.rows[ri].workShift||shift()):board.rows[ri].workShift},'SERVER UPDATE');
 }
+
+const DOUBLE_SEAT_GUARD_MS=5*60*1000;
+const DOUBLE_SEAT_GUARD_SERVERS=new Set(['megan meadow','megan meadows','a.j.','jesus','jesus ovalle-munoz','mia gibson','ashley garcia']);
+function canonicalServerName(value){
+  const raw=String(value||'').trim(),key=raw.toLowerCase().replace(/\s+/g,' ');
+  if(['ariana graner','ariana garner','ariana graner.','ariana garner.','a.j','aj','a.j.'].includes(key))return 'A.J.';
+  return raw;
+}
+function doubleSeatGuardKey(value){return canonicalServerName(value).toLowerCase().replace(/\s+/g,' ')}
+function isDoubleSeatGuardServer(value){return DOUBLE_SEAT_GUARD_SERVERS.has(doubleSeatGuardKey(value))}
+function canonicalizeBoardServers(source){if(source&&Array.isArray(source.rows))source.rows.forEach(r=>{if(r&&r.server)r.server=canonicalServerName(r.server)});return source}
+function canonicalizeTableServers(source){if(source&&typeof source==='object')Object.values(source).forEach(v=>{if(v&&v.server)v.server=canonicalServerName(v.server)});return source||{}}
+
 function normalizeServerList(items){
   const seen=new Set(),out=[];
-  (Array.isArray(items)?items:[]).forEach(value=>{const name=String(value||'').trim(),key=breaktimeServerKey(name);if(name&&key&&!seen.has(key)){seen.add(key);out.push(name)}});
+  (Array.isArray(items)?items:[]).forEach(value=>{const name=canonicalServerName(value),key=breaktimeServerKey(name);if(name&&key&&!seen.has(key)){seen.add(key);out.push(name)}});
   return out.sort((a,b)=>a.localeCompare(b));
 }
 async function saveServers(){
@@ -5485,7 +5531,7 @@ async function saveServers(){
   }catch(e){toast((e&&e.message)||'Employee list save failed');return false}
   finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
 }
-async function fetchServers(){try{const x=await readJ(SERVER_ROOT+".json");servers=Array.isArray(x)&&x.length?x:[...DEFAULT_SERVERS];if(!Array.isArray(x)||!x.length)await saveServers()}catch(e){servers=JSON.parse(localStorage.getItem("jhb31_servers")||"null")||[...DEFAULT_SERVERS]}}
+async function fetchServers(){try{const x=await readJ(SERVER_ROOT+".json"),raw=Array.isArray(x)&&x.length?x:[...DEFAULT_SERVERS];servers=normalizeServerList(raw);const hadAriana=raw.some(n=>['ariana graner','ariana garner','a.j','aj'].includes(String(n||'').trim().toLowerCase()));if(!Array.isArray(x)||!x.length||hadAriana)await saveServers()}catch(e){servers=normalizeServerList(JSON.parse(localStorage.getItem("jhb31_servers")||"null")||[...DEFAULT_SERVERS])}}
 function openDeleteServer(){$('deleteServerSelect').innerHTML=servers.map(s=>'<option value="'+esc(s)+'">'+esc(s)+'</option>').join('');openM('deleteServerModal')}
 function deleteServer(){
   const n=$('deleteServerSelect').value;if(!n)return;
@@ -5547,7 +5593,7 @@ function allKnownServers(){
   const out=[],seen=new Set();
   /* Live shift identity wins over saved/default case variants. */
   [...liveBoard,...liveFormation,...liveAssignments,...(servers||[]),...(DEFAULT_SERVERS||[])].forEach(value=>{
-    const name=String(value||'').trim(),key=name.toLowerCase();if(name&&!seen.has(key)){seen.add(key);out.push(name)}
+    const name=canonicalServerName(value),key=name.toLowerCase();if(name&&!seen.has(key)){seen.add(key);out.push(name)}
   });
   return out.sort((a,b)=>a.localeCompare(b));
 }
@@ -6363,11 +6409,31 @@ function openFloorSeat(tableId){
   refreshNextServerSuggestionFromBoard();
 }
 async function setTableStatusDirect(status){if(!selectedTable)return;await setStatus(status)}
+
+let seatGuardResolver=null;
+function showSeatGuardDialog(server,reasons){return new Promise(resolve=>{const overlay=$('seatGuardOverlay');if(!overlay)return resolve(false);seatGuardResolver=resolve;$('seatGuardTitle').textContent=reasons.some(x=>x.type==='large')&&reasons.some(x=>x.type==='double')?'DOUBLE SEAT + LARGE PARTY ALERT':(reasons.some(x=>x.type==='large')?'LARGE PARTY ALERT':'DOUBLE SEAT ALERT');$('seatGuardServer').textContent=canonicalServerName(server);$('seatGuardReason').textContent=reasons.map(x=>x.text).join('\n\n');overlay.classList.add('show')})}
+function closeSeatGuardDialog(answer){const overlay=$('seatGuardOverlay');if(overlay)overlay.classList.remove('show');const r=seatGuardResolver;seatGuardResolver=null;if(r)r(!!answer)}
+async function recentSeatGuardEvents(server){
+  const key=doubleSeatGuardKey(server),cutoff=Date.now()-DOUBLE_SEAT_GUARD_MS,out=[];
+  Object.entries(tableState||{}).forEach(([table,v])=>{if(!v||operationalTableStatus(v)!=='seated'||v.secondaryOf)return;const at=Number(v.updatedAt||0),srv=canonicalServerName(v.server);if(at>=cutoff&&doubleSeatGuardKey(srv)===key)out.push({at,server:srv,table,people:parseInt(v.people||v.partyPeople||0,10)||0})});
+  try{const raw=(await readJ(RECENT_SEAT_ROOT+'/'+boardKey()+'.json'))||{};Object.values(raw).forEach(v=>{if(!v)return;const at=Number(v.at||0),srv=canonicalServerName(v.server);if(at>=cutoff&&doubleSeatGuardKey(srv)===key)out.push({at,server:srv,table:String(v.table||''),people:parseInt(v.people||0,10)||0})})}catch(e){}
+  const seen=new Set();return out.filter(v=>{const sig=[v.at,v.table,v.people].join('|');if(seen.has(sig))return false;seen.add(sig);return true}).sort((a,b)=>b.at-a.at)
+}
+async function seatGuardReasons(server){
+  const events=await recentSeatGuardEvents(server),reasons=[];
+  if(isDoubleSeatGuardServer(server)&&events.length){const last=events[0],mins=Math.max(0,Math.ceil((Date.now()-last.at)/60000));reasons.push({type:'double',text:canonicalServerName(server)+' was seated recently'+(last.table?' at Table '+last.table:'')+' ('+(mins<1?'less than 1':mins)+' minute'+(mins===1?'':'s')+' ago). This seating would create a DOUBLE SEAT within 5 minutes.'})}
+  const large=events.find(v=>v.people>5);if(large){const mins=Math.max(0,Math.ceil((Date.now()-large.at)/60000));reasons.push({type:'large',text:canonicalServerName(server)+' recently received a LARGE PARTY of '+large.people+(large.table?' at Table '+large.table:'')+' ('+(mins<1?'less than 1':mins)+' minute'+(mins===1?'':'s')+' ago).'})}
+  return reasons
+}
+async function confirmSeatGuard(server){const reasons=await seatGuardReasons(server);if(!reasons.length)return true;return showSeatGuardDialog(server,reasons)}
+async function logRecentSeatGuard(server,table,people,entryId,at){try{await writeJ(RECENT_SEAT_ROOT+'/'+boardKey()+'/'+String(entryId||operationId('guard'))+'.json',{server:canonicalServerName(server),table:String(table||''),people:parseInt(people||0,10)||0,at:Number(at)||Date.now(),deviceId:deviceId(),updatedBy:role()})}catch(e){}}
+
 async function applyFloorSeat(autoMode=false){
   if(floorAutoSaving)return;
   floorAutoSaving=true;
 
-  const table=selectedTable,server=floorSelectedServer,people=floorSelectedPeople;
+  const table=selectedTable,server=canonicalServerName(floorSelectedServer),people=floorSelectedPeople;
+  floorSelectedServer=server;
   if(!table||!people){
     floorAutoSaving=false;
     return toast('Choose number of people');
@@ -6417,6 +6483,12 @@ async function applyFloorSeat(autoMode=false){
       floorAutoSaving=false;
       return toast(secTable+" is no longer READY");
     }
+  }
+
+  if(!(await confirmSeatGuard(server))){
+    floorAutoSaving=false;
+    toast('Seating cancelled • no changes made');
+    return;
   }
 
   const operationKey=boardKey();
@@ -6621,6 +6693,7 @@ async function applyFloorSeat(autoMode=false){
       floorVerified=check.status==='seated'&&String(check.partyId||'')===seatEntryId&&String(check.server||'')===server;
     }
     if(!floorVerified)throw new Error('Floor Map seating could not be verified.');
+    await logRecentSeatGuard(server,id,people,seatEntryId,ts);
     try{await writeJ(ANNOUNCE_ROOT+'/ann_'+ts+'_'+Math.random().toString(36).slice(2,6)+'.json',{table:id,status:'seated',from:role(),sourceId:deviceId(),createdAt:ts})}catch(e){}
 
     floorAutoSaving=false;
@@ -7128,7 +7201,7 @@ async function fetchBoard(targetKey=boardKey()){
     if(raw!==null){skipLocks=await readSkipLocks(targetKey);if(clearShiftInFlight||seq!==boardLoadSeq||targetKey!==boardKey())return false}
 
     /* Resolve only after every awaited read and stale-response check. */
-    const resolved=boardFromRemoteOrRecovery(targetKey,raw,{allowNew:true,source:'BOARD FETCH'}),incoming=resolved.board;
+    const resolved=boardFromRemoteOrRecovery(targetKey,raw,{allowNew:true,source:'BOARD FETCH'}),incoming=canonicalizeBoardServers(resolved.board);
     if(skipLocks)applySkipLocksToBoard(incoming,skipLocks);
 
     board=incoming;
@@ -7517,7 +7590,7 @@ function normalizeFloorFormation(x){
   const valid=f?(requestedMode==='SPLIT'?(splitDef||failClosedSplitKeys):effectiveFormation(f)):null;
   if(valid){
     Object.keys(valid).forEach(sec=>{
-      const server=String(x&&x.sectionServers&&x.sectionServers[sec]||"").trim();
+      const server=canonicalServerName(x&&x.sectionServers&&x.sectionServers[sec]||"");
       if(server)out.sectionServers[sec]=server;
       const bp=normalizeBeeperNumber(x&&x.sectionBeepers&&x.sectionBeepers[sec]);
       if(bp)out.sectionBeepers[sec]=bp;
@@ -7975,8 +8048,14 @@ function handleFormationSectionDraftChange(){
 function handleFormationServerDraftChange(){
   formationDraftServer=String($('formationServer').value||'');populateFormationWorkShift(boardWorkShiftForServer(formationDraftServer));formationEditorDirty=true;
 }
+
+let joinSkipResolver=null;
+function showJoinSkipDialog(server,b){return new Promise(resolve=>{joinSkipResolver=resolve;$('joinSkipServer').textContent=canonicalServerName(server);$('joinSkipMath').textContent='Lowest active rotation: '+b+' • YES = SKIP '+b+' • NO = SKIP '+Math.max(0,b-1)+' → '+canonicalServerName(server)+' NEXT';$('joinSkipOverlay').classList.add('show')})}
+function closeJoinSkipDialog(waiting){$('joinSkipOverlay').classList.remove('show');const r=joinSkipResolver;joinSkipResolver=null;if(r)r(!!waiting)}
+function smartJoinBaselineFromBoard(source,server){const k=doubleSeatGuardKey(server),rows=(source&&source.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt&&doubleSeatGuardKey(r.server)!==k);return rows.length?Math.min(...rows.map(r=>Math.max(0,rotationEffectiveCount(r)))):0}
+
 async function saveFormationSection(){
-  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=String($('formationServer').value||''),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
+  const form=String(floorFormation.formation||''),sec=String($('formationSection').value||''),server=canonicalServerName($('formationServer').value||''),selectedWorkShift=String($('formationWorkShift')&&$('formationWorkShift').value||'');
   if(!form)return toast("Choose Formasi");
   if(!sec)return toast("Choose Section");
   if(!server)return toast("Choose Assigned Server");
@@ -8000,6 +8079,13 @@ async function saveFormationSection(){
     const boardBefore=cloneBoard(board);
     const oldServer=String(floorFormation.sectionServers[sec]||'');
     const serverChanged=!!oldServer&&oldServer!==server;
+    let smartJoinSkipCount=0,smartJoinWaiting=null;
+    const serverAlreadyActive=(latestBoard.rows||[]).some(r=>r&&r.server&&r.active!==false&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(server));
+    const barPmExcluded=String(sec).toUpperCase()==='BAR'&&String(selectedWorkShift).toUpperCase()==='PM';
+    if(!oldServer&&!serverAlreadyActive&&!barPmExcluded){
+      const baseline=smartJoinBaselineFromBoard(latestBoard,server);
+      if(baseline>0){smartJoinWaiting=await showJoinSkipDialog(server,baseline);smartJoinSkipCount=smartJoinWaiting?baseline:Math.max(0,baseline-1)}
+    }
     const duplicateSections=Object.keys(floorFormation.sectionServers||{}).filter(s=>s!==sec&&floorFormation.sectionServers[s]===server&&!sectionsCanShareServer(form,s,sec));
     const oldServerBlockers=serverChanged?activePrimaryTablesForServer(oldServer).filter(id=>{
       if(form!=='2 SERVER'||String(floorFormation.sectionMode||'').toUpperCase()!=='SPLIT')return true;
@@ -8071,6 +8157,14 @@ async function saveFormationSection(){
     if(remainingOldSections.length){
       const verifiedOldRow=board.rows.find(row=>row&&String(row.server||'')===oldServer&&row.active!==false);
       if(!verifiedOldRow||String(verifiedOldRow.section||'')!==sectionLabelForSections(remainingOldSections)||normalizeBeeperNumber(verifiedOldRow.beeper)!==remainingOldBeeper||remainingOldSections.some(section=>normalizeBeeperNumber(floorFormation.sectionBeepers[section])!==remainingOldBeeper))throw new Error('Previous server sibling Section could not be verified.');
+    }
+    if(smartJoinSkipCount>0){
+      const latestRi=board.rows.findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(server));
+      if(latestRi>=0){
+        const okSkip=await saveMultipleSkipsImmediately(latestRi,null,smartJoinSkipCount);
+        if(!okSkip)toast('SERVER SAVED • AUTO SKIP NEEDS RETRY');
+        else toast('AUTO SKIP ×'+smartJoinSkipCount+' • '+(smartJoinWaiting?'GUEST WAITING':'NO GUEST WAITING')+' • SKIP CAN BE CLEARED');
+      }
     }
     formationDraftServer=server;formationEditorDirty=false;
     populateFormationSections(sec);populateFormationServers(server);populateFormationWorkShift(selectedWorkShift);updateFormationTablesBox();renderSheet();renderFormationOverlays();renderFormationCurrent();renderBeeperView();
@@ -8388,6 +8482,7 @@ async function performStaffDutyChange(server,action,sectionHint='',options={}){
     renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();renderBeeperView();updateNextServerSuggestion();
     if($('staffStatusModal').classList.contains('show')){populateStaffStatusServers(server);renderStaffStatusModal()}
     toast(action==='BREAK'?(server+' • BREAK • SECTION HELD • TABLES KEPT'):action==='RETURN'?(server+' • RETURNED TO ROTATION • HISTORY KEPT'):(server+' • CUT • ROTATION/FUTURE ASSIGNMENT RELEASED • SEATED TABLES KEPT'));
+    if(action==='CUT')setTimeout(()=>showCutRecommendations(server),250);
     return true;
   }catch(e){
     toast((e&&e.message)||'Staff status change failed');
@@ -8856,7 +8951,7 @@ function normalizeFloorAssignments(x){
   Object.entries(src).forEach(([table,v])=>{
     if(v&&v.server&&TABLE_IDS.includes(table)){
       const c=Number.isInteger(v.color)?v.color:0;
-      out.tables[table]={server:String(v.server),color:((c%ASSIGN_COLORS.length)+ASSIGN_COLORS.length)%ASSIGN_COLORS.length,beeper:normalizeBeeperNumber(v.beeper)};
+      out.tables[table]={server:canonicalServerName(v.server),color:((c%ASSIGN_COLORS.length)+ASSIGN_COLORS.length)%ASSIGN_COLORS.length,beeper:normalizeBeeperNumber(v.beeper)};
     }
   });
   return out;
@@ -10689,7 +10784,7 @@ function renderTables(){
   if(clearShiftInFlight||((sectionControlInFlight||tableStatusInFlight)&&!force))return false;
   const seq=++tableLoadSeq;
   try{
-  const next=(await readJ(TABLE_ROOT+".json"))||{};if(clearShiftInFlight||seq!==tableLoadSeq)return false;tableState=next;renderTables();updateNextServerSuggestion();
+  const next=canonicalizeTableServers((await readJ(TABLE_ROOT+".json"))||{});if(clearShiftInFlight||seq!==tableLoadSeq)return false;tableState=next;renderTables();updateNextServerSuggestion();
   if($('moveChangeModal')&&$('moveChangeModal').classList.contains('show')&&(swapMode==='table'||swapMode==='both')){
     const source=$('moveSourceTable')?$('moveSourceTable').value:'';
     if(source){buildMoveTargetGrid(source);updateMoveSummary()}
@@ -11518,6 +11613,75 @@ function quickLogoutManager(){
   quickShowRoleGate();
   toast('Manager logged out • protected tools locked');
 }
+
+let teamDayRoleSelected='Front Host',teamDayRows=[],teamDayEditing=false;
+const TEAM_DAY_SHIFTS=['AM','PM','Double','Longshift 2PM','Short Shift 2-4 PM'];
+function teamDayDateKey(){return dateKey()}
+function teamDayPath(){return TEAM_DAY_ROOT+'/'+teamDayDateKey()}
+function teamDayPrettyDate(){
+  const d=new Date();return d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})
+}
+function teamDayCanEdit(){return teamDayRoleSelected==='Manager'||teamDayRoleSelected==='Owner'}
+function normalizeTeamDay(raw){
+  const arr=Array.isArray(raw)?raw:Object.values(raw&&typeof raw==='object'?raw:{});
+  const seen=new Set(),out=[];
+  arr.forEach(v=>{if(!v)return;const name=canonicalServerName(v.name||v.server),shift=TEAM_DAY_SHIFTS.includes(v.shift)?v.shift:'AM',key=doubleSeatGuardKey(name);if(name&&!seen.has(key)){seen.add(key);out.push({name,shift})}});
+  return out;
+}
+async function loadTeamDay(){
+  try{teamDayRows=normalizeTeamDay(await readJ(teamDayPath()+'.json'))}catch(e){teamDayRows=[]}
+  renderTeamDay();
+}
+function teamDayServerOptions(){
+  const used=new Set(teamDayRows.map(x=>doubleSeatGuardKey(x.name)));
+  return normalizeServerList(servers).filter(n=>!used.has(doubleSeatGuardKey(n)));
+}
+function renderTeamDay(){
+  if(!$('teamDayList'))return;
+  $('teamDayDate').textContent=teamDayPrettyDate();
+  $('teamDayRole').textContent=teamDayRoleSelected;
+  const can=teamDayCanEdit(),add=$('teamDayAddArea'),edit=$('teamDayEdit');
+  if(add)add.style.display=(can||teamDayEditing)?'grid':'grid';
+  if(edit){edit.style.display=can?'block':'none';edit.textContent=teamDayEditing?'DONE EDITING':'EDIT TEAM'}
+  const select=$('teamDayServer');if(select)select.innerHTML='<option value="">— Nama Server —</option>'+teamDayServerOptions().map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');
+  $('teamDayList').innerHTML=teamDayRows.length?teamDayRows.map((x,i)=>'<div class="teamDayRow"><strong>'+esc(x.name)+'</strong><select data-team-shift="'+i+'">'+TEAM_DAY_SHIFTS.map(s=>'<option '+(s===x.shift?'selected':'')+'>'+esc(s)+'</option>').join('')+'</select>'+(can&&teamDayEditing?'<button class="teamDayDelete" data-team-delete="'+i+'" type="button">DELETE USER</button>':'<span></span>')+'</div>').join(''):'<div class="teamDayHint">Belum ada nama team untuk hari ini.</div>';
+  document.querySelectorAll('[data-team-shift]').forEach(el=>{el.disabled=!(can&&teamDayEditing);el.onchange=()=>{const i=Number(el.dataset.teamShift);if(teamDayRows[i])teamDayRows[i].shift=el.value}});
+  document.querySelectorAll('[data-team-delete]').forEach(el=>el.onclick=()=>{teamDayRows.splice(Number(el.dataset.teamDelete),1);renderTeamDay()});
+}
+async function saveTeamDay(){
+  const clean=normalizeTeamDay(teamDayRows);
+  try{
+    await writeJ(teamDayPath()+'.json',clean);
+    const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));
+    if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');
+    teamDayRows=confirmed;toast('TODAY TEAM UPDATED • VERIFIED');renderTeamDay();return true
+  }catch(e){toast((e&&e.message)||'Team update failed');return false}
+}
+async function openTeamDay(roleName){
+  teamDayRoleSelected=roleName||'Front Host';teamDayEditing=teamDayCanEdit();
+  $('teamDayLayer').classList.add('show');$('teamDayLayer').setAttribute('aria-hidden','false');
+  await loadTeamDay()
+}
+function closeTeamDay(){
+  $('teamDayLayer').classList.remove('show');$('teamDayLayer').setAttribute('aria-hidden','true');
+  quickShowPane('board');
+}
+async function addTeamDayUser(){
+  const name=canonicalServerName($('teamDayServer').value),sh=$('teamDayShift').value;if(!name)return toast('Choose server name');
+  if(teamDayRows.some(x=>doubleSeatGuardKey(x.name)===doubleSeatGuardKey(name)))return toast(name+' is already on today team');
+  teamDayRows.push({name,shift:TEAM_DAY_SHIFTS.includes(sh)?sh:'AM'});renderTeamDay()
+}
+function workingTeamAfterCut(cutServer){
+  const cutKey=doubleSeatGuardKey(cutServer);
+  return teamDayRows.filter(x=>doubleSeatGuardKey(x.name)!==cutKey).filter(x=>staffDutyState(x.name,board).state!=='CUT')
+}
+async function showCutRecommendations(cutServer){
+  try{teamDayRows=normalizeTeamDay(await readJ(teamDayPath()+'.json'))}catch(e){}
+  const list=workingTeamAfterCut(cutServer),box=$('cutRecommendNames');
+  box.innerHTML=list.length?list.map(x=>'<span class="cutRecommendName">'+esc(x.name)+' • '+esc(x.shift)+'</span>').join(''):'<span class="teamDayHint">Tidak ada server lain di Today Team.</span>';
+  $('cutRecommendLayer').classList.add('show');$('cutRecommendLayer').setAttribute('aria-hidden','false')
+}
+
 function quickEnterRole(selectedRole){
   if(callState||incomingCall)return toast('End the current call before changing role');
   selectedRole=['Front Host','Manager','Owner'].includes(selectedRole)?selectedRole:'Front Host';
@@ -11527,7 +11691,10 @@ function quickEnterRole(selectedRole){
   $('role').value=baseRole;applyRole(baseRole);quickSyncHeader();
   if(ownerRoleUnlocked){if($('quickRole'))$('quickRole').value='Owner';if($('quickContextRole'))$('quickContextRole').textContent='Owner';if($('quickManagerLogout'))$('quickManagerLogout').textContent='OWNER LOG OUT'}
   else if($('quickManagerLogout'))$('quickManagerLogout').textContent='MANAGER LOG OUT';
-  quickApplyAccessVisibility();quickCloseRoleGate();quickShowPane('board');
+  quickApplyAccessVisibility();quickCloseRoleGate();
+  teamDayRoleSelected=selectedRole;
+  try{$('workDate').value=dateKey()}catch(e){}
+  openTeamDay(selectedRole);
   if(selectedRole==='Front Host')setTimeout(()=>{try{r3mAutoFrontSetup()}catch(e){}},150);
 }
 let quickPendingProtectedRole='Manager';
@@ -11775,7 +11942,7 @@ function quickSelectPeople(value){
 function quickCustomPeople(){const raw=prompt('Number of people (21-120):',parseInt(quickState.people||'0',10)>20?quickState.people:'');const n=validPeopleCount(raw);if(n)quickSelectPeople(n);else if(raw!==null)toast('Enter 1–120 people')}
 function quickSelectSecondary(mode){quickState.secondaryMode=mode==='yes'?'yes':'no';if(mode!=='yes')quickState.secondary.clear();quickRenderWizard()}
 function quickToggleSecondary(id){if(quickState.secondary.has(id))quickState.secondary.delete(id);else quickState.secondary.add(id);quickRenderWizard()}
-function quickSelectServer(name){const duty=staffDutyState(name);if(duty.state==='BREAK'||duty.state==='CUT')return toast(unavailableServerMessage(name));quickState.server=name;quickRenderWizard()}
+function quickSelectServer(name){name=canonicalServerName(name);const duty=staffDutyState(name);if(duty.state==='BREAK'||duty.state==='CUT')return toast(unavailableServerMessage(name));quickState.server=name;quickRenderWizard()}
 async function quickAddNamedServer(){
   const name=String(prompt('New server / bartender name:')||'').trim();if(!name)return;
   const existing=allKnownServers().find(value=>value.toLowerCase()===name.toLowerCase()),finalName=existing||name;
@@ -11891,8 +12058,8 @@ async function quickWriteAccessUser(id,changes,label){
   finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
 }
 async function quickOpenUsersRoles(){
-  if(!quickRequireManager(null,'Users & Roles'))return;const mount=quickPrepareLegacy('Users & Roles');mount.innerHTML='<div class="quickForm" style="max-width:900px"><div class="quickFormHint">Manager access records are stored separately from employee names. Passwords are saved as hashes, never as readable text.</div><div class="quickUserForm"><input id="quickUserName" placeholder="Username"><select id="quickUserRole"><option>Front Host</option><option>Floor Host</option><option>Manager</option></select><input id="quickUserPassword" type="password" placeholder="Password"><button id="quickUserAdd" type="button">ADD USER</button></div><div id="quickUsersList" class="quickUsersList"><div class="quickFormHint">Loading…</div></div></div>';quickSetOpen('quickLegacyPanel',true);
-  const render=async()=>{const users=await quickLoadAccessUsers(),list=$('quickUsersList');if(!list)return;list.innerHTML='';const values=Object.values(users).sort((a,b)=>a.username.localeCompare(b.username));if(!values.length)list.innerHTML='<div class="quickFormHint">No additional users yet. The owner Manager password still works.</div>';values.forEach(user=>{const item=document.createElement('div');item.className='quickUserItem';item.innerHTML='<div><strong>'+esc(user.username)+'</strong><small>'+esc(user.role+' • '+(user.active?'ACTIVE':'DISABLED'))+'</small></div><div style="display:flex;gap:6px"><button class="quickUserEdit" type="button">EDIT</button><button class="quickUserToggle" type="button">'+(user.active?'DISABLE':'ENABLE')+'</button></div>';item.querySelector('.quickUserToggle').onclick=async()=>{if(await quickWriteAccessUser(user.id,{active:!user.active},user.active?'USER DISABLED':'USER ENABLED'))render()};item.querySelector('.quickUserEdit').onclick=async()=>{const username=prompt('Username:',user.username);if(username===null)return;const requestedRole=prompt('Role: Front Host, Floor Host, or Manager',user.role);if(requestedRole===null)return;const nextRole=['Front Host','Floor Host','Manager'].find(value=>value.toLowerCase()===String(requestedRole).trim().toLowerCase());if(!nextRole)return toast('Choose Front Host, Floor Host, or Manager');const password=prompt('New password (leave blank to keep current):','');const changes={username:String(username).trim(),role:nextRole};if(password)changes.passwordHash=await quickPasswordHash(password);if(await quickWriteAccessUser(user.id,changes,'USER EDITED'))render()};list.appendChild(item)})};
+  if(!quickRequireManager(null,'Users & Roles'))return;const mount=quickPrepareLegacy('Users & Roles');mount.innerHTML='<div class="quickForm" style="max-width:900px"><div class="quickFormHint">Manager access records are stored separately from employee names. Passwords are saved as hashes, never as readable text.</div><div class="quickUserForm"><input id="quickUserName" placeholder="Username"><select id="quickUserRole"><option>Front Host</option><option>Manager</option></select><input id="quickUserPassword" type="password" placeholder="Password"><button id="quickUserAdd" type="button">ADD USER</button></div><div id="quickUsersList" class="quickUsersList"><div class="quickFormHint">Loading…</div></div></div>';quickSetOpen('quickLegacyPanel',true);
+  const render=async()=>{const users=await quickLoadAccessUsers(),list=$('quickUsersList');if(!list)return;list.innerHTML='';const values=Object.values(users).sort((a,b)=>a.username.localeCompare(b.username));if(!values.length)list.innerHTML='<div class="quickFormHint">No additional users yet. The owner Manager password still works.</div>';values.forEach(user=>{const item=document.createElement('div');item.className='quickUserItem';item.innerHTML='<div><strong>'+esc(user.username)+'</strong><small>'+esc(user.role+' • '+(user.active?'ACTIVE':'DISABLED'))+'</small></div><div style="display:flex;gap:6px"><button class="quickUserEdit" type="button">EDIT</button><button class="quickUserDelete" type="button">DELETE USER</button><button class="quickUserToggle" type="button">'+(user.active?'DISABLE':'ENABLE')+'</button></div>';item.querySelector('.quickUserDelete').onclick=async()=>{if(!confirm('DELETE USER '+user.username+'?'))return;try{await writeJ(ACCESS_USER_ROOT+'/'+user.id+'.json',null);toast('USER DELETED');render()}catch(e){toast('Delete user failed')}};item.querySelector('.quickUserToggle').onclick=async()=>{if(await quickWriteAccessUser(user.id,{active:!user.active},user.active?'USER DISABLED':'USER ENABLED'))render()};item.querySelector('.quickUserEdit').onclick=async()=>{const username=prompt('Username:',user.username);if(username===null)return;const requestedRole=prompt('Role: Front Host or Manager',user.role);if(requestedRole===null)return;const nextRole=['Front Host','Manager'].find(value=>value.toLowerCase()===String(requestedRole).trim().toLowerCase());if(!nextRole)return toast('Choose Front Host or Manager');const password=prompt('New password (leave blank to keep current):','');const changes={username:String(username).trim(),role:nextRole};if(password)changes.passwordHash=await quickPasswordHash(password);if(await quickWriteAccessUser(user.id,changes,'USER EDITED'))render()};list.appendChild(item)})};
   $('quickUserAdd').onclick=async()=>{const username=String($('quickUserName').value||'').trim(),password=$('quickUserPassword').value,selectedRole=$('quickUserRole').value;if(!username||!password)return toast('Username and password are required.');const id='u_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),ok=await quickWriteAccessUser(id,{username,role:selectedRole,passwordHash:await quickPasswordHash(password),active:true},'USER ADDED');if(ok){$('quickUserName').value='';$('quickUserPassword').value='';render()}};await render();
 }
 function quickFlexibleSectionOptions(sourceFormation=floorFormation){
@@ -12105,8 +12272,12 @@ function r3mBind(){if($('quickOwnerMonitor'))$('quickOwnerMonitor').onclick=r3mO
 function quickBind(){
   document.querySelectorAll('[data-quick-nav]').forEach(button=>button.onclick=()=>quickShowPane(button.dataset.quickNav));
   document.querySelectorAll('[data-entry-role]').forEach(button=>button.onclick=()=>quickChooseEntryRole(button.dataset.entryRole));
+  if($('teamDayAdd'))$('teamDayAdd').onclick=addTeamDayUser;
+  if($('teamDayUpdate'))$('teamDayUpdate').onclick=async()=>{if(await saveTeamDay())closeTeamDay()};
+  if($('teamDayEdit'))$('teamDayEdit').onclick=()=>{if(!teamDayCanEdit())return;teamDayEditing=!teamDayEditing;renderTeamDay()};
+  if($('cutRecommendClose'))$('cutRecommendClose').onclick=()=>{$('cutRecommendLayer').classList.remove('show');$('cutRecommendLayer').setAttribute('aria-hidden','true')};
   $('quickManagerBack').onclick=quickShowRoleGate;$('quickManagerEnter').onclick=quickSubmitManagerGate;$('quickManagerPassword').onfocus=quickManagerPasswordFocused;$('quickManagerPassword').onblur=()=>{const gate=$('quickRoleGate');if(gate)setTimeout(()=>{if(document.activeElement!==$('quickManagerPassword'))gate.classList.remove('managerKeyboard')},120)};$('quickManagerPassword').onkeydown=e=>{if(e.key==='Enter')quickSubmitManagerGate()};
-  $('quickAlarm').onclick=openAlarm;$('quickMoreAlarm').onclick=openAlarm;$('quickTeamShout').onclick=openTeamShoutManager;$('quickChangeRole').onclick=()=>(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight)?toast('AN OPERATION IS STILL SAVING…'):quickShowRoleGate();$('quickManagerLogout').onclick=quickLogoutManager;$('quickSeatNext').onclick=()=>{const next=getNextServerSuggestion();if(next)quickOpenWizard(next.row.server,'')};
+  if($('joinSkipNo'))$('joinSkipNo').onclick=()=>closeJoinSkipDialog(false);if($('joinSkipYes'))$('joinSkipYes').onclick=()=>closeJoinSkipDialog(true);if($('seatGuardNo'))$('seatGuardNo').onclick=()=>closeSeatGuardDialog(false);if($('seatGuardYes'))$('seatGuardYes').onclick=()=>closeSeatGuardDialog(true);$('quickAlarm').onclick=openAlarm;$('quickMoreAlarm').onclick=openAlarm;$('quickTeamShout').onclick=openTeamShoutManager;$('quickChangeRole').onclick=()=>(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight)?toast('AN OPERATION IS STILL SAVING…'):quickShowRoleGate();$('quickManagerLogout').onclick=quickLogoutManager;$('quickSeatNext').onclick=()=>{const next=getNextServerSuggestion();if(next)quickOpenWizard(next.row.server,'')};
   $('quickShiftBadge').onclick=()=>{if(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight)return toast('AN OPERATION IS STILL SAVING…');const nextShift=shift()==='AM'?'PM':'AM';if(!confirm('Switch to '+nextShift+' shift?\n\nCurrent '+shift()+' history will stay saved and the '+nextShift+' Board will load.'))return;$('shift').value=nextShift;$('shift').dispatchEvent(new Event('change'))};
   $('quickContextDate').onclick=()=>toast('WORK DATE IS AUTOMATIC • '+dateKey());
   $('quickShift').onchange=()=>{if(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight){$('quickShift').value=shift();return toast('AN OPERATION IS STILL SAVING…')}$('shift').value=$('quickShift').value;$('shift').dispatchEvent(new Event('change'))};
@@ -12279,6 +12450,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 })();
 </script>
 
+<div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 </body>
 </html>
 <style>
