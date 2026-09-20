@@ -1907,7 +1907,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 @media(max-width:900px){.teamPickerGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.teamSelectedEditor,.teamNewEmployee{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.teamPickerGrid{grid-template-columns:1fr}.teamSelectedEditor,.teamNewEmployee{grid-template-columns:1fr}}
 .shiftAutoOverlay{position:fixed;inset:0;z-index:2147483450;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.shiftAutoOverlay.show{display:flex}.shiftAutoBox{width:min(620px,96vw);border:2px solid #60a5fa;border-radius:22px;background:#071522;padding:22px;color:#fff}.shiftAutoFields{display:grid;gap:10px;margin-top:14px}.shiftAutoFields select{height:50px;background:#061d2c;color:#fff;border:1px solid #456983;border-radius:10px}.shiftAutoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.shiftAutoActions button{min-height:54px;border-radius:12px;font-weight:1000}.shiftAutoPrimary{background:#15804a;color:#fff}.shiftAutoSecondary{background:#334155;color:#fff}
-.quickWizardHistoryActions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px}.quickWizardHistoryActions button{min-height:48px;border-radius:11px;border:1px solid #456983;color:#fff;font-weight:1000;font-size:14px}.quickWizardHistoryActions button:nth-child(1){background:#9a3412}.quickWizardHistoryActions button:nth-child(2){background:#0f766e}.quickWizardHistoryActions button:nth-child(3){background:#6d28d9}@media(max-width:600px){.quickWizardHistoryActions{grid-template-columns:1fr}}
+.quickWizardHistoryActions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 16px}.quickWizardHistoryActions button{min-height:48px;border-radius:11px;border:1px solid #456983;color:#fff;font-weight:1000;font-size:14px}.quickWizardHistoryActions button:nth-child(1){background:#9a3412}.quickWizardHistoryActions button:nth-child(2){background:#0f766e}.quickWizardHistoryActions button:nth-child(3){background:#6d28d9}@media(max-width:600px){.quickWizardHistoryActions{grid-template-columns:1fr}}
 .quickUndoConfirm{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;background:rgba(1,7,15,.88);padding:18px}.quickUndoConfirm.show{display:flex}.quickUndoCard{width:min(540px,96vw);background:#071522;color:#fff;border:2px solid #60a5fa;border-radius:20px;padding:20px}.quickUndoDetail{line-height:1.75;font-weight:900;color:#dbeafe}.quickUndoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.quickUndoActions button{height:52px;border-radius:12px;font-weight:1000}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 </style>
@@ -2146,7 +2146,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.11 • FLOOR UNDO + RESERVED FIX • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.12 • BOARD LOOKUP UNDO DELETE • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2222,7 +2222,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
     <div id="quickWizardBody" class="quickDialogBody"></div>
     <div class="quickDialogFoot"><button id="quickWizardBack" class="quickBack" type="button">PREVIOUS</button><button id="quickWizardNext" class="quickNextBtn" type="button">NEXT</button></div><div id="quickWizardHistoryActions" class="quickWizardHistoryActions">
 <button id="quickWizardUndoDelete" type="button">UNDO DELETE</button>
-<button id="quickWizardUndoReset" type="button">UNDO RESET</button>
+
 <button id="quickWizardReservation" type="button">RESERVATION</button>
 </div>
   </div>
@@ -10115,31 +10115,67 @@ async function latestFloorHistory(action){
     return Object.values(raw).filter(x=>x&&x.action===action).sort((a,b)=>Number(b.at||0)-Number(a.at||0))[0]||null;
   }catch(e){return null}
 }
+function boardEventTableId(ev){
+  if(ev==null)return '';
+  if(typeof ev==='string')return ev.trim();
+  if(typeof ev!=='object')return '';
+  return String(ev.table||ev.tableId||ev.tableName||ev.name||ev.label||ev.id||'').trim();
+}
+function boardEventTime(ev,row){
+  if(ev&&typeof ev==='object'){
+    const raw=ev.at||ev.time||ev.timestamp||ev.seatedAt||ev.createdAt||ev.updatedAt||0;
+    if(raw)return Number(raw)||raw;
+  }
+  return Number(row&&row.updatedAt||0)||0;
+}
+function findLatestBoardTableRecord(tableId){
+  const wanted=String(tableId||'').trim().toUpperCase();if(!wanted)return null;
+  let best=null;
+  (board.rows||[]).forEach(row=>{
+    const server=canonicalServerName(row&&row.server||'');
+    const pools=[];
+    ['turns','boxes','history','seatings','tables'].forEach(k=>{if(Array.isArray(row&&row[k]))pools.push(row[k])});
+    pools.forEach(arr=>arr.forEach((ev,index)=>{
+      if(boardEventTableId(ev).toUpperCase()!==wanted)return;
+      const at=boardEventTime(ev,row);
+      const score=(typeof at==='number'&&at>0)?at:index;
+      if(!best||score>=best.score)best={tableId:wanted,server,at,score,event:ev,row};
+    }));
+  });
+  return best;
+}
 async function openFloorUndo(action){
-  const rec=await latestFloorHistory(action);
-  if(!rec)return toast(action==='reset'?'No RESET history to restore':'No DELETE history to restore');
-  quickUndoPending=rec;
-  const when=new Date(Number(rec.at)||Date.now()).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-  $('quickUndoTitle').textContent=action==='reset'?'UNDO RESET?':'UNDO DELETE?';
-  $('quickUndoDetail').innerHTML='Table: <b>'+esc(rec.tableId)+'</b><br>Server: <b>'+esc(rec.server||'Unassigned')+'</b><br>Time: <b>'+esc(when)+'</b><br><br>Restore the previous table and Board state?';
+  if(action!=='delete')return;
+  const tableId=String(selectedTable||'').trim();
+  if(!tableId)return toast('Select a READY table first');
+  /* Refresh current Board before lookup so another device's latest seating is included. */
+  try{await fetchBoard()}catch(_){}
+  const hit=findLatestBoardTableRecord(tableId);
+  if(!hit)return toast(tableId+' was not found in the current Board history');
+  quickUndoPending={action:'delete',tableId:hit.tableId,server:hit.server,at:hit.at,event:hit.event};
+  let when='Time unavailable';
+  try{if(hit.at)when=new Date(Number(hit.at)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}catch(_){}
+  $('quickUndoTitle').textContent='UNDO DELETE?';
+  $('quickUndoDetail').innerHTML='Table: <b>'+esc(hit.tableId)+'</b><br>Server: <b>'+esc(hit.server||'Unassigned')+'</b><br>Last seated: <b>'+esc(when)+'</b><br><br>Restore '+esc(hit.tableId)+' to the Floor?';
   $('quickUndoConfirm').classList.add('show');
 }
 async function restoreFloorHistory(){
-  const rec=quickUndoPending;if(!rec)return;
+  const rec=quickUndoPending;if(!rec||rec.action!=='delete')return;
+  const id=String(rec.tableId||''),server=canonicalServerName(rec.server||'');
   try{
-    await writeJ(TABLE_ROOT+'/'+rec.tableId+'.json',rec.state||{},'PUT');
-    if(rec.board){await writeJ(BOARD_ROOT+'/'+boardKey()+'.json',rec.board,'PUT');board=rec.board}
-    if(rec.formation){await writeJ(FLOOR_FORMATION_ROOT+'.json',rec.formation,'PUT');floorFormation=rec.formation}
-    if(rec.assignments){await writeJ(FLOOR_ASSIGN_ROOT+'.json',rec.assignments,'PUT');floorAssignments=rec.assignments}
-    await fetchTables();renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();sync(true);
-    try{
-      const path=FLOOR_HISTORY_ROOT+'/'+boardKey(),raw=(await readJ(path+'.json'))||{};
-      const hit=Object.entries(raw).find(([k,v])=>v&&v.action===rec.action&&Number(v.at)===Number(rec.at)&&String(v.tableId)===String(rec.tableId));
-      if(hit){delete raw[hit[0]];await writeJ(path+'.json',raw,'PUT')}
-    }catch(_){}
+    const current=JSON.parse(JSON.stringify((tableState||{})[id]||{}));
+    const restored={
+      ...current,status:'seated',available:false,reserved:false,server,
+      updatedBy:role(),updatedAt:Date.now()
+    };
+    /* Restore Floor occupancy only. Board already contains the original F5 record,
+       so never append another seating and never change the server's table count. */
+    await writeJ(TABLE_ROOT+'/'+id+'.json',restored,'PUT');
+    tableState[id]=restored;
+    renderTables();sync(true);
     $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;
     quickCloseWizard();quickShowPane('floor');
-    toast('RESTORED • TABLE '+rec.tableId+' • '+(rec.server||'UNASSIGNED'));
+    toast('RESTORED • TABLE '+id+' • '+(server||'UNASSIGNED'));
   }catch(e){toast('RESTORE FAILED')}
 }
 async function quickWizardSetReserved(){
@@ -12325,7 +12361,7 @@ function quickBind(){
   $('quickFloorScale').onclick=()=>{quickState.floorFit=!quickState.floorFit;quickFitFloor()};
   $('quickWizardClose').onclick=quickCloseWizard;$('quickWizardBack').onclick=quickWizardBack;$('quickWizardNext').onclick=quickWizardNext;
 $('quickWizardUndoDelete').onclick=()=>openFloorUndo('delete');
-$('quickWizardUndoReset').onclick=()=>openFloorUndo('reset');
+
 $('quickWizardReservation').onclick=quickWizardSetReserved;
 $('quickUndoCancel').onclick=()=>{$('quickUndoConfirm').classList.remove('show');quickUndoPending=null};
 $('quickUndoRestore').onclick=restoreFloorHistory;
