@@ -1909,6 +1909,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .shiftAutoOverlay{position:fixed;inset:0;z-index:2147483450;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.shiftAutoOverlay.show{display:flex}.shiftAutoBox{width:min(620px,96vw);border:2px solid #60a5fa;border-radius:22px;background:#071522;padding:22px;color:#fff}.shiftAutoFields{display:grid;gap:10px;margin-top:14px}.shiftAutoFields select{height:50px;background:#061d2c;color:#fff;border:1px solid #456983;border-radius:10px}.shiftAutoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.shiftAutoActions button{min-height:54px;border-radius:12px;font-weight:1000}.shiftAutoPrimary{background:#15804a;color:#fff}.shiftAutoSecondary{background:#334155;color:#fff}
 .quickWizardHistoryActions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px}.quickWizardHistoryActions button{min-height:48px;border-radius:11px;border:1px solid #456983;color:#fff;font-weight:1000;font-size:14px}.quickWizardHistoryActions button:nth-child(1){background:#9a3412}.quickWizardHistoryActions button:nth-child(2){background:#0f766e}.quickWizardHistoryActions button:nth-child(3){background:#6d28d9}@media(max-width:600px){.quickWizardHistoryActions{grid-template-columns:1fr}}
 .quickUndoConfirm{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;background:rgba(1,7,15,.88);padding:18px}.quickUndoConfirm.show{display:flex}.quickUndoCard{width:min(540px,96vw);background:#071522;color:#fff;border:2px solid #60a5fa;border-radius:20px;padding:20px}.quickUndoDetail{line-height:1.75;font-weight:900;color:#dbeafe}.quickUndoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.quickUndoActions button{height:52px;border-radius:12px;font-weight:1000}
+.table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 </style>
 
 <style id="flexFloorCss">
@@ -2145,7 +2146,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.10 • WIZARD UNDO CORRECT • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.11 • FLOOR UNDO + RESERVED FIX • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -7285,6 +7286,7 @@ async function clearShiftBoardVerified(target){
   /* Keep a real online document. Missing Board means RECOVERY, which is wrong after Clear All. */
   const emptyOnlineBoard={rows:[],formation:'',cleared:true,clearShift:true,clearedAt:ts,updatedAt:ts,date:$('workDate')&&$('workDate').value||dateKey(),shift:currentShift};
   await writeJ(BOARD_ROOT+'/'+key+'.json',emptyOnlineBoard,'PUT');
+    try{await writeJ(FLOOR_HISTORY_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
   try{await writeJ(BOARD_BACKUP_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
   try{await writeJ(SKIP_LOCK_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
   try{await writeJ(CUT_UNDO_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
@@ -10096,19 +10098,22 @@ let quickUndoPending=null;
 async function saveFloorHistory(action,tableId){
   const id=String(tableId||selectedTable||'');if(!id)return;
   const state=JSON.parse(JSON.stringify((tableState||{})[id]||{}));
-  const rec={action,tableId:id,server:canonicalServerName(state.server||''),at:Date.now(),state,
-    board:JSON.parse(JSON.stringify(board||{})),
-    formation:JSON.parse(JSON.stringify(floorFormation||{})),
+  const rec={action,tableId:id,server:canonicalServerName(state.server||''),at:Date.now(),boardKey:boardKey(),state,
+    board:JSON.parse(JSON.stringify(board||{})),formation:JSON.parse(JSON.stringify(floorFormation||{})),
     assignments:JSON.parse(JSON.stringify(floorAssignments||{}))};
   try{
-    const raw=(await readJ(FLOOR_HISTORY_ROOT+'.json'))||{};
+    const path=FLOOR_HISTORY_ROOT+'/'+boardKey();
+    const raw=(await readJ(path+'.json'))||{};
     raw[String(rec.at)+'_'+Math.random().toString(36).slice(2,7)]=rec;
-    const keep=Object.fromEntries(Object.entries(raw).sort((a,b)=>Number(b[1].at||0)-Number(a[1].at||0)).slice(0,40));
-    await writeJ(FLOOR_HISTORY_ROOT+'.json',keep,'PUT');
-  }catch(e){}
+    const keep=Object.fromEntries(Object.entries(raw).sort((a,b)=>Number(b[1].at||0)-Number(a[1].at||0)).slice(0,50));
+    await writeJ(path+'.json',keep,'PUT');
+  }catch(e){console.warn('Floor history save failed',e)}
 }
 async function latestFloorHistory(action){
-  try{return Object.values((await readJ(FLOOR_HISTORY_ROOT+'.json'))||{}).filter(x=>x&&x.action===action).sort((a,b)=>Number(b.at||0)-Number(a.at||0))[0]||null}catch(e){return null}
+  try{
+    const raw=(await readJ(FLOOR_HISTORY_ROOT+'/'+boardKey()+'.json'))||{};
+    return Object.values(raw).filter(x=>x&&x.action===action).sort((a,b)=>Number(b.at||0)-Number(a.at||0))[0]||null;
+  }catch(e){return null}
 }
 async function openFloorUndo(action){
   const rec=await latestFloorHistory(action);
@@ -10127,14 +10132,28 @@ async function restoreFloorHistory(){
     if(rec.formation){await writeJ(FLOOR_FORMATION_ROOT+'.json',rec.formation,'PUT');floorFormation=rec.formation}
     if(rec.assignments){await writeJ(FLOOR_ASSIGN_ROOT+'.json',rec.assignments,'PUT');floorAssignments=rec.assignments}
     await fetchTables();renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();sync(true);
+    try{
+      const path=FLOOR_HISTORY_ROOT+'/'+boardKey(),raw=(await readJ(path+'.json'))||{};
+      const hit=Object.entries(raw).find(([k,v])=>v&&v.action===rec.action&&Number(v.at)===Number(rec.at)&&String(v.tableId)===String(rec.tableId));
+      if(hit){delete raw[hit[0]];await writeJ(path+'.json',raw,'PUT')}
+    }catch(_){}
     $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;
     quickCloseWizard();quickShowPane('floor');
     toast('RESTORED • TABLE '+rec.tableId+' • '+(rec.server||'UNASSIGNED'));
   }catch(e){toast('RESTORE FAILED')}
 }
-function quickWizardOpenReservations(){
-  quickCloseWizard();
-  quickOpenLegacy('reservations');
+async function quickWizardSetReserved(){
+  const id=String(selectedTable||'');
+  if(!id)return toast('Select a table first');
+  const current=JSON.parse(JSON.stringify((tableState||{})[id]||{}));
+  try{
+    await saveFloorHistory('reset',id); /* reservation can also be undone with Undo Reset */
+    const next={...current,status:'reserved',available:false,reserved:true,updatedBy:role(),updatedAt:Date.now()};
+    await writeJ(TABLE_ROOT+'/'+id+'.json',next,'PUT');
+    tableState[id]=next;
+    quickCloseWizard();renderTables();sync(true);
+    toast('TABLE '+id+' • RESERVED');
+  }catch(e){toast('RESERVATION FAILED')}
 }
 
 function quickCanResetWrongEntry(){return quickIsManager()||role()==='Front Host'}
@@ -12307,7 +12326,7 @@ function quickBind(){
   $('quickWizardClose').onclick=quickCloseWizard;$('quickWizardBack').onclick=quickWizardBack;$('quickWizardNext').onclick=quickWizardNext;
 $('quickWizardUndoDelete').onclick=()=>openFloorUndo('delete');
 $('quickWizardUndoReset').onclick=()=>openFloorUndo('reset');
-$('quickWizardReservation').onclick=quickWizardOpenReservations;
+$('quickWizardReservation').onclick=quickWizardSetReserved;
 $('quickUndoCancel').onclick=()=>{$('quickUndoConfirm').classList.remove('show');quickUndoPending=null};
 $('quickUndoRestore').onclick=restoreFloorHistory;
   $('quickActionClose').onclick=()=>quickSetOpen('quickTableAction',false);$('quickActionCancel').onclick=()=>quickSetOpen('quickTableAction',false);$('quickAdvancedToggle').onclick=()=>$('quickAdvancedActions').classList.toggle('show');$('quickLegacyClose').onclick=quickCloseLegacy;
