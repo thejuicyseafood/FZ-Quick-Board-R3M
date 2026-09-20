@@ -1906,7 +1906,10 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .teamDayTopActions{display:flex;justify-content:flex-end;margin-top:12px}.teamAddNewBtn{min-height:48px;border:1px solid #8dcaff;border-radius:11px;background:#17679b;color:#fff;font-weight:1000;padding:0 18px}
 @media(max-width:900px){.teamPickerGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.teamSelectedEditor,.teamNewEmployee{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.teamPickerGrid{grid-template-columns:1fr}.teamSelectedEditor,.teamNewEmployee{grid-template-columns:1fr}}
-.shiftAutoOverlay{position:fixed;inset:0;z-index:2147483450;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.shiftAutoOverlay.show{display:flex}.shiftAutoBox{width:min(620px,96vw);border:2px solid #60a5fa;border-radius:22px;background:#071522;padding:22px;color:#fff}.shiftAutoFields{display:grid;gap:10px;margin-top:14px}.shiftAutoFields select{height:50px;background:#061d2c;color:#fff;border:1px solid #456983;border-radius:10px}.shiftAutoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.shiftAutoActions button{min-height:54px;border-radius:12px;font-weight:1000}.shiftAutoPrimary{background:#15804a;color:#fff}.shiftAutoSecondary{background:#334155;color:#fff}.floorHistoryTools{position:fixed;right:14px;bottom:86px;z-index:9000;display:none;gap:7px;flex-wrap:wrap}.floorHistoryTools.show{display:flex}.floorHistoryTools button{min-height:44px;border-radius:12px;color:#fff;font-weight:1000;padding:0 14px}.floorHistConfirm{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;background:rgba(1,7,15,.86);padding:18px}.floorHistConfirm.show{display:flex}.floorHistCard{width:min(540px,96vw);background:#071522;color:#fff;border:2px solid #60a5fa;border-radius:20px;padding:20px}.floorHistActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.floorHistActions button{height:52px;border-radius:12px;font-weight:1000}</style>
+.shiftAutoOverlay{position:fixed;inset:0;z-index:2147483450;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}.shiftAutoOverlay.show{display:flex}.shiftAutoBox{width:min(620px,96vw);border:2px solid #60a5fa;border-radius:22px;background:#071522;padding:22px;color:#fff}.shiftAutoFields{display:grid;gap:10px;margin-top:14px}.shiftAutoFields select{height:50px;background:#061d2c;color:#fff;border:1px solid #456983;border-radius:10px}.shiftAutoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.shiftAutoActions button{min-height:54px;border-radius:12px;font-weight:1000}.shiftAutoPrimary{background:#15804a;color:#fff}.shiftAutoSecondary{background:#334155;color:#fff}
+.quickWizardHistoryActions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px}.quickWizardHistoryActions button{min-height:48px;border-radius:11px;border:1px solid #456983;color:#fff;font-weight:1000;font-size:14px}.quickWizardHistoryActions button:nth-child(1){background:#9a3412}.quickWizardHistoryActions button:nth-child(2){background:#0f766e}.quickWizardHistoryActions button:nth-child(3){background:#6d28d9}@media(max-width:600px){.quickWizardHistoryActions{grid-template-columns:1fr}}
+.quickUndoConfirm{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;background:rgba(1,7,15,.88);padding:18px}.quickUndoConfirm.show{display:flex}.quickUndoCard{width:min(540px,96vw);background:#071522;color:#fff;border:2px solid #60a5fa;border-radius:20px;padding:20px}.quickUndoDetail{line-height:1.75;font-weight:900;color:#dbeafe}.quickUndoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.quickUndoActions button{height:52px;border-radius:12px;font-weight:1000}
+</style>
 
 <style id="flexFloorCss">
 .flexServerChoiceGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:7px;margin:4px 0 7px}
@@ -2120,7 +2123,10 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <div class="cutRecommendBox"><div style="color:#93c5fd;font-size:11px;font-weight:1000;letter-spacing:1px">CUT RECOMMENDATION</div><h2>Team yang masih bekerja hari ini</h2><div class="teamDayHint">Setelah CUT, gunakan daftar ini sebagai referensi server yang masih dijadwalkan bekerja.</div><div id="cutRecommendNames" class="cutRecommendNames"></div><button id="cutRecommendClose" class="cutRecommendClose" type="button">CLOSE</button></div>
 </div>
 
-<div id="floorHistoryTools" class="floorHistoryTools"><button id="floorHistReservation" style="background:#6d28d9">RESERVATION</button><button id="floorHistUndoReset" style="background:#0f766e">UNDO RESET</button><button id="floorHistUndoDelete" style="background:#9a3412">UNDO DELETE</button></div><div id="floorHistConfirm" class="floorHistConfirm"><div class="floorHistCard"><h2 id="floorHistTitle"></h2><div id="floorHistDetail"></div><div class="floorHistActions"><button id="floorHistCancel">NO • CANCEL</button><button id="floorHistRestore" style="background:#15804a;color:#fff">YES • RESTORE</button></div></div></div><div id="r3mOwnerLayer" class="r3mLayer" aria-hidden="true">
+<div id="quickUndoConfirm" class="quickUndoConfirm"><div class="quickUndoCard">
+<h2 id="quickUndoTitle">CONFIRM RESTORE</h2><div id="quickUndoDetail" class="quickUndoDetail"></div>
+<div class="quickUndoActions"><button id="quickUndoCancel" type="button">NO • CANCEL</button><button id="quickUndoRestore" type="button" style="background:#15804a;color:#fff">YES • RESTORE</button></div>
+</div></div><div id="r3mOwnerLayer" class="r3mLayer" aria-hidden="true">
   <div class="r3mWrap">
     <div class="r3mTop"><h2>Owner Monitor</h2><button id="r3mClose" class="r3mBtn">BACK</button></div>
     <div class="r3mCard">
@@ -2139,7 +2145,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.9 • FLOOR HISTORY UNDO • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.10 • WIZARD UNDO CORRECT • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2213,7 +2219,11 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <div class="quickDialog">
     <div class="quickDialogHead"><div class="quickDialogHeadRow"><div><small id="quickWizardStepLabel">STEP 1 OF 3</small><h2 id="quickWizardHeading">Choose Table</h2></div><button id="quickWizardClose" class="quickClose" type="button">×</button></div><div id="quickStepBars" class="quickSteps"><span class="quickStep active"></span><span class="quickStep"></span><span class="quickStep"></span></div></div>
     <div id="quickWizardBody" class="quickDialogBody"></div>
-    <div class="quickDialogFoot"><button id="quickWizardBack" class="quickBack" type="button">PREVIOUS</button><button id="quickWizardNext" class="quickNextBtn" type="button">NEXT</button></div>
+    <div class="quickDialogFoot"><button id="quickWizardBack" class="quickBack" type="button">PREVIOUS</button><button id="quickWizardNext" class="quickNextBtn" type="button">NEXT</button></div><div id="quickWizardHistoryActions" class="quickWizardHistoryActions">
+<button id="quickWizardUndoDelete" type="button">UNDO DELETE</button>
+<button id="quickWizardUndoReset" type="button">UNDO RESET</button>
+<button id="quickWizardReservation" type="button">RESERVATION</button>
+</div>
   </div>
 </div>
 
@@ -4014,6 +4024,7 @@ module.exports = QRCode;
 })(globalThis);
 
 const FB="https://table-live-by-iwanto-zhang-default-rtdb.firebaseio.com",BASE_ROOT=FB+"/juicyTableLive/JUICY-HUNTSVILLE",ROOT=BASE_ROOT+"/flexibleFloorV1";
+const FLOOR_HISTORY_ROOT=ROOT+"/floorHistoryV2";
 const TABLE_ROOT=ROOT+"/tables",ANNOUNCE_ROOT=ROOT+"/statusAnnouncements",TEAM_SHOUT_ROOT=BASE_ROOT+"/teamShoutOutV1",MESSAGE_ROOT=BASE_ROOT+"/messages",ALARM_ROOT=BASE_ROOT+"/alarms",SERVER_ROOT=ROOT+"/serverListV30",BOARD_ROOT=ROOT+"/rotationBoardV31",BOARD_BACKUP_ROOT=ROOT+"/rotationBoardBackupsV1094",BREAKTIME_AUDIT_ROOT=ROOT+"/breaktimeTransfersV1096",SECTION_CONTROL_AUDIT_ROOT=ROOT+"/sectionTransfersV1097",RESERVATION_ROOT=ROOT+"/reservationsV34",MANAGER_QR_ROOT=BASE_ROOT+"/managerQrV50",FLOOR_ASSIGN_ROOT=ROOT+"/floorAssignmentsV64",FLOOR_FORMATION_ROOT=ROOT+"/floorFormationV66",FORMATION_TABLE_ROOT=ROOT+"/formationTableConfigV92",CHAT_ROOT=BASE_ROOT+"/managerFrontChatV95",CHAT_VOICE_ROOT=BASE_ROOT+"/managerFrontVoiceV109",CALL_ROOT=BASE_ROOT+"/managerFrontCallsV1098",CALL_INBOX_ROOT=BASE_ROOT+"/managerFrontCallInboxV1098",CALL_PRESENCE_ROOT=BASE_ROOT+"/managerFrontCallPresenceV1098",CALL_CONFIG_ROOT=BASE_ROOT+"/managerFrontCallConfigV1098",SKIP_LOCK_ROOT=ROOT+"/rotationSkipLocksV101",TABLE_LOCK_ROOT=ROOT+"/tableOperationLocksV109",CUT_UNDO_ROOT=ROOT+"/staffCutUndoV11",ACCESS_USER_ROOT=ROOT+"/accessUsersV2",ACCESS_AUDIT_ROOT=ROOT+"/accessAuditV2",RECENT_SEAT_ROOT=ROOT+"/recentSeatGuardV1",TEAM_DAY_ROOT=ROOT+"/teamDayV1";
 const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},{"id":"R6","label":"R6","x":16.0,"y":8.0,"w":8.0,"h":6.0,"r":-18},{"id":"R5","label":"R5","x":25.3,"y":6.8,"w":8.0,"h":6.0,"r":0},{"id":"R4","label":"R4","x":35.0,"y":7.5,"w":7.5,"h":6.0,"r":0},{"id":"R3","label":"R3","x":43.8,"y":8.7,"w":7.5,"h":6.0,"r":0},{"id":"R1","label":"R1","x":31.5,"y":15.8,"w":7.3,"h":6.0,"r":0},{"id":"R2","label":"R2","x":40.0,"y":16.1,"w":7.3,"h":6.0,"r":0},{"id":"L3","label":"L3","x":58.3,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L4","label":"L4","x":68.0,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L5","label":"L5","x":77.3,"y":12.0,"w":7.5,"h":6.0,"r":0},{"id":"L6","label":"L6","x":87.0,"y":15.6,"w":8.5,"h":6.2,"r":20},{"id":"L2","label":"L2","x":61.0,"y":20.1,"w":7.5,"h":6.0,"r":0},{"id":"L1","label":"L1","x":70.0,"y":21.1,"w":7.5,"h":6.0,"r":0},{"id":"F6","label":"F6","x":5.7,"y":33.0,"w":6.5,"h":6.6,"r":0},{"id":"E5","label":"E5","x":15.8,"y":33.0,"w":7.4,"h":7.6,"r":0},{"id":"F5","label":"F5","x":5.6,"y":41.5,"w":6.5,"h":6.6,"r":0},{"id":"E4","label":"E4","x":15.8,"y":42.3,"w":7.4,"h":7.6,"r":0},{"id":"F4","label":"F4","x":5.6,"y":50.2,"w":6.5,"h":6.6,"r":0},{"id":"E3","label":"E3","x":15.9,"y":51.0,"w":7.4,"h":7.6,"r":0},{"id":"F3","label":"F3","x":5.7,"y":59.6,"w":6.5,"h":6.6,"r":0},{"id":"E2","label":"E2","x":16.1,"y":59.4,"w":7.4,"h":7.6,"r":0},{"id":"F2","label":"F2","x":5.6,"y":72.3,"w":6.8,"h":7.2,"r":0},{"id":"F1","label":"F1","x":5.6,"y":87.2,"w":6.8,"h":7.2,"r":0},{"id":"E1","label":"E1","x":16.2,"y":86.2,"w":7.4,"h":7.6,"r":0},{"id":"D3","label":"D3","x":25.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"D2","label":"D2","x":25.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"D1","label":"D1","x":25.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C4","label":"C4","x":35.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"C3","label":"C3","x":35.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"C2","label":"C2","x":35.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C1","label":"C1","x":35.0,"y":69.0,"w":6.8,"h":7.3,"r":0},{"id":"H3","label":"H3","x":47.0,"y":68.2,"w":8.9,"h":6.8,"r":0},{"id":"H4","label":"H4","x":47.0,"y":48.8,"w":8.9,"h":6.8,"r":0},{"id":"H2","label":"H2","x":48.3,"y":88.8,"w":8.7,"h":6.5,"r":0},{"id":"H1","label":"H1","x":57.6,"y":89.0,"w":7.6,"h":6.5,"r":0},{"id":"M2","label":"M2","x":57.5,"y":51.0,"w":6.0,"h":8.0,"r":0},{"id":"M1","label":"M1","x":57.4,"y":73.0,"w":6.0,"h":8.0,"r":0},{"id":"A4","label":"A4","x":88.2,"y":49.5,"w":5.9,"h":7.4,"r":0},{"id":"A3","label":"A3","x":88.2,"y":58.5,"w":5.9,"h":7.4,"r":0},{"id":"A2","label":"A2","x":88.2,"y":68.0,"w":5.9,"h":7.4,"r":0},{"id":"A1","label":"A1","x":88.2,"y":79.2,"w":5.9,"h":7.4,"r":0},{"id":"B3","label":"B3","x":81.0,"y":54.5,"w":5.8,"h":7.2,"r":0},{"id":"B2","label":"B2","x":81.0,"y":63.3,"w":5.8,"h":7.2,"r":0},{"id":"B1","label":"B1","x":81.0,"y":74.3,"w":5.8,"h":7.2,"r":0},{"id":"Bar 3","label":"Bar 3","x":65.3,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 2","label":"Bar 2","x":72.0,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 1","label":"Bar 1","x":78.6,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 4","label":"Bar 4","x":63.5,"y":52.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 5","label":"Bar 5","x":63.5,"y":59.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 6","label":"Bar 6","x":63.5,"y":66.4,"w":5.8,"h":6.0,"r":0},{"id":"Bar 7","label":"Bar 7","x":63.5,"y":73.6,"w":5.8,"h":6.0,"r":0},{"id":"Bar 8","label":"Bar 8","x":63.5,"y":80.8,"w":5.8,"h":6.0,"r":0},{"id":"Bar 9","label":"Bar 9","x":63.5,"y":88.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 10","label":"Bar 10","x":63.5,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 11","label":"Bar 11","x":70.2,"y":95.2,"w":5.8,"h":6.0,"r":0}],TABLE_IDS=["A1","A2","A3","A4","B1","B2","B3","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","C1","C2","C3","C4","D1","D2","D3","E1","E2","E3","E4","E5","F1","F2","F3","F4","F5","F6","H1","H2","H3","H4","L1","L2","L3","L4","L5","L6","M1","M2","R1","R2","R3","R4","R5","R6","R7"],DEFAULT_SERVERS=["Adrieanna Walker", "Alaina Montalvo", "Angela Grizzad", "A.J.", "Ashley Garcia", "Brandi Copeland", "Caitlin Dillon", "Christina Gurley", "Cynthia Risner", "Dorothy Makovicka", "Hannah Dempsey", "Jesus Ovalle-Munoz", "Katelyn Ramsey", "Libby Lane", "Megan Meadows", "Megan Sisk", "Mia Burress", "Sara Swift", "Sarah Kibler", "Aida", "Leonardo Sanchez-Miguel"],SECTIONS=["1", "2", "3", "4", "5", "6", "7", "8", "9", "BAR", "1-Bar", "2-4", "3-5"];
 const WORK_SHIFTS=["AM","PM","Double","Long Shift"],ASSIGN_COLORS=["#FACC15","#22D3EE","#A78BFA","#FB923C","#F472B6","#A3E635","#2DD4BF","#60A5FA","#E879F9","#FDE047"];
@@ -10080,6 +10091,52 @@ async function saveEditedSecondaries(){
 }
 
 
+
+let quickUndoPending=null;
+async function saveFloorHistory(action,tableId){
+  const id=String(tableId||selectedTable||'');if(!id)return;
+  const state=JSON.parse(JSON.stringify((tableState||{})[id]||{}));
+  const rec={action,tableId:id,server:canonicalServerName(state.server||''),at:Date.now(),state,
+    board:JSON.parse(JSON.stringify(board||{})),
+    formation:JSON.parse(JSON.stringify(floorFormation||{})),
+    assignments:JSON.parse(JSON.stringify(floorAssignments||{}))};
+  try{
+    const raw=(await readJ(FLOOR_HISTORY_ROOT+'.json'))||{};
+    raw[String(rec.at)+'_'+Math.random().toString(36).slice(2,7)]=rec;
+    const keep=Object.fromEntries(Object.entries(raw).sort((a,b)=>Number(b[1].at||0)-Number(a[1].at||0)).slice(0,40));
+    await writeJ(FLOOR_HISTORY_ROOT+'.json',keep,'PUT');
+  }catch(e){}
+}
+async function latestFloorHistory(action){
+  try{return Object.values((await readJ(FLOOR_HISTORY_ROOT+'.json'))||{}).filter(x=>x&&x.action===action).sort((a,b)=>Number(b.at||0)-Number(a.at||0))[0]||null}catch(e){return null}
+}
+async function openFloorUndo(action){
+  const rec=await latestFloorHistory(action);
+  if(!rec)return toast(action==='reset'?'No RESET history to restore':'No DELETE history to restore');
+  quickUndoPending=rec;
+  const when=new Date(Number(rec.at)||Date.now()).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  $('quickUndoTitle').textContent=action==='reset'?'UNDO RESET?':'UNDO DELETE?';
+  $('quickUndoDetail').innerHTML='Table: <b>'+esc(rec.tableId)+'</b><br>Server: <b>'+esc(rec.server||'Unassigned')+'</b><br>Time: <b>'+esc(when)+'</b><br><br>Restore the previous table and Board state?';
+  $('quickUndoConfirm').classList.add('show');
+}
+async function restoreFloorHistory(){
+  const rec=quickUndoPending;if(!rec)return;
+  try{
+    await writeJ(TABLE_ROOT+'/'+rec.tableId+'.json',rec.state||{},'PUT');
+    if(rec.board){await writeJ(BOARD_ROOT+'/'+boardKey()+'.json',rec.board,'PUT');board=rec.board}
+    if(rec.formation){await writeJ(FLOOR_FORMATION_ROOT+'.json',rec.formation,'PUT');floorFormation=rec.formation}
+    if(rec.assignments){await writeJ(FLOOR_ASSIGN_ROOT+'.json',rec.assignments,'PUT');floorAssignments=rec.assignments}
+    await fetchTables();renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();sync(true);
+    $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;
+    quickCloseWizard();quickShowPane('floor');
+    toast('RESTORED • TABLE '+rec.tableId+' • '+(rec.server||'UNASSIGNED'));
+  }catch(e){toast('RESTORE FAILED')}
+}
+function quickWizardOpenReservations(){
+  quickCloseWizard();
+  quickOpenLegacy('reservations');
+}
+
 function quickCanResetWrongEntry(){return quickIsManager()||role()==='Front Host'}
 async function resetWrongFloorEntry(sourceOverride=""){
   if(resetWrongInFlight)return toast('RESET IS ALREADY SAVING • ONE TAP WAS RECEIVED');
@@ -10113,6 +10170,11 @@ async function resetWrongFloorEntry(sourceOverride=""){
     "Password accepted. Use RESET only for a wrong entry."
   );
   if(!ok)return;
+
+  /* Save one previous state for both Undo Reset and Undo Delete.
+     This is the exact state before RESET • REMOVE BOARD makes the table READY. */
+  await saveFloorHistory('reset',source);
+  await saveFloorHistory('delete',source);
 
   const operationKey=boardKey(),viewBoardBefore=board?cloneBoard(board):null,viewBaselineBefore=boardBaseline?cloneBoard(boardBaseline):null,viewLoadedKeyBefore=loadedBoardKey,currentServerAtOpen=String(floorState.server||($('moveCurServer')&&$('moveCurServer').textContent)||''),owner=operationId('reset-table');
   const initialLinked=activePartySecondaryTables(source,floorState,tableState),initialCurrent=resolveActiveBoardEntry(source,floorState,board,operationKey);
@@ -12243,6 +12305,11 @@ function quickBind(){
   const boardPane=$('quickBoardPane');if(boardPane)boardPane.addEventListener('scroll',()=>{if(boardPane.classList.contains('active'))quickState.boardScrollTop=Math.max(0,Number(boardPane.scrollTop)||0)},{passive:true});
   $('quickFloorScale').onclick=()=>{quickState.floorFit=!quickState.floorFit;quickFitFloor()};
   $('quickWizardClose').onclick=quickCloseWizard;$('quickWizardBack').onclick=quickWizardBack;$('quickWizardNext').onclick=quickWizardNext;
+$('quickWizardUndoDelete').onclick=()=>openFloorUndo('delete');
+$('quickWizardUndoReset').onclick=()=>openFloorUndo('reset');
+$('quickWizardReservation').onclick=quickWizardOpenReservations;
+$('quickUndoCancel').onclick=()=>{$('quickUndoConfirm').classList.remove('show');quickUndoPending=null};
+$('quickUndoRestore').onclick=restoreFloorHistory;
   $('quickActionClose').onclick=()=>quickSetOpen('quickTableAction',false);$('quickActionCancel').onclick=()=>quickSetOpen('quickTableAction',false);$('quickAdvancedToggle').onclick=()=>$('quickAdvancedActions').classList.toggle('show');$('quickLegacyClose').onclick=quickCloseLegacy;
   $('quickFormation').onclick=()=>{document.body.classList.remove('quickFormationEditing');openFormationManager()};$('quickAddServer').onclick=quickOpenAssignSection;$('quickBeeper').onclick=()=>quickOpenLegacy('beeper');$('quickEditSection').onclick=()=>quickRequireManager(()=>quickOpenLegacy('sections'),'Edit Table Map');$('quickEditFormation').onclick=()=>quickRequireManager(()=>{document.body.classList.add('quickFormationEditing');openFormationManager()},'Edit Formation');$('quickBreakStaff').onclick=quickOpenBreakStaff;$('quickStaff').onclick=quickOpenCutStaff;$('quickReservations').onclick=()=>quickOpenLegacy('reservations');$('quickHistory').onclick=quickOpenHistoryMatrix;$('quickReports').onclick=quickOpenReports;$('quickChat').onclick=openManagerFrontChat;$('quickManagerCode').onclick=quickOpenUsersRoles;$('quickEditManagerPassword').onclick=quickEditManagerPassword;$('quickClearShift').onclick=()=>quickRequireManager(()=>$('clearBoard').click(),'Clear Shift');
   window.addEventListener('resize',fzScheduleViewportSync);
@@ -12449,5 +12516,4 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
   .sheetScroll{overflow:auto!important;-webkit-overflow-scrolling:touch!important}.sheet{min-width:1180px!important}.head{grid-template-columns:205px repeat(15,65px)!important;position:sticky!important;top:0!important;z-index:12!important}.serverGroup{grid-template-columns:205px 1fr!important}.turnLine{grid-template-columns:repeat(15,65px)!important}.head .left{position:sticky!important;left:0!important;z-index:15!important}.serverInfo{position:sticky!important;left:0!important;z-index:10!important}.resBody{overflow:auto!important;-webkit-overflow-scrolling:touch!important}.resForm{min-width:0!important;width:100%!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}.resTable{min-width:760px!important}.callControls{min-height:62px!important}.callControl{height:44px!important}}
 </style>
 
-<style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>const FLOOR_HISTORY_ROOT=ROOT+"/floorHistoryV1";
-
+<style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
