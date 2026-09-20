@@ -2139,7 +2139,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.3 • FORMATION BINDING REAL FIX • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.7 • CLEAR SHIFT EMPTY BOARD • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2407,7 +2407,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
 <div id="formationModal" class="modalBack"><div class="modal formationModal">
   <h2>Floor Map Formation</h2>
-  <p>Choose a formation, then select a Section and Assigned Server. Beeper numbers are managed separately in the BEEPER tab.</p>
+  <p>Choose a formation, then select a Section and Assigned Server. Changing formation keeps all existing seating counts, rotation history, and SKIPs. Counts and history follow each server to their newly assigned section. Beeper numbers are managed separately in the BEEPER tab.</p>
   <div class="formationGrid">
     <div class="field"><label>FORMATION</label><select id="formationSelect"></select></div>
     <div class="field"><label>SECTION</label><select id="formationSection"></select></div>
@@ -7263,167 +7263,38 @@ async function writeClearShiftPatch(rootPatch){
   if(!response.ok)throw new Error('CLEAR SHIFT ATOMIC SAVE FAILED');
 }
 async function clearShiftBoardVerified(target){
-  if(!quickIsManager()){toast('Clear All • Manager only');return false}
-  if(clearShiftInFlight){toast('GLOBAL CLEAR IS ALREADY RUNNING');return false}
-  const owner=operationId('clear-all-days');let claimed=[],committed=false;
-  if(!confirm(
-    'CLEAR ALL BOARD + FLOOR DATA FOR ALL DATES?\n\n'+
-    'This permanently clears ALL AM / PM Host Boards, SKIP records, CUT snapshots, section/floor assignments, old Board backups, and resets every Floor table to READY.\n\n'+
-    'Table Map, Server List, Beeper setup and Reservations are NOT deleted.\n\n'+
-    'NO BACKUP WILL BE CREATED.'
-  ))return false;
-
-  clearShiftInFlight=true;
-  boardLoadSeq++;formationLoadSeq++;floorAssignmentLoadSeq++;tableLoadSeq++;
-  setClearShiftProgress(true,'STARTING GLOBAL CLEAR…','ALL dates • AM / PM • no backup');
-  toast('GLOBAL CLEAR STARTED • PLEASE WAIT');
-
-  try{
-    await discardScheduledBoardSaveForClear();
-
-    const lockNames=['GLOBAL BOARD + FLOOR CLEAR',...TABLE_IDS];
-    setClearShiftProgress(true,'SECURING LIVE FLOOR…','Preventing table changes during global clear');
-    const lockResult=await claimClearShiftLocks(lockNames,owner,(done,total)=>
-      setClearShiftProgress(true,'SECURING '+done+'/'+total,'Preventing table changes during global clear')
-    );
-    claimed=lockResult.claimed||[];
-    if(!claimed.length){
-      const busy=lockResult.blocker&&lockResult.blocker.table;
-      throw new Error('GLOBAL CLEAR COULD NOT LOCK '+(busy||'LIVE DATA')+' • TRY AGAIN');
-    }
-
-    await clearShiftLockDelay(CLEAR_SHIFT_SETTLE_MS);
-    if(!(await renewTableLocks(claimed,owner)))throw new Error('GLOBAL CLEAR CONTROL COULD NOT BE VERIFIED');
-
-    setClearShiftProgress(true,'READING FLOOR…','Preparing one atomic reset');
-    const liveTables=(await readJ(TABLE_ROOT+'.json'))||{};
-    const ts=Date.now(),rootPatch={};
-
-    /* ALL date/shift operational records */
-    rootPatch['rotationBoardV31']=null;
-    rootPatch['rotationBoardBackupsV1094']=null;
-    rootPatch['rotationSkipLocksV101']=null;
-    rootPatch['floorAssignmentsV64']=null;
-    rootPatch['floorFormationV66']=null;
-    rootPatch['staffCutUndoV11']=null;
-    rootPatch['breaktimeTransfersV1096']=null;
-    rootPatch['sectionTransfersV1097']=null;
-
-    /* Floor table state is global, so reset each real table to READY. */
-    TABLE_IDS.forEach(id=>{
-      rootPatch['tables/'+id]={
-        ...(liveTables[id]||{}),
-        status:'ready',
-        available:true,
-        server:'',
-        people:'',
-        partyPeople:'',
-        secondaryOf:'',
-        secondaryTables:[],
-        partyId:'',
-        boardRef:null,
-        primaryBoardRef:null,
-        moveOperationId:'',
-        updatedBy:role(),
-        updatedAt:ts
-      };
-    });
-
-    if(!(await renewTableLocks(claimed,owner)))throw new Error('GLOBAL CLEAR lock expired. Nothing was saved.');
-
-    setClearShiftProgress(true,'CLEARING ALL DAYS…','Board + Floor + old backups in one atomic save');
-    await writeClearShiftPatch(rootPatch);
-    committed=true;
-
-    setClearShiftProgress(true,'VERIFYING…','Confirming all Board/Floor roots are empty');
-    const [allBoards,allBackups,allSkipLocks,allAssignments,allFormation,allCutUndo,allBreakAudit,allSectionAudit,confirmedTables]=await Promise.all([
-      readJ(BOARD_ROOT+'.json'),
-      readJ(BOARD_BACKUP_ROOT+'.json'),
-      readJ(SKIP_LOCK_ROOT+'.json'),
-      readJ(FLOOR_ASSIGN_ROOT+'.json'),
-      readJ(FLOOR_FORMATION_ROOT+'.json'),
-      readJ(CUT_UNDO_ROOT+'.json'),
-      readJ(BREAKTIME_AUDIT_ROOT+'.json'),
-      readJ(SECTION_CONTROL_AUDIT_ROOT+'.json'),
-      readJ(TABLE_ROOT+'.json')
-    ]);
-
-    const nonEmpty=v=>v&&typeof v==='object'&&Object.keys(v).length>0;
-    if(nonEmpty(allBoards))throw new Error('VERIFY FAILED • BOARD DATA STILL EXISTS');
-    if(nonEmpty(allBackups))throw new Error('VERIFY FAILED • OLD BACKUPS STILL EXIST');
-    if(nonEmpty(allSkipLocks))throw new Error('VERIFY FAILED • SKIP DATA STILL EXISTS');
-    if(nonEmpty(allAssignments))throw new Error('VERIFY FAILED • FLOOR ASSIGNMENTS STILL EXIST');
-    if(nonEmpty(allFormation))throw new Error('VERIFY FAILED • FLOOR FORMATION STILL EXISTS');
-    if(nonEmpty(allCutUndo))throw new Error('VERIFY FAILED • CUT SNAPSHOTS STILL EXIST');
-    if(nonEmpty(allBreakAudit))throw new Error('VERIFY FAILED • BREAKTIME RECORDS STILL EXIST');
-    if(nonEmpty(allSectionAudit))throw new Error('VERIFY FAILED • SECTION RECORDS STILL EXIST');
-
-    const floorNotCleared=TABLE_IDS.find(id=>{
-      const state=(confirmedTables||{})[id]||{};
-      return operationalTableStatus(state)!=='ready'||state.available!==true||
-        String(state.server||'')||String(state.people||'')||String(state.partyPeople||'')||
-        String(state.partyId||'')||String(state.secondaryOf||'')||
-        (Array.isArray(state.secondaryTables)&&state.secondaryTables.length)||
-        state.boardRef!=null||state.primaryBoardRef!=null||String(state.moveOperationId||'');
-    });
-    if(floorNotCleared)throw new Error('VERIFY FAILED • FLOOR TABLE '+floorNotCleared+' IS NOT READY');
-
-    /* Remove this device's old cached Board/CUT recovery records for every date. */
-    try{
-      for(let i=localStorage.length-1;i>=0;i--){
-        const storageKey=localStorage.key(i)||'';
-        if(storageKey.startsWith(BOARD_CACHE_PREFIX)||
-           storageKey.startsWith('flex_cutundo_')||
-           storageKey.startsWith('fz_scheduled_cut_')){
-          localStorage.removeItem(storageKey);
-        }
-      }
-    }catch(_){}
-
-    /* Always return to today's work date after a global clear. */
-    const today=dateKey();
-    $('workDate').value=today;
-    $('dateLabel').textContent=today;
-    if($('resDate'))$('resDate').value=today;
-    if($('quickDate'))$('quickDate').value=today;
-
-    board=emptyBoard();
-    boardBaseline=cloneBoard(board);
-    loadedBoardKey=boardKey();
-    boardNewKey=loadedBoardKey;
-    boardSafetyKey='';
-    boardSafetySource='';
-    floorFormation=normalizeFloorFormation({});
-    floorAssignments=normalizeFloorAssignments({});
-    tableState=confirmedTables||{};
-
-    renderSheet();
-    renderTables();
-    renderFormationOverlays();
-    renderFormationCurrent();
-    renderBeeperView();
-    updateViewMeta();
-    updateNextServerSuggestion();
-    quickScheduleRefresh();
-    sync(true);
-
-    toast('ALL BOARD + FLOOR DATA CLEARED • ALL DAYS • NO BACKUP');
-    return true;
-  }catch(e){
-    toast(committed
-      ? ('GLOBAL CLEAR SAVED • VERIFY INCOMPLETE • CHECK LIVE DATA')
-      : ((e&&e.message)||'GLOBAL CLEAR FAILED')
-    );
-    sync(false);
-    return false;
-  }finally{
-    if(claimed.length)setClearShiftProgress(true,'FINISHING…','Releasing live locks');
-    await releaseTableLocksFast(claimed,owner);
-    clearShiftInFlight=false;
-    setClearShiftProgress(false);
-  }
+ if(!quickIsManager()){toast('Clear All • Manager only');return false}
+ if(clearShiftInFlight){toast('GLOBAL CLEAR IS ALREADY RUNNING');return false}
+ if(!confirm('CLEAR ALL SHIFT?\n\nThis resets the current shift Board and Floor completely.\n\nToday\'s Team, employees, reservations, Table Map and user accounts will be kept.'))return false;
+ clearShiftInFlight=true;boardLoadSeq++;formationLoadSeq++;floorAssignmentLoadSeq++;tableLoadSeq++;
+ setClearShiftProgress(true,'CLEARING CURRENT SHIFT…','BOARD + FLOOR');
+ try{
+  await discardScheduledBoardSaveForClear();
+  const key=boardKey(),ts=Date.now();
+  /* Keep a real online document. Missing Board means RECOVERY, which is wrong after Clear All. */
+  const emptyOnlineBoard={rows:[],formation:'',cleared:true,clearShift:true,clearedAt:ts,updatedAt:ts,date:$('workDate')&&$('workDate').value||dateKey(),shift:currentShift};
+  await writeJ(BOARD_ROOT+'/'+key+'.json',emptyOnlineBoard,'PUT');
+  try{await writeJ(BOARD_BACKUP_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
+  try{await writeJ(SKIP_LOCK_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
+  try{await writeJ(CUT_UNDO_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
+  try{await writeJ(RECENT_SEAT_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
+  await writeJ(FLOOR_ASSIGN_ROOT+'.json',{tables:{}},'PUT');
+  await writeJ(FLOOR_FORMATION_ROOT+'.json',{formation:'',sectionMode:'',sectionServers:{},sectionBeepers:{},sectionAutoSkips:{}},'PUT');
+  const live=(await readJ(TABLE_ROOT+'.json'))||{},floor={},now=Date.now();
+  TABLE_IDS.forEach(id=>floor[id]={...(live[id]||{}),status:'ready',available:true,server:'',people:'',partyPeople:'',secondaryOf:'',secondaryTables:[],partyId:'',boardRef:null,primaryBoardRef:null,moveOperationId:'',updatedBy:role(),updatedAt:now});
+  await writeJ(TABLE_ROOT+'.json',floor,'PUT');
+  const [vb,vt]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json')]);
+  if(!vb||vb.cleared!==true||!Array.isArray(vb.rows)||vb.rows.length)throw new Error('VERIFY FAILED • EMPTY ONLINE BOARD WAS NOT SAVED');
+  const bad=TABLE_IDS.find(id=>{const s=(vt||{})[id]||{};return operationalTableStatus(s)!=='ready'||s.available!==true||String(s.server||'')||String(s.people||'')||String(s.partyPeople||'')||String(s.partyId||'')||String(s.secondaryOf||'')||(Array.isArray(s.secondaryTables)&&s.secondaryTables.length)||s.boardRef!=null||s.primaryBoardRef!=null});
+  if(bad)throw new Error('VERIFY FAILED • FLOOR TABLE '+bad+' IS NOT READY');
+  try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i)||'';if(k.startsWith(BOARD_CACHE_PREFIX)||k.startsWith('flex_cutundo_')||k.startsWith('fz_scheduled_cut_'))localStorage.removeItem(k)}}catch(_){}
+  board=normalizeBoard(emptyOnlineBoard);boardBaseline=cloneBoard(board);loadedBoardKey=key;boardNewKey=key;
+  floorFormation=normalizeFloorFormation({});floorAssignments=normalizeFloorAssignments({});tableState=vt||{};
+  renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();renderBeeperView();updateViewMeta();updateNextServerSuggestion();quickScheduleRefresh();sync(true);
+  toast('CLEAR COMPLETE • EMPTY ONLINE BOARD + FLOOR READY');return true;
+ }catch(e){toast((e&&e.message)||'CLEAR ALL SHIFT FAILED');sync(false);return false}
+ finally{clearShiftInFlight=false;setClearShiftProgress(false)}
 }
-
 function dayNameFor(dateStr){
   try{return new Date(dateStr+"T12:00:00").toLocaleDateString("en-US",{weekday:"long"}).toUpperCase()}catch(e){return""}
 }
@@ -8017,7 +7888,7 @@ async function handleFormationChange(){
   const previousFormation=normalizeFloorFormation(JSON.parse(JSON.stringify(floorFormation||{})));
   const previousAssignments=normalizeFloorAssignments(JSON.parse(JSON.stringify(floorAssignments||{tables:{}})));
   const had=Object.keys(floorFormation.sectionServers||{}).length>0;
-  if(had&&!confirm("Change formation? Current section assignments will be cleared.")){
+  if(had&&!confirm("Change formation? Section assignments will be cleared, but all existing seating counts, rotation history, and SKIPs will be kept.")){
     $('formationSelect').value=floorFormation.formation||'';
     return;
   }
@@ -8036,7 +7907,22 @@ async function handleFormationChange(){
     const blockers=oldServers.flatMap(activePrimaryTablesForServer);
     if(blockers.length)throw new Error('READY or SWAP these seated tables first: '+blockers.join(', '));
     board=await readBoardStrict(key,'FORMATION CHANGE');boardBaseline=cloneBoard(board);loadedBoardKey=key;
-    const before=cloneBoard(board);oldServers.forEach(s=>deactivateBoardServer(s,'FORMATION CHANGED'));
+    const before=cloneBoard(board);
+    /*
+      R3M.8.4 — FORMATION CHANGE PRESERVES ROTATION HISTORY
+      Changing the floor formation is a layout/section change only.
+      Never CUT/deactivate a server and never rebuild their Host Board row here.
+      Keep every seated table count, turn/history cell, manual SKIP and work shift.
+      Only remove the old section/beeper labels so the new formation can be assigned.
+    */
+    oldServers.forEach(server=>{
+      const ri=boardRowForServer(server);
+      if(ri<0)return;
+      const row=board.rows[ri];
+      row.section='';
+      row.beeper='';
+      /* active/cutAt/cutReason/turns/workShift intentionally preserved */
+    });
     floorFormation={formation:next,sectionMode:"",sectionServers:{},sectionBeepers:{},sectionAutoSkips:{}};floorAssignments={tables:{}};
     const rootPatch={};Object.entries(buildBoardCellPatch(before,board)).forEach(([p,v])=>{rootPatch['rotationBoardV31/'+key+'/'+p]=v});
     rootPatch['floorFormationV66/'+key]={formation:next,sectionMode:"",sectionServers:{},sectionBeepers:{},sectionAutoSkips:{},updatedAt:Date.now()};
@@ -8044,7 +7930,7 @@ async function handleFormationChange(){
     await writeJ(ROOT+'.json',rootPatch,'PATCH');
     board=await readBoardStrict(key,'FORMATION CHANGE READ-BACK');boardBaseline=cloneBoard(board);
     formationDraftServer='';formationEditorDirty=false;populateFormationSections();populateFormationServers();updateFormationTablesBox();renderSheet();renderFormationCurrent();renderFormationOverlays();
-    toast(next?('FORMATION '+next+' ready • assign each section'):'Formation cleared • history kept');
+    toast(next?('FORMATION '+next+' READY • SERVER COUNTS/HISTORY MOVE WITH SERVER • ASSIGN SECTIONS'):'FORMATION CLEARED • SEATING COUNTS + HISTORY KEPT');
   }catch(e){floorFormation=previousFormation;floorAssignments=previousAssignments;$('formationSelect').value=previousFormation.formation||'';renderFormationOverlays();renderFormationCurrent();toast((e&&e.message)||'Formation change failed')}
   finally{for(const lock of claimed)await releaseTableLock(lock,lockOwner);formationSaveInFlight=false}
 }
@@ -8138,8 +8024,15 @@ async function saveFormationSection(){
     let remainingOldSections=[],remainingOldBeeper='';
     if(oldServer&&oldServer!==server){
       remainingOldSections=Object.entries(floorFormation.sectionServers||{}).filter(([,name])=>String(name||'')===oldServer).map(([section])=>section);
-      if(!remainingOldSections.length)deactivateBoardServer(oldServer,'SECTION REASSIGNED');
-      else{
+      if(!remainingOldSections.length){
+        const oldRi=boardRowForServer(oldServer);
+        if(oldRi>=0){
+          /* Section reassignment is not a CUT. Keep count/history and leave the server available
+             to be assigned to another section in the new formation. */
+          board.rows[oldRi].section='';
+          board.rows[oldRi].beeper='';
+        }
+      }else{
         const oldRi=boardRowForServer(oldServer);
         if(oldRi>=0){
           remainingOldBeeper=remainingOldSections.map(section=>normalizeBeeperNumber(floorFormation.sectionBeepers[section])).find(Boolean)||normalizeBeeperNumber(board.rows[oldRi].beeper);
@@ -8149,8 +8042,19 @@ async function saveFormationSection(){
         }
       }
     }
+    /* R3M.8.5: the SERVER owns the rotation history/count, not the section. */
+    const existingRiBeforeMove=boardRowForServer(server);
+    const serverHistoryBeforeMove=existingRiBeforeMove>=0?JSON.parse(JSON.stringify(board.rows[existingRiBeforeMove])):null;
     const ri=ensureBoardRowForServer(server,false,true);
     if(ri<0)throw new Error('Host Board is full. No empty server row.');
+    if(serverHistoryBeforeMove){
+      const target=board.rows[ri];
+      /* Restore every rotation-bearing field before changing only current assignment metadata. */
+      const keepSection=target.section,keepBeeper=target.beeper;
+      Object.keys(target).forEach(k=>delete target[k]);
+      Object.assign(target,serverHistoryBeforeMove);
+      target.section=keepSection;target.beeper=keepBeeper;
+    }
     if(absoluteCatchup!==null){
       setStoredSectionAutoSkips(sec,Math.max(0,absoluteCatchup-rotationIntrinsicCount(board.rows[ri],sec)));
     }
