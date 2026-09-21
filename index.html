@@ -2146,7 +2146,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.12 • BOARD LOOKUP UNDO DELETE • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.13 • CLEAR SHIFT FIX • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -7284,7 +7284,7 @@ async function clearShiftBoardVerified(target){
   await discardScheduledBoardSaveForClear();
   const key=boardKey(),ts=Date.now();
   /* Keep a real online document. Missing Board means RECOVERY, which is wrong after Clear All. */
-  const emptyOnlineBoard={rows:[],formation:'',cleared:true,clearShift:true,clearedAt:ts,updatedAt:ts,date:$('workDate')&&$('workDate').value||dateKey(),shift:currentShift};
+  const emptyOnlineBoard={rows:[],formation:'',cleared:true,clearShift:true,clearedAt:ts,updatedAt:ts,date:$('workDate')&&$('workDate').value||dateKey(),shift:(($('shiftLabel')&&$('shiftLabel').textContent||'AM').trim().toUpperCase()==='PM'?'PM':'AM')};
   await writeJ(BOARD_ROOT+'/'+key+'.json',emptyOnlineBoard,'PUT');
     try{await writeJ(FLOOR_HISTORY_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
   try{await writeJ(BOARD_BACKUP_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
