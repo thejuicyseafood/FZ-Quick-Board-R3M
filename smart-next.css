@@ -1,0 +1,9 @@
+/* Lightweight depth styling, no animation or layout changes to controls. */
+#nextFullOverlay{display:none!important}
+.mapWrap{grid-template-rows:auto minmax(160px,auto) minmax(0,1fr)!important}
+.rotationDash.simple{height:auto!important;grid-template-rows:auto auto auto!important;overflow:visible!important}
+#smartNext20{border:1px solid #46b8c8;border-radius:12px;padding:10px 12px;background:linear-gradient(145deg,#17384b,#081724 72%);box-shadow:inset 0 1px 0 #78adbf66,0 4px 0 #030b12,0 10px 22px #0005;color:#e7f4fc;font:500 12px/1.4 Arial;max-height:220px;overflow:auto}
+.sn-kicker{font-size:9px;letter-spacing:1.3px;color:#7de2d4}.sn-next{display:block;font-size:17px;color:#fff;margin:3px 0}.sn-input{float:right;font-size:10px;display:flex;align-items:center;gap:5px}.sn-input input{width:58px;border:1px solid #57869c;border-radius:6px;background:#06131d;color:white;padding:5px}.sn-tables{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0}.sn-tables span{border:1px solid #3e827f;background:#103f3a;border-radius:6px;padding:4px 7px}.sn-reason{color:#ffda92}#smartNext20 small{display:block;color:#9ab0c4;margin-top:5px}
+.tab,.formationBtn,.mapActionBtn{box-shadow:inset 0 1px 0 #ffffff24,0 3px 5px #0003}
+@media(max-width:700px){#smartNext20{max-height:185px;padding:7px 9px}.sn-next{font-size:14px}.mapWrap{grid-template-rows:34px auto minmax(0,1fr)!important}.rotationDash.simple{height:auto!important}.sn-input{float:none;margin-bottom:4px}}
+@media print{#smartNext20{display:none!important}}

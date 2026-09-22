@@ -1886,6 +1886,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 /* R3M.4 DOUBLE / LARGE PARTY SEAT GUARD */
 .seatGuardOverlay{position:fixed;inset:0;z-index:2147483200;background:rgba(1,8,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
 .seatGuardOverlay.show{display:flex}.seatGuardBox{width:min(560px,96vw);border:2px solid #f59e0b;border-radius:22px;background:linear-gradient(180deg,#172033,#09111f);box-shadow:0 24px 80px rgba(0,0,0,.58);padding:22px;color:#fff}
+.nextFullOverlay{position:fixed;inset:0;z-index:2147483250;background:rgba(1,8,18,.84);display:none;align-items:center;justify-content:center;padding:18px}.nextFullOverlay.show{display:flex}.nextFullBox{width:min(560px,96vw);border:3px solid #ef4444;border-radius:22px;background:linear-gradient(180deg,#30141a,#111827);box-shadow:0 24px 80px rgba(0,0,0,.62);padding:24px;color:#fff;text-align:center}.nextFullBadge{display:inline-block;padding:5px 11px;border-radius:999px;background:#991b1b;color:#fee2e2;font-size:11px;font-weight:1000}.nextFullTitle{font-size:27px;font-weight:1000;color:#fecaca;margin:12px 0 6px}.nextFullServer{font-size:34px;font-weight:1000}.nextFullReason{margin:14px 0;color:#e5e7eb;font-size:17px;font-weight:850;line-height:1.45;white-space:pre-line}.nextFullAck{width:100%;height:52px;border:2px solid #fca5a5;border-radius:12px;background:#b91c1c;color:#fff;font-size:17px;font-weight:1000}
 .seatGuardBadge{display:inline-block;border-radius:999px;padding:6px 11px;background:#7c2d12;color:#fed7aa;font-size:11px;font-weight:1000;letter-spacing:.8px}.seatGuardTitle{font-size:27px;line-height:31px;font-weight:1000;margin:12px 0 7px;color:#fbbf24}.seatGuardServer{font-size:24px;font-weight:1000;margin-bottom:10px}.seatGuardReason{font-size:16px;line-height:23px;font-weight:800;color:#e5e7eb;white-space:pre-line}.seatGuardAsk{margin-top:15px;padding:12px;border-radius:13px;background:#241b08;border:1px solid #a16207;font-size:15px;font-weight:1000;color:#fde68a}.seatGuardActions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.seatGuardActions button{height:54px;border:0;border-radius:14px;font-size:18px;font-weight:1000}#seatGuardNo{background:#334155;color:#fff}#seatGuardYes{background:linear-gradient(180deg,#22c55e,#15803d);color:#fff}
 
 
@@ -1912,7 +1913,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 
 
-/* R3M.8.18 repair dialog controls only */
+/* R3M.8.21 repair dialog controls only */
 .bar818Recovery{margin:16px 0;padding:16px;border:1px solid #e8b640;border-radius:14px;background:#2b250e}
 .bar818Choice{display:flex;align-items:flex-start;gap:12px;padding:12px;margin:8px 0;border:1px solid #44667c;border-radius:10px;cursor:pointer;font-size:16px;line-height:1.45}
 .bar818Choice input{flex:0 0 23px;width:23px;height:23px;margin:0;accent-color:#31b882}
@@ -2148,7 +2149,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 </div></div>
 <div id="bar817Overlay" class="bar817Overlay" role="dialog" aria-modal="true" aria-labelledby="bar817Title">
  <div class="bar817Card">
-  <div class="bar817Tag">R3M.8.18 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
+  <div class="bar817Tag">R3M.8.21 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
   <h2 id="bar817Title">REVIEW BAR PM REPAIR</h2>
   <p id="bar817Text"></p>
   <div id="bar817Preview"></div>
@@ -2175,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.18 • BAR MANUAL TO AUTO REPAIR • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.21 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2233,7 +2234,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
         <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
-        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.18 • convert replacement manual SKIPs and review saved Floor links</span></button>
+        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.21 • convert replacement manual SKIPs and review saved Floor links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
       </div></div>
     </section>
@@ -4057,7 +4058,7 @@ module.exports = QRCode;
 const FB="https://table-live-by-iwanto-zhang-default-rtdb.firebaseio.com",BASE_ROOT=FB+"/juicyTableLive/JUICY-HUNTSVILLE",ROOT=BASE_ROOT+"/flexibleFloorV1";
 const FLOOR_HISTORY_ROOT=ROOT+"/floorHistoryV2";
 const TABLE_ROOT=ROOT+"/tables",ANNOUNCE_ROOT=ROOT+"/statusAnnouncements",TEAM_SHOUT_ROOT=BASE_ROOT+"/teamShoutOutV1",MESSAGE_ROOT=BASE_ROOT+"/messages",ALARM_ROOT=BASE_ROOT+"/alarms",SERVER_ROOT=ROOT+"/serverListV30",BOARD_ROOT=ROOT+"/rotationBoardV31",BOARD_BACKUP_ROOT=ROOT+"/rotationBoardBackupsV1094",BREAKTIME_AUDIT_ROOT=ROOT+"/breaktimeTransfersV1096",SECTION_CONTROL_AUDIT_ROOT=ROOT+"/sectionTransfersV1097",RESERVATION_ROOT=ROOT+"/reservationsV34",MANAGER_QR_ROOT=BASE_ROOT+"/managerQrV50",FLOOR_ASSIGN_ROOT=ROOT+"/floorAssignmentsV64",FLOOR_FORMATION_ROOT=ROOT+"/floorFormationV66",FORMATION_TABLE_ROOT=ROOT+"/formationTableConfigV92",CHAT_ROOT=BASE_ROOT+"/managerFrontChatV95",CHAT_VOICE_ROOT=BASE_ROOT+"/managerFrontVoiceV109",CALL_ROOT=BASE_ROOT+"/managerFrontCallsV1098",CALL_INBOX_ROOT=BASE_ROOT+"/managerFrontCallInboxV1098",CALL_PRESENCE_ROOT=BASE_ROOT+"/managerFrontCallPresenceV1098",CALL_CONFIG_ROOT=BASE_ROOT+"/managerFrontCallConfigV1098",SKIP_LOCK_ROOT=ROOT+"/rotationSkipLocksV101",TABLE_LOCK_ROOT=ROOT+"/tableOperationLocksV109",CUT_UNDO_ROOT=ROOT+"/staffCutUndoV11",ACCESS_USER_ROOT=ROOT+"/accessUsersV2",ACCESS_AUDIT_ROOT=ROOT+"/accessAuditV2",RECENT_SEAT_ROOT=ROOT+"/recentSeatGuardV1",TEAM_DAY_ROOT=ROOT+"/teamDayV1";
-const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},{"id":"R6","label":"R6","x":16.0,"y":8.0,"w":8.0,"h":6.0,"r":-18},{"id":"R5","label":"R5","x":25.3,"y":6.8,"w":8.0,"h":6.0,"r":0},{"id":"R4","label":"R4","x":35.0,"y":7.5,"w":7.5,"h":6.0,"r":0},{"id":"R3","label":"R3","x":43.8,"y":8.7,"w":7.5,"h":6.0,"r":0},{"id":"R1","label":"R1","x":31.5,"y":15.8,"w":7.3,"h":6.0,"r":0},{"id":"R2","label":"R2","x":40.0,"y":16.1,"w":7.3,"h":6.0,"r":0},{"id":"L3","label":"L3","x":58.3,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L4","label":"L4","x":68.0,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L5","label":"L5","x":77.3,"y":12.0,"w":7.5,"h":6.0,"r":0},{"id":"L6","label":"L6","x":87.0,"y":15.6,"w":8.5,"h":6.2,"r":20},{"id":"L2","label":"L2","x":61.0,"y":20.1,"w":7.5,"h":6.0,"r":0},{"id":"L1","label":"L1","x":70.0,"y":21.1,"w":7.5,"h":6.0,"r":0},{"id":"F6","label":"F6","x":5.7,"y":33.0,"w":6.5,"h":6.6,"r":0},{"id":"E5","label":"E5","x":15.8,"y":33.0,"w":7.4,"h":7.6,"r":0},{"id":"F5","label":"F5","x":5.6,"y":41.5,"w":6.5,"h":6.6,"r":0},{"id":"E4","label":"E4","x":15.8,"y":42.3,"w":7.4,"h":7.6,"r":0},{"id":"F4","label":"F4","x":5.6,"y":50.2,"w":6.5,"h":6.6,"r":0},{"id":"E3","label":"E3","x":15.9,"y":51.0,"w":7.4,"h":7.6,"r":0},{"id":"F3","label":"F3","x":5.7,"y":59.6,"w":6.5,"h":6.6,"r":0},{"id":"E2","label":"E2","x":16.1,"y":59.4,"w":7.4,"h":7.6,"r":0},{"id":"F2","label":"F2","x":5.6,"y":72.3,"w":6.8,"h":7.2,"r":0},{"id":"F1","label":"F1","x":5.6,"y":87.2,"w":6.8,"h":7.2,"r":0},{"id":"E1","label":"E1","x":16.2,"y":86.2,"w":7.4,"h":7.6,"r":0},{"id":"D3","label":"D3","x":25.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"D2","label":"D2","x":25.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"D1","label":"D1","x":25.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C4","label":"C4","x":35.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"C3","label":"C3","x":35.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"C2","label":"C2","x":35.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C1","label":"C1","x":35.0,"y":69.0,"w":6.8,"h":7.3,"r":0},{"id":"H3","label":"H3","x":47.0,"y":68.2,"w":8.9,"h":6.8,"r":0},{"id":"H4","label":"H4","x":47.0,"y":48.8,"w":8.9,"h":6.8,"r":0},{"id":"H2","label":"H2","x":48.3,"y":88.8,"w":8.7,"h":6.5,"r":0},{"id":"H1","label":"H1","x":57.6,"y":89.0,"w":7.6,"h":6.5,"r":0},{"id":"M2","label":"M2","x":57.5,"y":51.0,"w":6.0,"h":8.0,"r":0},{"id":"M1","label":"M1","x":57.4,"y":73.0,"w":6.0,"h":8.0,"r":0},{"id":"A4","label":"A4","x":88.2,"y":49.5,"w":5.9,"h":7.4,"r":0},{"id":"A3","label":"A3","x":88.2,"y":58.5,"w":5.9,"h":7.4,"r":0},{"id":"A2","label":"A2","x":88.2,"y":68.0,"w":5.9,"h":7.4,"r":0},{"id":"A1","label":"A1","x":88.2,"y":79.2,"w":5.9,"h":7.4,"r":0},{"id":"B3","label":"B3","x":81.0,"y":54.5,"w":5.8,"h":7.2,"r":0},{"id":"B2","label":"B2","x":81.0,"y":63.3,"w":5.8,"h":7.2,"r":0},{"id":"B1","label":"B1","x":81.0,"y":74.3,"w":5.8,"h":7.2,"r":0},{"id":"Bar 3","label":"Bar 3","x":65.3,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 2","label":"Bar 2","x":72.0,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 1","label":"Bar 1","x":78.6,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 4","label":"Bar 4","x":63.5,"y":52.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 5","label":"Bar 5","x":63.5,"y":59.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 6","label":"Bar 6","x":63.5,"y":66.4,"w":5.8,"h":6.0,"r":0},{"id":"Bar 7","label":"Bar 7","x":63.5,"y":73.6,"w":5.8,"h":6.0,"r":0},{"id":"Bar 8","label":"Bar 8","x":63.5,"y":80.8,"w":5.8,"h":6.0,"r":0},{"id":"Bar 9","label":"Bar 9","x":63.5,"y":88.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 10","label":"Bar 10","x":63.5,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 11","label":"Bar 11","x":70.2,"y":95.2,"w":5.8,"h":6.0,"r":0}],TABLE_IDS=["A1","A2","A3","A4","B1","B2","B3","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","C1","C2","C3","C4","D1","D2","D3","E1","E2","E3","E4","E5","F1","F2","F3","F4","F5","F6","H1","H2","H3","H4","L1","L2","L3","L4","L5","L6","M1","M2","R1","R2","R3","R4","R5","R6","R7"],DEFAULT_SERVERS=["Adrieanna Walker", "Alaina Montalvo", "Angela Grizzad", "A.J.", "Ashley Garcia", "Brandi Copeland", "Caitlin Dillon", "Christina Gurley", "Cynthia Risner", "Dorothy Makovicka", "Hannah Dempsey", "Jesus Ovalle-Munoz", "Katelyn Ramsey", "Libby Lane", "Megan Meadows", "Megan Sisk", "Mia Burress", "Sara Swift", "Sarah Kibler", "Aida", "Leonardo Sanchez-Miguel"],SECTIONS=["1", "2", "3", "4", "5", "6", "7", "8", "9", "BAR", "1-Bar", "2-4", "3-5"];
+const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},{"id":"R6","label":"R6","x":16.0,"y":8.0,"w":8.0,"h":6.0,"r":-18},{"id":"R5","label":"R5","x":25.3,"y":6.8,"w":8.0,"h":6.0,"r":0},{"id":"R4","label":"R4","x":35.0,"y":7.5,"w":7.5,"h":6.0,"r":0},{"id":"R3","label":"R3","x":43.8,"y":8.7,"w":7.5,"h":6.0,"r":0},{"id":"R1","label":"R1","x":31.5,"y":15.8,"w":7.3,"h":6.0,"r":0},{"id":"R2","label":"R2","x":40.0,"y":16.1,"w":7.3,"h":6.0,"r":0},{"id":"L3","label":"L3","x":58.3,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L4","label":"L4","x":68.0,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L5","label":"L5","x":77.3,"y":12.0,"w":7.5,"h":6.0,"r":0},{"id":"L6","label":"L6","x":87.0,"y":15.6,"w":8.5,"h":6.2,"r":20},{"id":"L2","label":"L2","x":61.0,"y":20.1,"w":7.5,"h":6.0,"r":0},{"id":"L1","label":"L1","x":70.0,"y":21.1,"w":7.5,"h":6.0,"r":0},{"id":"F6","label":"F6","x":5.7,"y":33.0,"w":6.5,"h":6.6,"r":0},{"id":"E5","label":"E5","x":15.8,"y":33.0,"w":7.4,"h":7.6,"r":0},{"id":"F5","label":"F5","x":5.6,"y":41.5,"w":6.5,"h":6.6,"r":0},{"id":"E4","label":"E4","x":15.8,"y":42.3,"w":7.4,"h":7.6,"r":0},{"id":"F4","label":"F4","x":5.6,"y":50.2,"w":6.5,"h":6.6,"r":0},{"id":"E3","label":"E3","x":15.9,"y":51.0,"w":7.4,"h":7.6,"r":0},{"id":"F3","label":"F3","x":5.7,"y":59.6,"w":6.5,"h":6.6,"r":0},{"id":"E2","label":"E2","x":16.1,"y":59.4,"w":7.4,"h":7.6,"r":0},{"id":"F2","label":"F2","x":5.6,"y":72.3,"w":6.8,"h":7.2,"r":0},{"id":"F1","label":"F1","x":5.6,"y":87.2,"w":6.8,"h":7.2,"r":0},{"id":"E1","label":"E1","x":16.2,"y":86.2,"w":7.4,"h":7.6,"r":0},{"id":"D3","label":"D3","x":25.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"D2","label":"D2","x":25.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"D1","label":"D1","x":25.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C4","label":"C4","x":35.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"C3","label":"C3","x":35.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"C2","label":"C2","x":35.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C1","label":"C1","x":35.0,"y":69.0,"w":6.8,"h":7.3,"r":0},{"id":"H3","label":"H3","x":47.0,"y":68.2,"w":8.9,"h":6.8,"r":0},{"id":"H4","label":"H4","x":47.0,"y":48.8,"w":8.9,"h":6.8,"r":0},{"id":"H2","label":"H2","x":48.3,"y":88.8,"w":8.7,"h":6.5,"r":0},{"id":"H1","label":"H1","x":57.6,"y":89.0,"w":7.6,"h":6.5,"r":0},{"id":"M2","label":"M2","x":57.5,"y":51.0,"w":6.0,"h":8.0,"r":0},{"id":"M1","label":"M1","x":57.4,"y":73.0,"w":6.0,"h":8.0,"r":0},{"id":"A4","label":"A4","x":88.2,"y":49.5,"w":5.9,"h":7.4,"r":0},{"id":"A3","label":"A3","x":88.2,"y":58.5,"w":5.9,"h":7.4,"r":0},{"id":"A2","label":"A2","x":88.2,"y":68.0,"w":5.9,"h":7.4,"r":0},{"id":"A1","label":"A1","x":88.2,"y":79.2,"w":5.9,"h":7.4,"r":0},{"id":"B3","label":"B3","x":81.0,"y":54.5,"w":5.8,"h":7.2,"r":0},{"id":"B2","label":"B2","x":81.0,"y":63.3,"w":5.8,"h":7.2,"r":0},{"id":"B1","label":"B1","x":81.0,"y":74.3,"w":5.8,"h":7.2,"r":0},{"id":"Bar 3","label":"Bar 3","x":65.3,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 2","label":"Bar 2","x":72.0,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 1","label":"Bar 1","x":78.6,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 4","label":"Bar 4","x":63.5,"y":52.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 5","label":"Bar 5","x":63.5,"y":59.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 6","label":"Bar 6","x":63.5,"y":66.4,"w":5.8,"h":6.0,"r":0},{"id":"Bar 7","label":"Bar 7","x":63.5,"y":73.6,"w":5.8,"h":6.0,"r":0},{"id":"Bar 8","label":"Bar 8","x":63.5,"y":80.8,"w":5.8,"h":6.0,"r":0},{"id":"Bar 9","label":"Bar 9","x":63.5,"y":88.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 10","label":"Bar 10","x":63.5,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 11","label":"Bar 11","x":70.2,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 12","label":"Bar 12","x":76.9,"y":95.2,"w":5.8,"h":6.0,"r":0}],TABLE_IDS=["A1","A2","A3","A4","B1","B2","B3","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12","C1","C2","C3","C4","D1","D2","D3","E1","E2","E3","E4","E5","F1","F2","F3","F4","F5","F6","H1","H2","H3","H4","L1","L2","L3","L4","L5","L6","M1","M2","R1","R2","R3","R4","R5","R6","R7"],DEFAULT_SERVERS=["Adrieanna Walker", "Alaina Montalvo", "Angela Grizzad", "A.J.", "Ashley Garcia", "Brandi Copeland", "Caitlin Dillon", "Christina Gurley", "Cynthia Risner", "Dorothy Makovicka", "Hannah Dempsey", "Jesus Ovalle-Munoz", "Katelyn Ramsey", "Libby Lane", "Megan Meadows", "Megan Sisk", "Mia Burress", "Sara Swift", "Sarah Kibler", "Aida", "Leonardo Sanchez-Miguel"],SECTIONS=["1", "2", "3", "4", "5", "6", "7", "8", "9", "BAR", "1-Bar", "2-4", "3-5"];
 const WORK_SHIFTS=["AM","PM","Double","Long Shift"],ASSIGN_COLORS=["#FACC15","#22D3EE","#A78BFA","#FB923C","#F472B6","#A3E635","#2DD4BF","#60A5FA","#E879F9","#FDE047"];
 const MANAGER_PASSWORD="Laopho$1988",RESET_PASSWORD="888",BAR_AUTO_SKIP_KIND="barAuto";
 const MANAGER_PASSWORD_STORAGE_KEY="fzqb_manager_password_v207r3";
@@ -4080,13 +4081,13 @@ const FLOOR_FORMATIONS={
   "2 SERVER":{
     "2-4":["A1","A2","A3","A4","B1","B2","B3","L1","L2","L3","L4","L5","L6"],
     "3-5":["F1","F2","F3","F4","F5","F6","E1","E2","E3","E4","E5","R1","R2","R3","R4","R5","R6","R7"],
-    "BAR":["H1","H2","H3","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["H1","H2","H3","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "3 SERVER":{
     "1":["R1","R2","R3","R4","R5","R6","R7","F6","E5"],
     "2":["A1","A2","A3","B1","B2","B3"],
     "3":["F1","F2","F3","F4","F5","E1","E2","E3","E4"],
-    "BAR":["H1","H2","H3","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["H1","H2","H3","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "5/4 SERVER":{
     "1":["C1","C2","C3","C4","D1","D2","D3","H2","H3"],
@@ -4094,7 +4095,7 @@ const FLOOR_FORMATIONS={
     "3":["F1","F2","F3","F4","F5","E1","E2","E3","E4"],
     "4":["L1","L2","L3","L4","L5","L6","A4"],
     "5":["R1","R2","R3","R4","R5","R6","R7","F6","E5"],
-    "BAR":["H1","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["H1","H4","M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "6 SERVER - FORMATION 1":{
     "1":["H1","H2","H3","H4","C1"],
@@ -4103,7 +4104,7 @@ const FLOOR_FORMATIONS={
     "4":["L1","L2","L3","L4","L5","L6","A4"],
     "5":["R1","R2","R3","R4","R5","R6","R7"],
     "6":["C2","C3","C4","D1","D2","D3"],
-    "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "6 SERVER - FORMATION 2":{
     "1":["H1","H2","H3","H4"],
@@ -4112,7 +4113,7 @@ const FLOOR_FORMATIONS={
     "4":["L1","L2","L3","L4","L5","L6","A4"],
     "5":["R1","R2","R3","R4","R5","R6","R7","F6","E5"],
     "6":["C1","C2","C3","C4","D1","D2","D3"],
-    "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "7 SERVER":{
     "1":["H1","H2","H3","H4"],
@@ -4122,7 +4123,7 @@ const FLOOR_FORMATIONS={
     "5":["R1","R2","R3","R4","R5","R6"],
     "6":["C1","C2","C3","C4","D1","D2","D3"],
     "7":["R7","F4","F5","F6","E4","E5"],
-    "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["M1","M2","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "8 SERVER":{
     "1":["H1","H2","H3","H4"],
@@ -4133,7 +4134,7 @@ const FLOOR_FORMATIONS={
     "6":["C1","C2","C3","D1","D2"],
     "7":["F4","F5","E3","E4","E5"],
     "8":["F1","R6","R7","F6","D3","C4"],
-    "BAR":["Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   },
   "9 SERVER":{
     "1":["H1","H2","H3","H4"],
@@ -4145,7 +4146,7 @@ const FLOOR_FORMATIONS={
     "7":["F4","F5","E3","E4","E5"],
     "8":["F1","R6","R7","F6","D3","C4"],
     "9":["A3","A4","M1","M2"],
-    "BAR":["Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11"]
+    "BAR":["Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12"]
   }
 };
 
@@ -5626,15 +5627,18 @@ function clearGroup(ri,ti){const turns=board.rows[ri].turns,m=groupMaster(turns,
 function updateTurnChoiceSummary(){
   const table=$('turnTable').value||'No Table';
   const people=$('turnPeople').value||'No People';
-  $('turnChoiceSummary').textContent=table+' • '+people+' People';
+  $('turnChoiceSummary').textContent=table+' • '+people+' People'+(capacityText(table)?(' • '+capacityText(table)):'');
 }
 function selectTurnTable(value){
   $('turnTable').value=value;
+  const current=$('turnPeople').value;if(current&&!peopleWithinTableCapacity(value,current))$('turnPeople').value='';
   document.querySelectorAll('#tablePickGrid .pickBtn').forEach(b=>b.classList.toggle('selected',b.dataset.value===value));
+  renderTurnPeopleButtons($('turnPeople').value);
   updateTurnChoiceSummary();
 }
 function selectTurnPeople(value){
   const n=validPeopleCount(value);if(!n)return;
+  const table=$('turnTable').value;if(!peopleWithinTableCapacity(table,n))return toast(table+' capacity is '+tableGuestCapacity(table)+' people');
   const v=String(n),sel=$('turnPeople');
   if(!Array.from(sel.options).some(o=>o.value===v)){
     const o=document.createElement('option');o.value=v;o.textContent=v;sel.appendChild(o);
@@ -5910,14 +5914,9 @@ function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
 function storedSectionAutoSkipsFromFormation(sourceFormation,section){
-  section=String(section||'');
-  const map=sourceFormation&&sourceFormation.sectionAutoSkips?sourceFormation.sectionAutoSkips:{};
-  let raw=map[section];
-  if(!(parseInt(raw||0,10)>0)&&String(sourceFormation&&sourceFormation.sectionMode||'').toUpperCase()==='SPLIT'&&TWO_SERVER_SPLIT_GROUPS[section]){
-    raw=Math.max(0,...Object.keys(TWO_SERVER_SPLIT_GROUPS[section]).map(child=>parseInt(map[child]||0,10)||0));
-  }
-  const n=parseInt(raw||0,10);
-  return Number.isFinite(n)&&n>0?n:0;
+  // R3M.8.21: rotation uses saved server turn cells, never section credits.
+  // Retain legacy metadata for compatibility; it does not generate a SKIP.
+  return 0;
 }
 function storedSectionAutoSkips(section){return storedSectionAutoSkipsFromFormation(floorFormation,section)}
 function setSectionAutoSkipsOnFormation(targetFormation,section,value){
@@ -6052,6 +6051,7 @@ function boardRowForFormationSection(section){
   return ri>=0?{row:board.rows[ri],ri}:null;
 }
 function virtualAutoSkipForUnassignedSection(section){
+  return 0; // An unassigned section must not generate automatic SKIPs.
   /*
     No Firebase counter is advanced while a section is UNASSIGNED. Instead we
     derive how many turns it has already missed from the nearest preceding
@@ -6112,6 +6112,11 @@ function getNextServerSuggestion(){
     a.ri-b.ri
   )[0]||null;
 }
+let nextFullAlertSignature='',nextFullAcknowledgedSignature='';
+function tablesForServerOnFloor(server){const key=breaktimeServerKey(server),ids=new Set();Object.entries((floorAssignments&&floorAssignments.tables)||{}).forEach(([id,v])=>{if(v&&breaktimeServerKey(v.server)===key)ids.add(id)});const def=effectiveFormation(floorFormation&&floorFormation.formation);if(def)Object.entries((floorFormation&&floorFormation.sectionServers)||{}).forEach(([sec,name])=>{if(breaktimeServerKey(name)===key)(def[sec]||[]).forEach(id=>ids.add(id))});return [...ids].filter(id=>TABLE_IDS.includes(id))}
+function nextServerFloorFull(next){if(!next||!next.row||!next.row.server)return null;const tables=tablesForServerOnFloor(next.row.server);if(!tables.length||tables.some(id=>operationalTableStatus(tableState[id]||{})==='ready'))return null;return {server:canonicalServerName(next.row.server),statuses:tables.map(id=>id+': '+operationalTableStatus(tableState[id]||{}).toUpperCase())}}
+function checkNextServerFloorFull(next){const full=nextServerFloorFull(next);if(!full){nextFullAlertSignature='';nextFullAcknowledgedSignature='';return}const signature=boardKey()+'|'+breaktimeServerKey(full.server)+'|'+full.statuses.join('|');nextFullAlertSignature=signature;if(signature===nextFullAcknowledgedSignature||document.getElementById('nextFullOverlay')?.classList.contains('show'))return;const overlay=$('nextFullOverlay');if(!overlay)return;$('nextFullServer').textContent=full.server;$('nextFullReason').textContent='All assigned tables are currently unavailable.\nPlease check the Floor before seating the customer.\n\n'+full.statuses.join(' • ');overlay.classList.add('show')}
+function acknowledgeNextFullAlert(){nextFullAcknowledgedSignature=nextFullAlertSignature;const overlay=$('nextFullOverlay');if(overlay)overlay.classList.remove('show')}
 function barPmCardText(s){
   if(!s||!s.barCycle)return s?s.units+' TABLE':'—';
   const b=s.barCycle,pre=s.preAssignAutoSkips||0;
@@ -6146,6 +6151,7 @@ function renderRotationDashboard(){
         :(b.cycleProgress===1?'BAR PM • 1/2 BEFORE BAR SKIP':('BAR PM • BAR SKIP '+b.autoSkips+' APPLIED'));
     }else nextCount.textContent=next?(next.units+" TABLE"+((next.preAssignAutoSkips||0)?(' • AUTO SKIP '+next.preAssignAutoSkips):'')):"—";
   }
+  setTimeout(()=>checkNextServerFloorFull(next),0);
 
   cards.innerHTML='';
   if(!stats.length){
@@ -6242,10 +6248,15 @@ function validPeopleCount(v){
   const n=parseInt(v,10);
   return Number.isFinite(n)&&n>=1&&n<=120?n:null;
 }
+function tableGuestCapacity(tableId){const id=String(tableId||'').trim();if(/^Bar\s(?:[1-9]|1[0-2])$/i.test(id))return 3;if(id==='H1'||id==='C1'||/^D[1-3]$/.test(id)||/^[EF]\d+$/.test(id)||/^R[1-4]$/.test(id))return 4;if(/^H[2-4]$/.test(id)||/^M[12]$/.test(id)||/^C[2-4]$/.test(id))return 6;if(/^R[5-7]$/.test(id))return 7;return null}
+function capacityText(id){const cap=tableGuestCapacity(id);return cap?('Capacity: up to '+cap+' people'):''}
+// Capacity is advisory: preserve large parties and the existing secondary-table workflow.
+function peopleWithinTableCapacity(id,people){return true}
 function promptCustomFloorPeople(){
   const raw=prompt("Enter number of people (31-120):", floorSelectedPeople&&parseInt(floorSelectedPeople,10)>30?floorSelectedPeople:"");
   const n=validPeopleCount(raw);
   if(!n){if(raw!==null)toast("Enter a number from 1 to 120");return}
+  if(!peopleWithinTableCapacity(selectedTable,n))return toast(selectedTable+' capacity is '+tableGuestCapacity(selectedTable)+' people');
   selectFloorPeople(n);
   renderFloorPeopleButtons(String(n));
 }
@@ -6340,6 +6351,7 @@ function renderSecondaryPanel(){
 }
 function selectFloorPeople(v){
   const n=validPeopleCount(v);if(!n)return;
+  if(!peopleWithinTableCapacity(selectedTable,n))return toast(selectedTable+' capacity is '+tableGuestCapacity(selectedTable)+' people');
   floorSelectedPeople=String(n);$('floorSeatPeople').value=String(n);
   renderFloorPeopleButtons(String(n));
   floorSecondarySelected.clear();
@@ -6353,6 +6365,7 @@ function updateFloorSeatSummary(){
   const hostBoardTables=n?Math.ceil(n/4):0;
 
   let txt=(selectedTable||'—')+(sec?' • Section '+sec:'')+' • '+(floorSelectedServer||'NO SERVER');
+  if(capacityText(selectedTable))txt+=' • '+capacityText(selectedTable);
   if(!n){
     txt+=' • Choose People';
   }else{
@@ -6503,6 +6516,7 @@ async function applyFloorSeat(autoMode=false){
     floorAutoSaving=false;
     return toast('Choose number of people');
   }
+  if(!peopleWithinTableCapacity(table,people)){floorAutoSaving=false;return toast(table+' capacity is '+tableGuestCapacity(table)+' people')}
   if(!server){
     floorAutoSaving=false;
     return toast('No server assigned. Set FORMATION / TABLE ASSIGNMENT first');
@@ -6808,6 +6822,7 @@ function promptCustomTurnPeople(){
   const raw=prompt("Enter number of people (31-120):", parseInt(current||'0',10)>30?current:"");
   const n=validPeopleCount(raw);
   if(!n){if(raw!==null)toast("Enter a number from 1 to 120");return}
+  const table=$('turnTable').value;if(!peopleWithinTableCapacity(table,n))return toast(table+' capacity is '+tableGuestCapacity(table)+' people');
   selectTurnPeople(n);
   renderTurnPeopleButtons(String(n));
 }
@@ -6881,6 +6896,7 @@ async function clearEditingTurn(){
 async function applyBoardTurnSave(){
   const table=$('turnTable').value,people=$('turnPeople').value;
   if(!table||!people)return toast('Choose Table and People');
+  if(!peopleWithinTableCapacity(table,people))return toast(table+' capacity is '+tableGuestCapacity(table)+' people');
   if(!editExisting){
     const ri=editRow,ti=editTurn,n=parseInt(people,10),need=Math.ceil(n/4),turns=board.rows[ri].turns;
     if(ti+need>BOARD_TURN_CAPACITY)return toast('Not enough turn slots');
@@ -7960,8 +7976,7 @@ async function handleFormationChange(){
     if(String(latestFormation.formation||'')!==String(previousFormation.formation||''))throw new Error('Formation changed on another device. Reopen FORMATION.');
     floorFormation=latestFormation;
     const oldServers=[...new Set(Object.values(latestFormation.sectionServers||{}).filter(Boolean))];
-    const blockers=oldServers.flatMap(activePrimaryTablesForServer);
-    if(blockers.length)throw new Error('READY or SWAP these seated tables first: '+blockers.join(', '));
+    // Layout changes leave seated parties and their original server links untouched.
     board=await readBoardStrict(key,'FORMATION CHANGE');boardBaseline=cloneBoard(board);loadedBoardKey=key;
     const before=cloneBoard(board);
     /*
@@ -8066,7 +8081,7 @@ async function saveFormationSection(){
       return sectionInDefinition(runtimeFormation(form,floorFormation),id)===sec;
     }):[];
     const blockers=[...oldServerBlockers,...duplicateSections.flatMap(()=>activePrimaryTablesForServer(server))];
-    if(blockers.length)throw new Error('Server still has SEATED table: '+[...new Set(blockers)].join(', ')+'. READY or SWAP it first.');
+    // Reassignment changes future READY-table ownership only, never seated parties.
 
     duplicateSections.forEach(s=>{delete floorFormation.sectionServers[s];delete floorFormation.sectionBeepers[s]});
     let absoluteCatchup=null;
@@ -12541,7 +12556,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
 
 /* BEGIN BAR818 ISOLATED REPAIR MODULE */
-/* R3M.8.18 — isolated BAR repair planner. No I/O and no mutation of inputs. */
+/* R3M.8.21 — isolated BAR repair planner. No I/O and no mutation of inputs. */
 const Bar818 = (() => {
   'use strict';
   const CAPACITY=60, KIND='barAuto';
@@ -12933,7 +12948,7 @@ async function bar817Apply(){
       if(!plans.some(p=>path==='rotationBoardV31/'+key+'/rows/'+p.ri+'/turns')&&
          !path.startsWith('rotationSkipLocksV101/'+key+'/')&&!/^tables\/[^/]+\/(?:boardRef|primaryBoardRef)$/.test(path))throw new Error('Unexpected repair write path.');
     }
-    const audit={build:'R3M.8.18',at:Date.now(),boardKey:key,by:role(),
+    const audit={build:'R3M.8.21',at:Date.now(),boardKey:key,by:role(),
       rows:Object.fromEntries(plans.map(p=>[p.ri,current.rawBoard.rows[p.ri]])),locks:bar817RelatedLocks(current.locks,plans),tables:bar817RelatedTables(current.tables,key,plans),
       approved:plans.map(p=>({row:p.ri,server:p.server,convertedManual:p.converted,recoveredFloor:p.recovered,actual:p.actual,barAutoSkips:p.autoSkips}))};
     // Preserve exact preimages in the existing dedicated repair journal, not in the GitHub repository.
@@ -12972,7 +12987,7 @@ async function bar817Apply(){
 async function bar817Export(){
   try{
     const key=boardKey(),snap=await bar817ReadSnapshot(key),bars=bar818Bars(snap),ps=bars.map(([ri,r])=>({ri,server:String(r.server||'')}));
-    const data={build:'R3M.8.18',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
+    const data={build:'R3M.8.21',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');
     a.href=url;a.download='FZ-BAR-REPAIR-'+key+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }catch(e){toast('BAR export failed. Check the connection.');}
@@ -13019,6 +13034,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </script>
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
+<div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
 </body>
 </html>
 <style>
@@ -13061,3 +13077,5 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.21">
+<script src="smart-next.js?v=R3M.8.21"></script>
