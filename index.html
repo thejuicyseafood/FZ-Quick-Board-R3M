@@ -2146,7 +2146,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.15 • BAR PM AUTO REWRITE • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.16 • BAR LEGACY REWRITE • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -5338,7 +5338,8 @@ function loadBoardSnapshot(key){
 function clearBoardSnapshot(key){try{localStorage.removeItem(boardSnapshotStorageKey(key))}catch(e){}}
 function activateBoardRecovery(key,snapshot,source='LOCAL SNAPSHOT'){
   if(snapshot&&boardHasMeaningfulData(snapshot)){
-    board=cloneBoard(snapshot);boardBaseline=cloneBoard(board);loadedBoardKey=String(key||boardKey());
+    board=cloneBoard(snapshot);boardBaseline=cloneBoard(board);
+    if(shift()==='PM')setTimeout(()=>{try{r3mRewriteCurrentBarPmBoard()}catch(e){}},60);loadedBoardKey=String(key||boardKey());
     cacheBoardSnapshot(loadedBoardKey,board,'RECOVERY '+source);
   }
   boardSafetyKey=String(key||boardKey());boardSafetySource=String(source||'LOCAL SNAPSHOT');boardNewKey='';
@@ -5876,10 +5877,79 @@ function rotationTableUnits(row){
 function rotationManualSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType!==BAR_AUTO_SKIP_KIND?1:0),0);
 }
-function r3mIsBarAutoSkipTurn(t){if(!t||!t.skipped)return false;const r=String(t.skipReason||t.reason||'').toUpperCase();return !!t.autoBarSkip||r.includes('BAR PM')||r.includes('BAR AUTO')}
-function r3mMakeBarAutoSkipTurn(master){return {skipped:true,autoBarSkip:true,skipReason:'BAR PM AUTO SKIP',master:Number.isInteger(master)?master:null,at:Date.now(),updatedAt:Date.now()}}
-function r3mRewriteBarPmRow(row){if(!row||!isBarSection(String(row.section||'')))return false;const src=Array.isArray(row.turns)?row.turns:[];if(!src.length)return false;const cleaned=src.filter(t=>!r3mIsBarAutoSkipTurn(t)),rebuilt=[];let actual=0;cleaned.forEach(t=>{rebuilt.push(t);if(t&&!t.skipped&&(t.table||t.people||Number.isInteger(t.master)||t.entryId)){actual++;if(actual%2===0)rebuilt.push(r3mMakeBarAutoSkipTurn(t.master))}});if(JSON.stringify(src)===JSON.stringify(rebuilt))return false;row.turns=rebuilt;return true}
-async function r3mRewriteCurrentBarPmBoard(){if(shift()!=='PM')return false;let changed=false;(board.rows||[]).forEach(r=>{if(r3mRewriteBarPmRow(r))changed=true});if(!changed)return false;board.updatedAt=Date.now();try{scheduleBoardSave()}catch(e){}try{renderSheet();updateNextServerSuggestion();sync(true)}catch(e){}toast('BAR PM HISTORY AUTO-CORRECTED • 2 TABLES = 1 SKIP');return true}
+function r3mBarTurnIsActual(t){
+  if(!t||t.skipped)return false;
+  const table=String(t.table||t.tableId||t.tableName||t.label||'').trim();
+  if(!table)return false;
+  /* A literal BAR marker is a legacy automatic skip, not an actual table. */
+  if(table.toUpperCase()==='BAR')return false;
+  return true;
+}
+function r3mIsBarAutoSkipTurn(t){
+  if(!t)return false;
+  const table=String(t.table||t.tableId||t.tableName||t.label||'').trim().toUpperCase();
+  const reason=String(t.skipReason||t.reason||'').trim().toUpperCase();
+  const type=String(t.type||t.kind||t.action||'').trim().toUpperCase();
+  /* Recognize both new autoskips and the OLD purple "BAR" turns already stored in live Board. */
+  return !!t.autoBarSkip ||
+    table==='BAR' ||
+    reason.includes('BAR PM') ||
+    reason.includes('BAR AUTO') ||
+    type==='BAR_AUTO_SKIP' ||
+    type==='AUTO_BAR_SKIP';
+}
+function r3mMakeBarAutoSkipTurn(master){
+  return {
+    skipped:true,autoBarSkip:true,
+    table:'BAR',label:'BAR',
+    type:'BAR_AUTO_SKIP',kind:'BAR_AUTO_SKIP',action:'BAR_AUTO_SKIP',
+    skipReason:'BAR PM AUTO SKIP',
+    master:Number.isInteger(master)?master:null,
+    at:Date.now(),updatedAt:Date.now()
+  };
+}
+function r3mRewriteBarPmRow(row){
+  if(!row||!isBarSection(String(row.section||'')))return false;
+  const src=Array.isArray(row.turns)?row.turns:[];
+  if(!src.length)return false;
+
+  /* Strip every legacy/new BAR automatic skip. Keep actual tables and manual SKIPs.
+     Then rebuild chronology strictly:
+       actual 1, actual 2, BAR skip, actual 3, actual 4, BAR skip...
+  */
+  const cleaned=src.filter(t=>!r3mIsBarAutoSkipTurn(t));
+  const rebuilt=[];
+  let actual=0;
+  cleaned.forEach(t=>{
+    rebuilt.push(t);
+    if(r3mBarTurnIsActual(t)){
+      actual++;
+      if(actual%2===0)rebuilt.push(r3mMakeBarAutoSkipTurn(t.master));
+    }
+  });
+
+  if(JSON.stringify(src)===JSON.stringify(rebuilt))return false;
+  row.turns=rebuilt;
+  return true;
+}
+async function r3mRewriteCurrentBarPmBoard(){
+  if(shift()!=='PM')return false;
+  let changed=false;
+  (board.rows||[]).forEach(row=>{if(r3mRewriteBarPmRow(row))changed=true});
+  if(!changed)return false;
+  board.updatedAt=Date.now();
+
+  /* Persist immediately instead of waiting on delayed save, then redraw. */
+  try{
+    await writeJ(BOARD_ROOT+'/'+boardKey()+'.json',board,'PUT');
+    boardBaseline=cloneBoard(board);
+  }catch(e){
+    try{scheduleBoardSave()}catch(_){}
+  }
+  try{renderSheet();updateNextServerSuggestion();sync(true)}catch(_){}
+  toast('BAR PM HISTORY CORRECTED • 2 ACTUAL TABLES = 1 AUTO SKIP');
+  return true;
+}
 function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
