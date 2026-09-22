@@ -1,4 +1,5 @@
 /* Lightweight depth styling, no animation or layout changes to controls. */
+#quickNextTables{margin-top:12px}.quickReadyLabel{color:#ffe59b;font-size:11px;font-weight:900;letter-spacing:.7px;margin-bottom:7px}.quickReadyList{display:flex;flex-wrap:wrap;gap:7px}.quickReadyList span{display:inline-block;background:#113d31;border:1px solid #53a585;border-radius:8px;color:#fff;padding:7px 10px;font-size:14px;font-weight:900}.quickReadyList b{color:#c9eadd;font-size:12px}.quickReadyNone{color:#ffd08a;font-size:14px;font-weight:800}.quickNext{align-items:start!important}.quickSeatNext{align-self:center}@media(max-width:600px){.quickReadyList span{font-size:12px;padding:5px 7px}.quickReadyList b{font-size:11px}}
 #nextFullOverlay{display:none!important}
 .mapWrap{grid-template-rows:auto minmax(160px,auto) minmax(0,1fr)!important}
 .rotationDash.simple{height:auto!important;grid-template-rows:auto auto auto!important;overflow:visible!important}

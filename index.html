@@ -1913,7 +1913,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 
 
-/* R3M.8.21 repair dialog controls only */
+/* R3M.8.22 repair dialog controls only */
 .bar818Recovery{margin:16px 0;padding:16px;border:1px solid #e8b640;border-radius:14px;background:#2b250e}
 .bar818Choice{display:flex;align-items:flex-start;gap:12px;padding:12px;margin:8px 0;border:1px solid #44667c;border-radius:10px;cursor:pointer;font-size:16px;line-height:1.45}
 .bar818Choice input{flex:0 0 23px;width:23px;height:23px;margin:0;accent-color:#31b882}
@@ -2149,7 +2149,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 </div></div>
 <div id="bar817Overlay" class="bar817Overlay" role="dialog" aria-modal="true" aria-labelledby="bar817Title">
  <div class="bar817Card">
-  <div class="bar817Tag">R3M.8.21 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
+  <div class="bar817Tag">R3M.8.22 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
   <h2 id="bar817Title">REVIEW BAR PM REPAIR</h2>
   <p id="bar817Text"></p>
   <div id="bar817Preview"></div>
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.21 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.22 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2234,7 +2234,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
         <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
-        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.21 • convert replacement manual SKIPs and review saved Floor links</span></button>
+        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.22 • convert replacement manual SKIPs and review saved Floor links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
       </div></div>
     </section>
@@ -5914,7 +5914,7 @@ function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
 function storedSectionAutoSkipsFromFormation(sourceFormation,section){
-  // R3M.8.21: rotation uses saved server turn cells, never section credits.
+  // R3M.8.22: rotation uses saved server turn cells, never section credits.
   // Retain legacy metadata for compatibility; it does not generate a SKIP.
   return 0;
 }
@@ -11937,6 +11937,16 @@ function quickPositionFrontierGuide(grid,frontierIndex,kind='min'){
   const x=(stripRect.left-gridRect.left)+stripRect.width*((col+1)/15);
   guide.style.left=x+'px';guide.style.display='block';
 }
+function quickRenderNextTables(){
+  const host=$('quickNextMeta');if(!host)return;
+  let box=$('quickNextTables');
+  if(!box){box=document.createElement('div');box.id='quickNextTables';host.insertAdjacentElement('afterend',box)}
+  const next=getNextServerSuggestion();
+  if(!next){box.textContent='';return}
+  const name=next.row.server;
+  const ids=TABLE_IDS.filter(id=>operationalTableStatus(tableState[id]||{})==='ready'&&breaktimeServerKey(serverForTable(id))===breaktimeServerKey(name));
+  box.innerHTML='<div class="quickReadyLabel">READY TABLES · '+ids.length+' AVAILABLE</div>'+(ids.length?'<div class="quickReadyList">'+ids.map(id=>{const cap=tableGuestCapacity(id);return '<span>'+esc(id)+' <b>· '+(cap?cap+' guests':'capacity not set')+'</b></span>'}).join('')+'</div>':'<div class="quickReadyNone">No READY tables. Check the Floor before seating.</div>');
+}
 function quickRenderBoard(){
   const grid=$('quickServerGrid');if(!grid)return;
   const boardPane=$('quickBoardPane'),boardPaneActive=!!(boardPane&&boardPane.classList.contains('active'));
@@ -11953,6 +11963,7 @@ function quickRenderBoard(){
   }else{
     nextName.textContent='—';nextMeta.textContent=floorFormation.formation?'No active server':'Set a formation to begin';seatNext.disabled=true;
   }
+  quickRenderNextTables();
   const rows=board&&Array.isArray(board.rows)?board.rows.map((row,ri)=>({row,ri,duty:staffDutyState(row&&row.server)})).filter(x=>x.row&&x.row.server&&x.duty.state==='ACTIVE'):[];
   $('quickTeamCount').textContent=rows.length+' active';
   const usedByRow=rows.map(item=>(item.row.turns||[]).reduce((last,turn,index)=>turn&&(turn.table||turn.people||turn.skipped||Number.isInteger(turn.master))?index:last,-1)+1);
@@ -12556,7 +12567,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
 
 /* BEGIN BAR818 ISOLATED REPAIR MODULE */
-/* R3M.8.21 — isolated BAR repair planner. No I/O and no mutation of inputs. */
+/* R3M.8.22 — isolated BAR repair planner. No I/O and no mutation of inputs. */
 const Bar818 = (() => {
   'use strict';
   const CAPACITY=60, KIND='barAuto';
@@ -12948,7 +12959,7 @@ async function bar817Apply(){
       if(!plans.some(p=>path==='rotationBoardV31/'+key+'/rows/'+p.ri+'/turns')&&
          !path.startsWith('rotationSkipLocksV101/'+key+'/')&&!/^tables\/[^/]+\/(?:boardRef|primaryBoardRef)$/.test(path))throw new Error('Unexpected repair write path.');
     }
-    const audit={build:'R3M.8.21',at:Date.now(),boardKey:key,by:role(),
+    const audit={build:'R3M.8.22',at:Date.now(),boardKey:key,by:role(),
       rows:Object.fromEntries(plans.map(p=>[p.ri,current.rawBoard.rows[p.ri]])),locks:bar817RelatedLocks(current.locks,plans),tables:bar817RelatedTables(current.tables,key,plans),
       approved:plans.map(p=>({row:p.ri,server:p.server,convertedManual:p.converted,recoveredFloor:p.recovered,actual:p.actual,barAutoSkips:p.autoSkips}))};
     // Preserve exact preimages in the existing dedicated repair journal, not in the GitHub repository.
@@ -12987,7 +12998,7 @@ async function bar817Apply(){
 async function bar817Export(){
   try{
     const key=boardKey(),snap=await bar817ReadSnapshot(key),bars=bar818Bars(snap),ps=bars.map(([ri,r])=>({ri,server:String(r.server||'')}));
-    const data={build:'R3M.8.21',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
+    const data={build:'R3M.8.22',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');
     a.href=url;a.download='FZ-BAR-REPAIR-'+key+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }catch(e){toast('BAR export failed. Check the connection.');}
@@ -13077,5 +13088,5 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.21">
-<script src="smart-next.js?v=R3M.8.21"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.22">
+<script src="smart-next.js?v=R3M.8.22"></script>

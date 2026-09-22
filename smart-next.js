@@ -1,4 +1,4 @@
-/* R3M.8.21: advisory only. No seating, rotation, skip or database writes. */
+/* R3M.8.22: advisory only. No seating, rotation, skip or database writes. */
 (function(root){
  'use strict';
  function recommend(candidates,party){
@@ -55,7 +55,7 @@
    html+='<small>Live Floor status · no automatic SKIP · host confirms seating</small>';
    if(html!==lastMarkup){document.getElementById('snResult20').innerHTML=html;lastMarkup=html}
  }catch(e){const el=document.getElementById('snResult20');if(el)el.textContent='Recommendation temporarily unavailable. Use the existing rotation and check the Floor.'}}
- async function tick(){render();if(busy||Date.now()-lastRead<15000||typeof board==='undefined'||!board)return;busy=true;lastRead=Date.now();const key=boardKey();try{const raw=await readJ(RECENT_SEAT_ROOT+'/'+key+'.json');if(key===boardKey()){events=Object.values(raw||{});eventKey=key;render()}}catch(e){eventKey=''}finally{busy=false}}
+ async function tick(){render();try{quickRenderNextTables()}catch(e){}if(busy||Date.now()-lastRead<15000||typeof board==='undefined'||!board)return;busy=true;lastRead=Date.now();const key=boardKey();try{const raw=await readJ(RECENT_SEAT_ROOT+'/'+key+'.json');if(key===boardKey()){events=Object.values(raw||{});eventKey=key;render()}}catch(e){eventKey=''}finally{busy=false}}
  // Retire only the new full-section popup; keep the original seating guards.
  checkNextServerFloorFull=function(){render()};
  const old=document.getElementById('nextFullOverlay');if(old)old.remove();
