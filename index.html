@@ -1913,7 +1913,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 
 
-/* R3M.8.23 repair dialog controls only */
+/* R3M.8.25 repair dialog controls only */
 .bar818Recovery{margin:16px 0;padding:16px;border:1px solid #e8b640;border-radius:14px;background:#2b250e}
 .bar818Choice{display:flex;align-items:flex-start;gap:12px;padding:12px;margin:8px 0;border:1px solid #44667c;border-radius:10px;cursor:pointer;font-size:16px;line-height:1.45}
 .bar818Choice input{flex:0 0 23px;width:23px;height:23px;margin:0;accent-color:#31b882}
@@ -2149,7 +2149,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 </div></div>
 <div id="bar817Overlay" class="bar817Overlay" role="dialog" aria-modal="true" aria-labelledby="bar817Title">
  <div class="bar817Card">
-  <div class="bar817Tag">R3M.8.23 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
+  <div class="bar817Tag">R3M.8.25 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
   <h2 id="bar817Title">REVIEW BAR PM REPAIR</h2>
   <p id="bar817Text"></p>
   <div id="bar817Preview"></div>
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.23 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.25 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2234,7 +2234,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
         <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
-        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.23 • convert replacement manual SKIPs and review saved Floor links</span></button>
+        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.25 • convert replacement manual SKIPs and review saved Floor links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
       </div></div>
     </section>
@@ -5914,7 +5914,7 @@ function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
 function storedSectionAutoSkipsFromFormation(sourceFormation,section){
-  // R3M.8.23: rotation uses saved server turn cells, never section credits.
+  // R3M.8.25: rotation uses saved server turn cells, never section credits.
   // Retain legacy metadata for compatibility; it does not generate a SKIP.
   return 0;
 }
@@ -12361,54 +12361,100 @@ window.addEventListener('beforeunload',()=>{try{if(document.getElementById('quic
    Browser/OS privacy indicators remain controlled by the device/browser.
 */
 const R3M_MON_ROOT="https://table-live-by-iwanto-zhang-default-rtdb.firebaseio.com/juicyTableLive/JUICY-HUNTSVILLE/ownerMonitorR3M";
-function r3mKey(){return deviceId().replace(/[.#$\[\]\/]/g,"_")}
-function r3mLabel(){return "Front Host "+r3mKey().slice(-6).toUpperCase()}
-async function r3mRead(path){const r=await fetch(R3M_MON_ROOT+path+".json?x="+Date.now(),{cache:"no-store"});if(!r.ok)throw Error("network");return r.json()}
-async function r3mWrite(path,data){const r=await fetch(R3M_MON_ROOT+path+".json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});if(!r.ok)throw Error("network");return r.json()}
-const r3mIce={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]};
-function r3mWaitIce(pc){return new Promise(res=>{if(pc.iceGatheringState==="complete")return res();const f=()=>{if(pc.iceGatheringState==="complete"){pc.removeEventListener("icegatheringstatechange",f);res()}};pc.addEventListener("icegatheringstatechange",f);setTimeout(res,5000)})}
-let r3mArmed=localStorage.getItem("fz_r3m_front_armed")==="1",r3mFrontPc=null,r3mFrontStream=null,r3mFrontSession="",r3mFrontBusy=false;
+function r3mKey(){return deviceId().replace(/[.#$\[\]\/]/g,'_')}
+function r3mLabel(){return 'Front Host '+r3mKey().slice(-6).toUpperCase()}
+async function r3mHttp(path,method='GET',body){
+ const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),10000);
+ try{const r=await fetch(R3M_MON_ROOT+path+'.json'+(method==='GET'?'?x='+Date.now():''),{method,cache:'no-store',signal:abort.signal,headers:{'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});if(!r.ok)throw Error('Monitor network HTTP '+r.status);return await r.json()}finally{clearTimeout(timer)}
+}
+function r3mRead(p){return r3mHttp(p)}
+function r3mWrite(p,d){return r3mHttp(p,'PUT',d)}
+function r3mPatch(p,d){return r3mHttp(p,'PATCH',d)}
+function r3mWaitIce(pc){return new Promise(resolve=>{let timer;const done=()=>{clearTimeout(timer);pc.removeEventListener('icegatheringstatechange',check);resolve()},check=()=>{if(pc.iceGatheringState==='complete')done()};timer=setTimeout(done,4500);pc.addEventListener('icegatheringstatechange',check);check()})}
+let r3mArmed=localStorage.getItem('fz_r3m_front_armed')==='1',r3mFrontPc=null,r3mFrontStream=null,r3mFrontSession='',r3mFrontBusy=false;
+let r3mSelected='',r3mOwnerPc=null,r3mRemote=null,r3mSession='',r3mCameraOn=true,r3mListenOn=true,r3mRecorder=null,r3mChunks=[],r3mRetryUsed=false;
+let r3mFrontContext=null,r3mOwnerContext=null,r3mStarting=false,r3mPresenceBusy=false,r3mOwnerGeneration=0;
 function r3mIsFrontRole(){try{return !ownerRoleUnlocked&&!managerRoleUnlocked&&$('role')&&$('role').value==='Front Host'}catch(e){return false}}
+function r3mNotice(text){let el=$('r3mActiveNotice');if(!el){el=document.createElement('div');el.id='r3mActiveNotice';el.style.cssText='position:fixed;bottom:90px;left:10px;z-index:15000;background:#742b15;color:white;padding:10px;border-radius:10px;max-width:90vw';document.body.appendChild(el)}el.textContent=text;el.hidden=!text}
 async function r3mPresence(){
-  if(!r3mIsFrontRole())return;
-  try{await r3mWrite("/devices/"+r3mKey(),{id:r3mKey(),label:r3mLabel(),armed:!!r3mArmed,lastSeen:Date.now(),monitoring:!!(r3mFrontSession&&r3mFrontPc&&["new","connecting","connected"].includes(r3mFrontPc.connectionState))})}catch(e){}
+ if(!r3mIsFrontRole()||r3mPresenceBusy)return;r3mPresenceBusy=true;
+ try{await r3mPatch('/devices/'+r3mKey(),{id:r3mKey(),label:r3mLabel(),armed:!!r3mArmed,lastSeen:Date.now(),monitoring:!!r3mFrontContext})}catch(e){}finally{r3mPresenceBusy=false}
 }
-async function r3mAutoFrontSetup(){
-  if(!r3mIsFrontRole())return;
-  if(r3mArmed){await r3mPresence();return}
-  try{
-    const st=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-    st.getTracks().forEach(t=>t.stop());
-    r3mArmed=true;
-    localStorage.setItem("fz_r3m_front_armed","1");
-  }catch(e){
-    r3mArmed=false;
-  }
-  await r3mPresence();
-}
-async function r3mArmThisDevice(){
-  if(!ownerRoleUnlocked)return toast('Owner only');
-  try{
-    const st=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-    st.getTracks().forEach(t=>t.stop());
-    r3mArmed=true;localStorage.setItem("fz_r3m_front_armed","1");
-    r3mUpdateArmState();toast('This device is ready as Front Monitor')
-  }catch(e){toast('Camera / microphone permission not granted')}
-}
-function r3mUpdateArmState(){const e=$('r3mArmState');if(e)e.innerHTML=r3mArmed?'<span class="r3mBadge">READY ON THIS DEVICE</span>':'Not set on this device'}
-async function r3mStopFront(){const old=r3mFrontSession;try{r3mFrontPc&&r3mFrontPc.close()}catch(e){}r3mFrontPc=null;if(r3mFrontStream){r3mFrontStream.getTracks().forEach(t=>t.stop());r3mFrontStream=null}r3mFrontSession="";r3mFrontBusy=false;try{await r3mWrite("/devices/"+r3mKey()+"/request",null)}catch(e){}try{if(old)await r3mWrite("/sessions/"+old+"/frontState",{status:"closed",at:Date.now()})}catch(e){}await r3mPresence()}
-async function r3mFrontPoll(){if(!r3mArmed||!r3mIsFrontRole())return;try{const req=await r3mRead("/devices/"+r3mKey()+"/request");if(!req||!req.session)return;if(req.stop){if(req.session===r3mFrontSession)await r3mStopFront();else await r3mWrite("/devices/"+r3mKey()+"/request",null);return}if(r3mFrontSession===req.session&&r3mFrontPc)return;if(r3mFrontBusy)return;if(r3mFrontSession&&r3mFrontSession!==req.session)await r3mStopFront();const data=await r3mRead("/sessions/"+req.session);if(!data||!data.offer)return;r3mFrontBusy=true;r3mFrontSession=req.session;r3mFrontStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});r3mFrontPc=new RTCPeerConnection(r3mIce);r3mFrontStream.getTracks().forEach(t=>r3mFrontPc.addTrack(t,r3mFrontStream));r3mFrontPc.onconnectionstatechange=async()=>{if(!r3mFrontPc)return;const s=r3mFrontPc.connectionState;await r3mPresence();if(s==='failed'||s==='closed'){await r3mStopFront()}else if(s==='disconnected'){setTimeout(async()=>{if(r3mFrontPc&&r3mFrontPc.connectionState==='disconnected')await r3mStopFront()},5000)}};await r3mFrontPc.setRemoteDescription(data.offer);const a=await r3mFrontPc.createAnswer();await r3mFrontPc.setLocalDescription(a);await r3mWaitIce(r3mFrontPc);await r3mWrite("/sessions/"+r3mFrontSession+"/answer",r3mFrontPc.localDescription);await r3mWrite("/sessions/"+r3mFrontSession+"/frontState",{status:"answered",at:Date.now()});r3mFrontBusy=false;await r3mPresence()}catch(e){r3mFrontBusy=false;await r3mStopFront()}}
-setInterval(()=>{r3mPresence();r3mFrontPoll()},1500);
-
-let r3mSelected="",r3mOwnerPc=null,r3mRemote=null,r3mSession="",r3mCameraOn=true,r3mListenOn=true,r3mRecorder=null,r3mChunks=[],r3mRetryUsed=false;
+async function r3mAutoFrontSetup(){if(!r3mIsFrontRole())return;if(!r3mArmed)try{const s=await navigator.mediaDevices.getUserMedia({video:true,audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});s.getTracks().forEach(t=>t.stop());r3mArmed=true;localStorage.setItem('fz_r3m_front_armed','1')}catch(e){r3mArmed=false}await r3mPresence()}
+async function r3mArmThisDevice(){if(!ownerRoleUnlocked)return toast('Owner only');try{const s=await navigator.mediaDevices.getUserMedia({video:true,audio:true});s.getTracks().forEach(t=>t.stop());r3mArmed=true;localStorage.setItem('fz_r3m_front_armed','1');r3mUpdateArmState();toast('This device is ready as Front Monitor')}catch(e){toast('Camera / microphone permission not granted')}}
+function r3mUpdateArmState(){const e=$('r3mArmState');if(e)e.textContent=r3mArmed?'READY ON THIS DEVICE':'Not set on this device'}
 function r3mSetStatus(x){if($('r3mStatus'))$('r3mStatus').textContent=x}
-async function r3mLoadDevices(){if(!$('r3mOwnerLayer')||!$('r3mOwnerLayer').classList.contains('show'))return;try{const raw=await r3mRead('/devices')||{},now=Date.now(),online=Object.values(raw).filter(x=>x&&now-(x.lastSeen||0)<12000),arr=online.filter(x=>x.armed);$('r3mDevices').innerHTML=arr.length?arr.map(x=>`<button class="r3mDevice ${x.id===r3mSelected?'sel':''}" data-r3m-device="${esc(x.id)}"><b>${esc(x.label)}</b><br><span class="r3mMuted">Online • ${Math.round((now-x.lastSeen)/1000)} sec ago ${x.monitoring?'• MONITORING':''}</span></button>`).join(''):(online.length?'<div class="r3mMuted">Front device online • camera/microphone permission still required on that device.</div>':'<div class="r3mMuted">No Front device online.</div>');$('r3mDevices').querySelectorAll('[data-r3m-device]').forEach(b=>b.onclick=()=>{r3mSelected=b.dataset.r3mDevice;r3mLoadDevices()})}catch(e){}}
+function r3mCloseContext(c){if(!c)return;c.closed=true;clearInterval(c.poll);clearTimeout(c.deadline);clearTimeout(c.reconnect);if(c.channel)try{c.channel.close()}catch(e){}if(c.pc){c.pc.onconnectionstatechange=null;c.pc.onicecandidate=null;c.pc.ontrack=null;c.pc.close()}if(c.stream)c.stream.getTracks().forEach(t=>t.stop())}
+function r3mCurrent(c){return !c.closed&&(c.side==='owner'?r3mOwnerContext===c:r3mFrontContext===c)}
+function r3mCandidates(c){
+ c.pc.onicecandidate=e=>{if(e.candidate&&r3mCurrent(c)){const k='c'+(++c.seq);r3mWrite('/sessions/'+c.id+'/'+c.side+'Ice/'+k,e.candidate.toJSON()).catch(()=>{})}};
+ c.poll=setInterval(async()=>{if(!r3mCurrent(c)||c.pollBusy)return;c.pollBusy=true;try{
+  const data=await r3mRead('/sessions/'+c.id);if(!r3mCurrent(c)||!data)return;
+  if(c.side==='front'&&data.ownerState?.status==='closed'){await r3mStopFront();return}
+  if(c.side==='owner'&&data.frontState?.status==='error'){await r3mFailOwner(c,'Host: '+data.frontState.message);return}
+  if(c.side==='owner'&&data.frontState?.status==='closed'){await r3mFailOwner(c,'Host disconnected');return}
+  if(c.side==='owner'&&data.frontState?.status==='answered'){c.noise=data.frontState.noiseSuppression;if(c.pc.connectionState==='connected')r3mSetStatus(c.noise?'LIVE • Noise reduction ON':'LIVE • Noise reduction not confirmed')}
+  if(c.side==='owner'&&data.answer&&!c.pc.remoteDescription)await c.pc.setRemoteDescription(data.answer);
+  if(!r3mCurrent(c)||!c.pc.remoteDescription)return;
+  const candidates=data[c.side==='owner'?'frontIce':'ownerIce']||{};
+  for(const [k,v] of Object.entries(candidates)){if(!r3mCurrent(c))break;if(c.seen.has(k))continue;try{await c.pc.addIceCandidate(v);c.seen.add(k)}catch(e){}}
+ }catch(e){if(r3mCurrent(c)&&c.side==='owner')r3mSetStatus('SIGNAL RETRY…')}finally{c.pollBusy=false}},1000);
+}
+async function r3mStopFront(){const c=r3mFrontContext;r3mFrontContext=null;r3mFrontPc=null;r3mFrontStream=null;r3mFrontSession='';r3mCloseContext(c);r3mNotice('');if(c)try{await r3mWrite('/sessions/'+c.id+'/frontState',{status:'closed',at:Date.now()})}catch(e){}await r3mPresence()}
+async function r3mFrontPoll(){
+ if(r3mFrontBusy)return;if(!r3mIsFrontRole()){if(r3mFrontContext)await r3mStopFront();return}if(!r3mArmed)return;r3mFrontBusy=true;let c;
+ try{
+ const req=await r3mRead('/devices/'+r3mKey()+'/request');if(!req?.session)return;
+ if(req.stop){if(req.session===r3mFrontSession)await r3mStopFront();return}
+ if(Date.now()-Number(req.at)>45000)return;
+ if(r3mFrontContext?.id===req.session)return;
+ const data=await r3mRead('/sessions/'+req.session);if(!data?.offer||data.ownerState?.status==='closed')return;
+ await r3mStopFront();
+ c={id:req.session,side:'front',seq:0,seen:new Set(),closed:false};r3mFrontContext=c;r3mFrontSession=c.id;
+ r3mNotice('Owner Monitor: camera and microphone active');
+ const stream=await acquireCallMedia('video');if(!r3mCurrent(c)||!r3mIsFrontRole()){stream.getTracks().forEach(t=>t.stop());return}c.stream=stream;r3mFrontStream=stream;
+ const config=await loadCallRtcConfig();if(!r3mCurrent(c))return;c.pc=new RTCPeerConnection(config);r3mFrontPc=c.pc;r3mCandidates(c);
+ stream.getTracks().forEach(t=>c.pc.addTrack(t,stream));
+ c.pc.ondatachannel=e=>{c.channel=e.channel;c.channel.onmessage=m=>{if(r3mCurrent(c))r3mNotice(m.data==='captions:on'?'Owner Monitor: camera, microphone and live transcription active':'Owner Monitor: camera and microphone active')}};
+ c.pc.onconnectionstatechange=()=>{if(!r3mCurrent(c))return;const s=c.pc.connectionState;if(s==='connected'){clearTimeout(c.deadline);clearTimeout(c.reconnect)}if(s==='failed'||s==='closed')r3mStopFront();if(s==='disconnected'){clearTimeout(c.reconnect);c.reconnect=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState==='disconnected')r3mStopFront()},12000)}};
+ await c.pc.setRemoteDescription(data.offer);if(!r3mCurrent(c))return;await c.pc.setLocalDescription(await c.pc.createAnswer());await r3mWaitIce(c.pc);if(!r3mCurrent(c))return;
+ await r3mPatch('/sessions/'+c.id,{answer:c.pc.localDescription.toJSON(),frontState:{status:'answered',at:Date.now(),noiseSuppression:stream.getAudioTracks()[0]?.getSettings().noiseSuppression===true}});
+ c.deadline=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState!=='connected')r3mStopFront()},45000);
+ }catch(e){if(c&&r3mCurrent(c)){await r3mStopFront();try{await r3mWrite('/sessions/'+c.id+'/frontState',{status:'error',message:String(e.message).slice(0,180),at:Date.now()})}catch(_){}}}finally{r3mFrontBusy=false}
+}
+setInterval(()=>{r3mPresence();r3mFrontPoll();if(r3mOwnerContext&&!ownerRoleUnlocked)r3mStopOwner(true)},1500);
+async function r3mLoadDevices(){if(!$('r3mOwnerLayer')?.classList.contains('show'))return;try{const raw=await r3mRead('/devices')||{},now=Date.now(),online=Object.values(raw).filter(x=>x&&now-(x.lastSeen||0)<20000),arr=online.filter(x=>x.armed);$('r3mDevices').innerHTML=arr.length?arr.map(x=>`<button class="r3mDevice ${x.id===r3mSelected?'sel':''}" data-r3m-device="${esc(x.id)}"><b>${esc(x.label)}</b><br>Online ${x.monitoring?'• MONITORING':''}</button>`).join(''):(online.length?'Front device online • camera/microphone permission required.':'No Front device online.');$('r3mDevices').querySelectorAll('[data-r3m-device]').forEach(b=>b.onclick=()=>{r3mSelected=b.dataset.r3mDevice;r3mLoadDevices()})}catch(e){$('r3mDevices').textContent='Cannot load Host devices. Check connection.'}}
 function r3mOpen(){if(!ownerRoleUnlocked)return toast('Owner only');$('r3mOwnerLayer').classList.add('show');$('r3mOwnerLayer').setAttribute('aria-hidden','false');r3mUpdateArmState();r3mLoadDevices()}
 async function r3mClose(){await r3mStopOwner(true);$('r3mOwnerLayer').classList.remove('show');$('r3mOwnerLayer').setAttribute('aria-hidden','true')}
-async function r3mStartOwner(){if(!ownerRoleUnlocked)return toast('Owner only');if(!r3mSelected)return toast('Select a Front device');await r3mStopOwner(true);r3mSession="s_"+Date.now()+"_"+Math.random().toString(36).slice(2,6);try{r3mSetStatus("CONNECTING…");r3mOwnerPc=new RTCPeerConnection(r3mIce);r3mOwnerPc.addTransceiver("video",{direction:"recvonly"});r3mOwnerPc.addTransceiver("audio",{direction:"recvonly"});r3mOwnerPc.ontrack=e=>{r3mRemote=e.streams[0]||r3mRemote||new MediaStream();if(!e.streams[0])r3mRemote.addTrack(e.track);$('r3mVideo').srcObject=r3mRemote;r3mSetStatus("LIVE");r3mRetryUsed=false};r3mOwnerPc.onconnectionstatechange=()=>{if(!r3mOwnerPc)return;const s=r3mOwnerPc.connectionState;if(s==='connected'){r3mSetStatus('LIVE');r3mRetryUsed=false}else if(s==='disconnected'){r3mSetStatus('RECONNECTING…');setTimeout(()=>{if(r3mOwnerPc&&r3mOwnerPc.connectionState==='disconnected'&&!r3mRetryUsed){r3mRetryUsed=true;r3mStartOwner()}},4000)}else if(s==='failed'){r3mSetStatus('RECONNECTING…');if(!r3mRetryUsed){r3mRetryUsed=true;setTimeout(()=>r3mStartOwner(),1200)}else r3mStopOwner(true)}};const o=await r3mOwnerPc.createOffer();await r3mOwnerPc.setLocalDescription(o);await r3mWaitIce(r3mOwnerPc);await r3mWrite("/sessions/"+r3mSession,{offer:r3mOwnerPc.localDescription,target:r3mSelected,created:Date.now(),at:Date.now()});await r3mWrite("/devices/"+r3mSelected+"/request",{session:r3mSession,at:Date.now()});let ans=null,t=Date.now();while(Date.now()-t<22000&&!ans){await new Promise(r=>setTimeout(r,650));ans=await r3mRead("/sessions/"+r3mSession+"/answer")}if(!ans)throw Error("No answer");await r3mOwnerPc.setRemoteDescription(ans)}catch(e){r3mSetStatus("FAILED");toast("Connection failed: "+e.message);await r3mStopOwner(true)}}
-async function r3mStopOwner(signal=true){if(r3mRecorder&&r3mRecorder.state==="recording")r3mRecorder.stop();const ss=r3mSession,dd=r3mSelected;r3mSession="";try{if(r3mOwnerPc)r3mOwnerPc.onconnectionstatechange=null;r3mOwnerPc&&r3mOwnerPc.close()}catch(e){}r3mOwnerPc=null;r3mRemote=null;if($('r3mVideo'))$('r3mVideo').srcObject=null;r3mSetStatus("IDLE");if(ss&&dd)try{await r3mWrite("/devices/"+dd+"/request",signal?{session:ss,stop:true,at:Date.now()}:null)}catch(e){}try{if(ss)await r3mWrite("/sessions/"+ss+"/ownerState",{status:"closed",at:Date.now()})}catch(e){}}
+async function r3mFailOwner(c,message){if(!r3mCurrent(c))return;await r3mStopOwner(true);if(!r3mOwnerContext)r3mSetStatus('FAILED • '+message)}
+async function r3mStartOwner(retry=false){
+ if(!ownerRoleUnlocked)return toast('Owner only');if(!r3mSelected)return toast('Select a Front device');if(r3mStarting)return;r3mStarting=true;let c;
+ try{
+ const cleanup=r3mStopOwner(true),generation=r3mOwnerGeneration;await cleanup;if(!ownerRoleUnlocked||generation!==r3mOwnerGeneration)return;
+ c={id:'s_'+Date.now()+'_'+Math.random().toString(36).slice(2,9),device:r3mSelected,side:'owner',seq:0,seen:new Set(),closed:false,retry:retry===true};r3mOwnerContext=c;r3mSession=c.id;
+ r3mSetStatus('CONNECTING • contacting Host…');const config=await loadCallRtcConfig();if(!r3mCurrent(c))return;
+ c.pc=new RTCPeerConnection(config);r3mOwnerPc=c.pc;
+ await r3mWrite('/sessions/'+c.id,{target:c.device,created:Date.now()});if(!r3mCurrent(c))return;r3mCandidates(c);
+ c.channel=c.pc.createDataChannel('monitor-status');c.channel.onopen=()=>{if(r3mCurrent(c))c.channel.send('captions:off')};
+ c.pc.addTransceiver('video',{direction:'recvonly'});c.pc.addTransceiver('audio',{direction:'recvonly'});
+ c.pc.ontrack=e=>{if(!r3mCurrent(c))return;r3mRemote=e.streams[0]||r3mRemote||new MediaStream();if(!e.streams[0])r3mRemote.addTrack(e.track);$('r3mVideo').srcObject=r3mRemote;$('r3mVideo').muted=!r3mListenOn;$('r3mVideo').play().catch(()=>r3mSetStatus('Tap video to play audio'));};
+ c.pc.onconnectionstatechange=()=>{if(!r3mCurrent(c))return;const s=c.pc.connectionState;
+ if(s==='connected'){clearTimeout(c.deadline);clearTimeout(c.reconnect);r3mSetStatus('LIVE')}
+ if(s==='failed'||s==='disconnected'){r3mSetStatus('RECONNECTING…');clearTimeout(c.reconnect);c.reconnect=setTimeout(()=>{if(!r3mCurrent(c)||c.pc.connectionState==='connected')return;if(!c.retry)r3mStartOwner(true);else r3mFailOwner(c,'Network connection failed. Tap START to retry.')},s==='failed'?1500:8000)}
+ };
+ await c.pc.setLocalDescription(await c.pc.createOffer());await r3mWaitIce(c.pc);if(!r3mCurrent(c))return;
+ await r3mPatch('/sessions/'+c.id,{offer:c.pc.localDescription.toJSON()});if(!r3mCurrent(c))return;
+ await r3mWrite('/devices/'+c.device+'/request',{session:c.id,at:Date.now()});
+ if(!r3mCurrent(c))return;c.deadline=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState!=='connected')r3mFailOwner(c,c.pc.remoteDescription?'Host answered, but media connection failed':'Host did not answer. Keep the Host app open and check camera permission.')},45000);
+ }catch(e){if(c)await r3mFailOwner(c,String(e.message))}finally{r3mStarting=false}
+}
+async function r3mStopOwner(signal=true){
+ r3mOwnerGeneration++;window.FZCaptions?.stop();if(r3mRecorder?.state==='recording')r3mRecorder.stop();const c=r3mOwnerContext;r3mOwnerContext=null;r3mSession='';r3mCloseContext(c);r3mOwnerPc=null;r3mRemote=null;if($('r3mVideo'))$('r3mVideo').srcObject=null;r3mSetStatus('IDLE');
+ if(c)try{await r3mWrite('/sessions/'+c.id+'/ownerState',{status:'closed',at:Date.now()})}catch(e){}
+}
+
 function r3mToggleCamera(){r3mCameraOn=!r3mCameraOn;$('r3mVideo').style.visibility=r3mCameraOn?"visible":"hidden";$('r3mCam').textContent=r3mCameraOn?"CAMERA ON":"CAMERA OFF"}
-function r3mToggleListen(){r3mListenOn=!r3mListenOn;const st=$('r3mVideo').srcObject;if(st)st.getAudioTracks().forEach(t=>t.enabled=r3mListenOn);$('r3mListen').textContent=r3mListenOn?"LISTEN ON":"LISTEN OFF"}
+function r3mToggleListen(){r3mListenOn=!r3mListenOn;const st=$('r3mVideo').srcObject;$('r3mVideo').muted=!r3mListenOn;$('r3mListen').textContent=r3mListenOn?"LISTEN ON":"LISTEN OFF"}
 function r3mToggleRecord(){const st=$('r3mVideo').srcObject;if(!st)return toast('Start monitor first');if(r3mRecorder&&r3mRecorder.state==="recording"){r3mRecorder.stop();return}try{r3mChunks=[];r3mRecorder=new MediaRecorder(st);r3mRecorder.ondataavailable=e=>{if(e.data.size)r3mChunks.push(e.data)};r3mRecorder.onstop=()=>{const b=new Blob(r3mChunks,{type:r3mRecorder.mimeType||"video/webm"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="FZ_Owner_Monitor_"+new Date().toISOString().replace(/[:.]/g,"-")+".webm";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);$('r3mRec').textContent="● RECORD"};r3mRecorder.start(1000);$('r3mRec').textContent="■ STOP RECORD"}catch(e){toast('Recording not supported by this browser')}}
 function r3mBind(){if($('quickOwnerMonitor'))$('quickOwnerMonitor').onclick=r3mOpen;if($('r3mClose'))$('r3mClose').onclick=r3mClose;if($('r3mArmThis'))$('r3mArmThis').onclick=r3mArmThisDevice;if($('r3mStart'))$('r3mStart').onclick=r3mStartOwner;if($('r3mCam'))$('r3mCam').onclick=r3mToggleCamera;if($('r3mListen'))$('r3mListen').onclick=r3mToggleListen;if($('r3mRec'))$('r3mRec').onclick=r3mToggleRecord;if($('r3mStop'))$('r3mStop').onclick=()=>r3mStopOwner(true);setInterval(r3mLoadDevices,2500)}
 
@@ -12567,7 +12613,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
 
 /* BEGIN BAR818 ISOLATED REPAIR MODULE */
-/* R3M.8.23 — isolated BAR repair planner. No I/O and no mutation of inputs. */
+/* R3M.8.25 — isolated BAR repair planner. No I/O and no mutation of inputs. */
 const Bar818 = (() => {
   'use strict';
   const CAPACITY=60, KIND='barAuto';
@@ -12959,7 +13005,7 @@ async function bar817Apply(){
       if(!plans.some(p=>path==='rotationBoardV31/'+key+'/rows/'+p.ri+'/turns')&&
          !path.startsWith('rotationSkipLocksV101/'+key+'/')&&!/^tables\/[^/]+\/(?:boardRef|primaryBoardRef)$/.test(path))throw new Error('Unexpected repair write path.');
     }
-    const audit={build:'R3M.8.23',at:Date.now(),boardKey:key,by:role(),
+    const audit={build:'R3M.8.25',at:Date.now(),boardKey:key,by:role(),
       rows:Object.fromEntries(plans.map(p=>[p.ri,current.rawBoard.rows[p.ri]])),locks:bar817RelatedLocks(current.locks,plans),tables:bar817RelatedTables(current.tables,key,plans),
       approved:plans.map(p=>({row:p.ri,server:p.server,convertedManual:p.converted,recoveredFloor:p.recovered,actual:p.actual,barAutoSkips:p.autoSkips}))};
     // Preserve exact preimages in the existing dedicated repair journal, not in the GitHub repository.
@@ -12998,7 +13044,7 @@ async function bar817Apply(){
 async function bar817Export(){
   try{
     const key=boardKey(),snap=await bar817ReadSnapshot(key),bars=bar818Bars(snap),ps=bars.map(([ri,r])=>({ri,server:String(r.server||'')}));
-    const data={build:'R3M.8.23',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
+    const data={build:'R3M.8.25',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');
     a.href=url;a.download='FZ-BAR-REPAIR-'+key+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }catch(e){toast('BAR export failed. Check the connection.');}
@@ -13046,6 +13092,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
+<script src="monitor-captions.js?v=R3M.8.25"></script>
 </body>
 </html>
 <style>
@@ -13088,6 +13135,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.23">
-<script src="smart-next.js?v=R3M.8.23"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.23"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.25">
+<script src="smart-next.js?v=R3M.8.25"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.25"></script>
