@@ -2146,7 +2146,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.13 • CLEAR SHIFT FIX • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.14 • ROTATION + BAR PM FIX • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -6069,8 +6069,15 @@ function rotationStats(){
 function getNextServerSuggestion(){
   const stats=rotationStats();
   if(!stats.length)return null;
+  const livePosition=s=>{
+    let last=-1;
+    (s.row.turns||[]).forEach((t,i)=>{
+      if(t&&(t.table||t.people||t.skipped||Number.isInteger(t.master)||t.entryId))last=i;
+    });
+    return last+1;
+  };
   return stats.sort((a,b)=>
-    a.score-b.score ||
+    livePosition(a)-livePosition(b) ||
     sectionSortKey(a.row.section)-sectionSortKey(b.row.section) ||
     a.ri-b.ri
   )[0]||null;
@@ -6628,7 +6635,13 @@ async function applyFloorSeat(autoMode=false){
       if(!isNewServerRow&&rowBefore.active===false)throw new Error(unavailableServerMessage(server,latest));
       const autoSection=liveSection;
       const isPmBar=shift()==='PM'&&isBarSection(String(rowBefore.section||autoSection||''));
-      const dueBarSkips=isPmBar?Math.max(0,Math.floor((rotationPartyCount(rowBefore)+1)/2)-rotationBarAutoSkipCount(rowBefore)):0;
+      const barActualBefore=rotationPartyCount(rowBefore);
+      const barActualAfter=barActualBefore+1;
+      const barEarnedAfter=Math.floor(barActualAfter/2);
+      const barStoredBefore=rotationBarAutoSkipCount(rowBefore);
+      const dueBarSkips=isPmBar&&barActualAfter%2===0
+        ?Math.max(0,barEarnedAfter-barStoredBefore)
+        :0;
 
       /* If an earlier attempt already made it to Firebase, accept it instead of duplicating it. */
       if(firstAppendTurn!==null){
