@@ -2146,7 +2146,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.14 • ROTATION + BAR PM FIX • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.15 • BAR PM AUTO REWRITE • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -5876,6 +5876,10 @@ function rotationTableUnits(row){
 function rotationManualSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType!==BAR_AUTO_SKIP_KIND?1:0),0);
 }
+function r3mIsBarAutoSkipTurn(t){if(!t||!t.skipped)return false;const r=String(t.skipReason||t.reason||'').toUpperCase();return !!t.autoBarSkip||r.includes('BAR PM')||r.includes('BAR AUTO')}
+function r3mMakeBarAutoSkipTurn(master){return {skipped:true,autoBarSkip:true,skipReason:'BAR PM AUTO SKIP',master:Number.isInteger(master)?master:null,at:Date.now(),updatedAt:Date.now()}}
+function r3mRewriteBarPmRow(row){if(!row||!isBarSection(String(row.section||'')))return false;const src=Array.isArray(row.turns)?row.turns:[];if(!src.length)return false;const cleaned=src.filter(t=>!r3mIsBarAutoSkipTurn(t)),rebuilt=[];let actual=0;cleaned.forEach(t=>{rebuilt.push(t);if(t&&!t.skipped&&(t.table||t.people||Number.isInteger(t.master)||t.entryId)){actual++;if(actual%2===0)rebuilt.push(r3mMakeBarAutoSkipTurn(t.master))}});if(JSON.stringify(src)===JSON.stringify(rebuilt))return false;row.turns=rebuilt;return true}
+async function r3mRewriteCurrentBarPmBoard(){if(shift()!=='PM')return false;let changed=false;(board.rows||[]).forEach(r=>{if(r3mRewriteBarPmRow(r))changed=true});if(!changed)return false;board.updatedAt=Date.now();try{scheduleBoardSave()}catch(e){}try{renderSheet();updateNextServerSuggestion();sync(true)}catch(e){}toast('BAR PM HISTORY AUTO-CORRECTED • 2 TABLES = 1 SKIP');return true}
 function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
@@ -12540,6 +12544,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
     deferredInstallPrompt = null;
   });
 })();
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{r3mRewriteCurrentBarPmBoard()}catch(e){}},1800));
 </script>
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
