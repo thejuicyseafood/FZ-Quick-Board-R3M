@@ -1910,6 +1910,15 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .quickWizardHistoryActions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 16px}.quickWizardHistoryActions button{min-height:48px;border-radius:11px;border:1px solid #456983;color:#fff;font-weight:1000;font-size:14px}.quickWizardHistoryActions button:nth-child(1){background:#9a3412}.quickWizardHistoryActions button:nth-child(2){background:#0f766e}.quickWizardHistoryActions button:nth-child(3){background:#6d28d9}@media(max-width:600px){.quickWizardHistoryActions{grid-template-columns:1fr}}
 .quickUndoConfirm{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;background:rgba(1,7,15,.88);padding:18px}.quickUndoConfirm.show{display:flex}.quickUndoCard{width:min(540px,96vw);background:#071522;color:#fff;border:2px solid #60a5fa;border-radius:20px;padding:20px}.quickUndoDetail{line-height:1.75;font-weight:900;color:#dbeafe}.quickUndoActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.quickUndoActions button{height:52px;border-radius:12px;font-weight:1000}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
+
+/* BAR 8.17 review dialog only */
+.bar817Overlay{position:fixed;inset:0;z-index:2147483640;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,7,15,.86)}
+.bar817Overlay.show{display:flex}.bar817Card{width:min(800px,96vw);max-height:90dvh;overflow:auto;background:#071b2a;color:#f1f5f9;border:2px solid #56b7dd;border-radius:22px;padding:24px;font-family:Arial,sans-serif;box-shadow:0 24px 80px #0009}
+.bar817Tag{font-weight:800;color:#98d8f4;letter-spacing:.7px;font-size:12px}.bar817Card h2{font-size:28px;margin:12px 0}.bar817Card h3{font-size:24px;margin:20px 0 7px}.bar817Card p{font-size:16px;line-height:1.5;margin:10px 0}.bar817Totals{color:#a7f3d0;font-weight:800}
+.bar817Sequence{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.bar817Sequence span{min-width:65px;padding:16px 12px;display:inline-flex;justify-content:center;align-items:center;border-radius:10px;font-size:17px;font-weight:900;border:1px solid #ffffff55}.bar817Table{background:#ba2335}.bar817Skip{background:#5c2484}.bar817Manual{background:#815213}
+.bar817Actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.bar817Actions button{border-radius:12px;min-height:54px;background:#23445a;color:white;font-size:16px;font-weight:900;border:1px solid #77aac5}.bar817Actions #bar817Apply{background:#13804c}#bar817Apply:disabled{opacity:.5}#bar817Export{margin-top:14px;padding:12px;background:transparent;color:#a8ccdf;border:1px solid #38637c;border-radius:10px;font-weight:800;width:100%}
+@media(max-width:520px){.bar817Card{padding:18px}.bar817Actions{grid-template-columns:1fr}.bar817Sequence span{font-size:15px;padding:12px 8px}}
+
 </style>
 
 <style id="flexFloorCss">
@@ -2127,7 +2136,18 @@ body.quickOwner #quickManagerLogout{display:block!important}
 <div id="quickUndoConfirm" class="quickUndoConfirm"><div class="quickUndoCard">
 <h2 id="quickUndoTitle">CONFIRM RESTORE</h2><div id="quickUndoDetail" class="quickUndoDetail"></div>
 <div class="quickUndoActions"><button id="quickUndoCancel" type="button">NO • CANCEL</button><button id="quickUndoRestore" type="button" style="background:#15804a;color:#fff">YES • RESTORE</button></div>
-</div></div><div id="r3mOwnerLayer" class="r3mLayer" aria-hidden="true">
+</div></div>
+<div id="bar817Overlay" class="bar817Overlay" role="dialog" aria-modal="true" aria-labelledby="bar817Title">
+ <div class="bar817Card">
+  <div class="bar817Tag">R3M.8.17 • BAR ONLY • LIVE DATA REVIEW</div>
+  <h2 id="bar817Title">REVIEW BAR PM REPAIR</h2>
+  <p id="bar817Text"></p>
+  <div id="bar817Preview"></div>
+  <div class="bar817Actions"><button id="bar817Cancel" type="button">CANCEL • KEEP DATA</button><button id="bar817Apply" type="button">YES • APPLY REPAIR</button></div>
+  <button id="bar817Export" type="button">EXPORT BAR DIAGNOSTIC DATA</button>
+ </div>
+</div>
+<div id="r3mOwnerLayer" class="r3mLayer" aria-hidden="true">
   <div class="r3mWrap">
     <div class="r3mTop"><h2>Owner Monitor</h2><button id="r3mClose" class="r3mBtn">BACK</button></div>
     <div class="r3mCard">
@@ -2146,7 +2166,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.16 • BAR LEGACY REWRITE • SHIFT AUTOMATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.17 • BAR PM RECOVERY FIX • SHIFT AUTOMATION</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2204,6 +2224,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
         <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
+        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Review BAR PM Repair</strong><span>R3M.8.17 • preserve actual parties, repair BAR SKIP order and links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
       </div></div>
     </section>
@@ -5338,8 +5359,7 @@ function loadBoardSnapshot(key){
 function clearBoardSnapshot(key){try{localStorage.removeItem(boardSnapshotStorageKey(key))}catch(e){}}
 function activateBoardRecovery(key,snapshot,source='LOCAL SNAPSHOT'){
   if(snapshot&&boardHasMeaningfulData(snapshot)){
-    board=cloneBoard(snapshot);boardBaseline=cloneBoard(board);
-    if(shift()==='PM')setTimeout(()=>{try{r3mRewriteCurrentBarPmBoard()}catch(e){}},60);loadedBoardKey=String(key||boardKey());
+    board=cloneBoard(snapshot);boardBaseline=cloneBoard(board);loadedBoardKey=String(key||boardKey());
     cacheBoardSnapshot(loadedBoardKey,board,'RECOVERY '+source);
   }
   boardSafetyKey=String(key||boardKey());boardSafetySource=String(source||'LOCAL SNAPSHOT');boardNewKey='';
@@ -5876,79 +5896,6 @@ function rotationTableUnits(row){
 }
 function rotationManualSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType!==BAR_AUTO_SKIP_KIND?1:0),0);
-}
-function r3mBarTurnIsActual(t){
-  if(!t||t.skipped)return false;
-  const table=String(t.table||t.tableId||t.tableName||t.label||'').trim();
-  if(!table)return false;
-  /* A literal BAR marker is a legacy automatic skip, not an actual table. */
-  if(table.toUpperCase()==='BAR')return false;
-  return true;
-}
-function r3mIsBarAutoSkipTurn(t){
-  if(!t)return false;
-  const table=String(t.table||t.tableId||t.tableName||t.label||'').trim().toUpperCase();
-  const reason=String(t.skipReason||t.reason||'').trim().toUpperCase();
-  const type=String(t.type||t.kind||t.action||'').trim().toUpperCase();
-  /* Recognize both new autoskips and the OLD purple "BAR" turns already stored in live Board. */
-  return !!t.autoBarSkip ||
-    table==='BAR' ||
-    reason.includes('BAR PM') ||
-    reason.includes('BAR AUTO') ||
-    type==='BAR_AUTO_SKIP' ||
-    type==='AUTO_BAR_SKIP';
-}
-function r3mMakeBarAutoSkipTurn(master){
-  return {
-    skipped:true,autoBarSkip:true,
-    table:'BAR',label:'BAR',
-    type:'BAR_AUTO_SKIP',kind:'BAR_AUTO_SKIP',action:'BAR_AUTO_SKIP',
-    skipReason:'BAR PM AUTO SKIP',
-    master:Number.isInteger(master)?master:null,
-    at:Date.now(),updatedAt:Date.now()
-  };
-}
-function r3mRewriteBarPmRow(row){
-  if(!row||!isBarSection(String(row.section||'')))return false;
-  const src=Array.isArray(row.turns)?row.turns:[];
-  if(!src.length)return false;
-
-  /* Strip every legacy/new BAR automatic skip. Keep actual tables and manual SKIPs.
-     Then rebuild chronology strictly:
-       actual 1, actual 2, BAR skip, actual 3, actual 4, BAR skip...
-  */
-  const cleaned=src.filter(t=>!r3mIsBarAutoSkipTurn(t));
-  const rebuilt=[];
-  let actual=0;
-  cleaned.forEach(t=>{
-    rebuilt.push(t);
-    if(r3mBarTurnIsActual(t)){
-      actual++;
-      if(actual%2===0)rebuilt.push(r3mMakeBarAutoSkipTurn(t.master));
-    }
-  });
-
-  if(JSON.stringify(src)===JSON.stringify(rebuilt))return false;
-  row.turns=rebuilt;
-  return true;
-}
-async function r3mRewriteCurrentBarPmBoard(){
-  if(shift()!=='PM')return false;
-  let changed=false;
-  (board.rows||[]).forEach(row=>{if(r3mRewriteBarPmRow(row))changed=true});
-  if(!changed)return false;
-  board.updatedAt=Date.now();
-
-  /* Persist immediately instead of waiting on delayed save, then redraw. */
-  try{
-    await writeJ(BOARD_ROOT+'/'+boardKey()+'.json',board,'PUT');
-    boardBaseline=cloneBoard(board);
-  }catch(e){
-    try{scheduleBoardSave()}catch(_){}
-  }
-  try{renderSheet();updateNextServerSuggestion();sync(true)}catch(_){}
-  toast('BAR PM HISTORY CORRECTED • 2 ACTUAL TABLES = 1 AUTO SKIP');
-  return true;
 }
 function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
@@ -12583,6 +12530,373 @@ function scheduledCheck(){if(scheduledCutEvent||scheduledCutBusy||clearShiftInFl
 function initScheduledCuts(){if($('scheduledCutClose'))$('scheduledCutClose').onclick=scheduledCloseAndCut;clearInterval(scheduledCutTimer);scheduledCutTimer=setInterval(scheduledCheck,15000);setTimeout(scheduledCheck,2500)}
 window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
+
+/* BEGIN BAR817 ISOLATED REPAIR MODULE */
+/* R3M.8.17 — BAR PM only. Pure, deterministic repair planner.
+   Source records are NOT inferred from screen labels or manufactured from photos.
+   Each real party keeps its table, people, entryId and any original metadata.
+   Only cell indices / group links and BAR-generated skips are rebuilt. */
+const Bar817 = (() => {
+  'use strict';
+  const CAPACITY = 60;
+  const KIND = 'barAuto';
+  const copy = v => JSON.parse(JSON.stringify(v));
+  const object = v => v && typeof v === 'object' && !Array.isArray(v);
+  const text = v => String(v == null ? '' : v);
+  const nameKey = v => text(v).trim().toLowerCase();
+  const eid = t => text(t && (t.entryId || t.partyId));
+  const integer = v => typeof v === 'number' && Number.isInteger(v) ? v :
+    (typeof v === 'string' && /^\d+$/.test(v) ? Number(v) : null);
+  const empty = () => ({table:'', people:'', master:null, skipped:false, skipType:'', entryId:''});
+  const ordered = value => {
+    if (value == null) return [];
+    if (!Array.isArray(value) && !object(value)) throw new Error('Invalid turns container. No data changed.');
+    const entries = Object.entries(value).filter(([k]) => /^\d+$/.test(k)).map(([k,v]) => [Number(k),v]).sort((a,b)=>a[0]-b[0]);
+    if (entries.some(([i])=>i>4096)) throw new Error('Unexpected turn index. No data changed.');
+    return entries;
+  };
+  const stable = v => {
+    if (Array.isArray(v)) return v.map(stable);
+    if (object(v)) return Object.fromEntries(Object.keys(v).sort().map(k=>[k,stable(v[k])]));
+    return v;
+  };
+  const equal = (a,b) => JSON.stringify(stable(a)) === JSON.stringify(stable(b));
+  const payload = t => t && (t.table || t.people || t.skipped || integer(t.master) !== null || eid(t));
+  const auto = t => {
+    if (!t || !t.skipped) return false;
+    const kind = text(t.skipType || t.skipKind).toLowerCase();
+    const reason = text(t.skipReason || t.reason).toUpperCase();
+    const type = text(t.type || t.kind || t.action).toUpperCase();
+    return kind === KIND.toLowerCase() || !!t.autoBarSkip ||
+      reason === 'BAR PM AUTO SKIP' || reason === 'BAR AUTO SKIP' ||
+      type === 'BAR_AUTO_SKIP' || type === 'AUTO_BAR_SKIP' ||
+      text(t.table).trim().toUpperCase() === 'BAR';
+  };
+  const skip = (i, trigger) => ({table:'',people:'',master:i,skipped:true,skipType:KIND,entryId:eid(trigger)});
+  const semanticTurns = turns => {
+    const data = ordered(turns);
+    const out = Array.from({length:Math.max(CAPACITY, ...data.map(x=>x[0]+1))},empty);
+    data.forEach(([i,v])=>out[i] = object(v) ? copy(v) : empty());
+    // Treat Firebase's omitted null/empty fields as the app's actual empty schema.
+    return out.map(t=>({ ...t,table:text(t.table),people:text(t.people),master:integer(t.master),
+      skipped:!!t.skipped,skipType:text(t.skipType || t.skipKind || (t.skipped?'manual':'')),entryId:eid(t)}));
+  };
+  function planRow(rawRow, ri, locks, validTables) {
+    if (!object(rawRow)) throw new Error('BAR row is missing.');
+    const server = text(rawRow.server);
+    const valid = new Set(validTables.map(x=>text(x).toUpperCase()));
+    const relevantLocks = Object.entries(locks || {}).filter(([,l]) => l &&
+      (nameKey(l.server) === nameKey(server) || (!l.server && Number(l.row)===ri)));
+    const source = new Map(ordered(rawRow.turns).map(([i,t]) => [i,object(t)?copy(t):empty()]));
+    const manualLocks = relevantLocks.filter(([,l])=>l.active!==false && text(l.skipType).toLowerCase()!==KIND.toLowerCase());
+    const manualEids = new Set(manualLocks.map(([,l])=>text(l.entryId)).filter(Boolean));
+    const explicitDamage = [...source].some(([i,t]) =>
+      (t.skipped && auto(t) && text(t.skipType).toLowerCase()!==KIND.toLowerCase()) ||
+      (!t.skipped && t.table && integer(t.master)!==i));
+    // Genuine manual skips are authoritative. Recover a missing cell only from its actual lock.
+    for (const [,l] of manualLocks) {
+      const id = text(l.entryId), ti=integer(l.turn);
+      if (id && [...source.values()].some(t=>t.skipped&&!auto(t)&&eid(t)===id)) continue;
+      if (ti===null || ti<0 || ti>=CAPACITY) throw new Error('Manual SKIP has an invalid lock position.');
+      const t=source.get(ti)||empty();
+      if (t.skipped&&!auto(t)) continue;
+      if (payload(t)) throw new Error('A manual SKIP conflicts with an existing party. Review the BAR data first.');
+      source.set(ti,{table:'',people:'',master:ti,skipped:true,skipType:text(l.skipType||'manual'),entryId:id});
+    }
+    const tokens=[...source].sort((a,b)=>a[0]-b[0]);
+    const primary=[], manual=[], continuation=[];
+    let removedAuto=0,removedArtifacts=0;
+    for(const [i,t] of tokens){
+      if(!payload(t)) continue;
+      if(auto(t)){removedAuto++;continue;}
+      if(t.skipped){
+        if(t.table || t.people) throw new Error('Unclassified SKIP carries table data. No data changed.');
+        // A plain, untagged manual SKIP is never deleted, even if its old master is missing.
+        // Without a stored automatic marker it is not safe to call it a repair artifact.
+        manual.push({i,t});continue;
+      }
+      if(t.table){
+        if(!valid.has(text(t.table).trim().toUpperCase()))
+          throw new Error('Unknown actual table "'+text(t.table)+'" at turn '+(i+1)+'. No names were guessed.');
+        primary.push({i,t,m:integer(t.master),cells:[{i,t}]});
+      }else continuation.push({i,t});
+    }
+    const byId=new Map();
+    primary.forEach(p=>{
+      const id=eid(p.t);if(!id)return;
+      if(byId.has(id))throw new Error('Two actual table records share one entry ID. Review required.');
+      byId.set(id,p);
+    });
+    for(const c of continuation){
+      let p=eid(c.t)?byId.get(eid(c.t)):null;
+      if(!p){
+        const m=integer(c.t.master),matches=primary.filter(p=>m!==null&&p.m===m&&p.i<c.i&&(!eid(c.t)||!eid(p.t)||eid(c.t)===eid(p.t)));
+        if(matches.length===1)p=matches[0];
+      }
+      if(!p || c.i<p.i || text(c.t.people)!==text(p.t.people))
+        throw new Error('A party continuation cannot be linked safely. Original data kept.');
+      p.cells.push(c);
+    }
+    for(const p of primary){
+      p.cells.sort((a,b)=>a.i-b.i);
+      const n=Number(p.t.people),expected=Number.isFinite(n)&&n>0?Math.ceil(n/4):1;
+      if(p.cells.length!==expected)
+        throw new Error('Table '+p.t.table+' has incomplete party cells ('+p.cells.length+' / '+expected+'). No guest counts were invented.');
+    }
+    const events=[...primary.map(p=>({i:p.i,kind:'party',p})),...manual.map(m=>({i:m.i,kind:'manual',m}))].sort((a,b)=>a.i-b.i);
+    const result=[],oldIndexToNew={},oldMasterToNew={},entryToNew={},parties=[],manualMap=[];
+    let count=0;
+    for(const event of events){
+      if(event.kind==='manual'){
+        const {i,t}=event.m,at=result.length;
+        result.push({...copy(t),master:at});oldIndexToNew[i]=at;manualMap.push({old:i,next:at,turn:result[at]});continue;
+      }
+      const p=event.p,at=result.length;
+      p.cells.forEach(({i,t})=>{oldIndexToNew[i]=result.length;result.push({...copy(t),master:at});});
+      if(p.m!==null){
+        if(Object.prototype.hasOwnProperty.call(oldMasterToNew,p.m)&&oldMasterToNew[p.m]!==at)oldMasterToNew[p.m]=null;
+        else oldMasterToNew[p.m]=at;
+      }
+      if(eid(p.t))entryToNew[eid(p.t)]=at;
+      parties.push({oldIndex:p.i,index:at,table:text(p.t.table),people:text(p.t.people),entryId:eid(p.t),cells:p.cells.length});
+      count++;if(count%2===0)result.push(skip(result.length,p.t));
+    }
+    if(result.length>CAPACITY)throw new Error('BAR requires '+result.length+' cells, exceeding 60. Repair stopped without truncating history.');
+    const used=result.length;
+    while(result.length<CAPACITY)result.push(empty());
+    // Runtime invariants, not merely a syntax test.
+    const real=result.filter((t,i)=>!t.skipped&&t.master===i&&t.table);
+    if(real.length!==primary.length||result.filter(t=>t.skipped&&t.skipType===KIND).length!==Math.floor(real.length/2))
+      throw new Error('BAR repair validation failed.');
+    primary.forEach((p,i)=>{
+      const a=copy(p.t),b=copy(real[i]);delete a.master;delete b.master;
+      if(!equal(a,b))throw new Error('A seating record would change. Repair stopped.');
+    });
+    const nextRaw={...copy(rawRow),turns:result};
+    return {ri,server,row:nextRaw,parties,actual:real.length,autoSkips:Math.floor(real.length/2),manualSkips:manual.length,
+      removedAuto,removedArtifacts,used,oldIndexToNew,oldMasterToNew,entryToNew,manualMap,
+      changed:!equal(semanticTurns(rawRow.turns),semanticTurns(result))};
+  }
+  function plan(key,ri,rawRow,locks,tables,validTables,ts,actor){
+    const rowPlan=planRow(rawRow,ri,locks,validTables),patch={},desiredLocks={},oldLocks={};
+    if(rowPlan.changed)patch['rotationBoardV31/'+key+'/rows/'+ri+'/turns']=rowPlan.row.turns;
+    const belongs=l=>l&&(nameKey(l.server)===nameKey(rawRow.server)||(!l.server&&Number(l.row)===ri));
+    Object.entries(locks||{}).forEach(([id,l])=>{if(belongs(l))oldLocks[id]=l});
+    rowPlan.row.turns.forEach((t,ti)=>{
+      if(!t.skipped)return;
+      const id='r'+ri+'_t'+ti;
+      if(locks&&locks[id]&&!belongs(locks[id]))throw new Error('Another server owns SKIP lock '+id+'. Repair stopped.');
+      const old=Object.values(oldLocks).find(l=>l.active!==false&&text(l.entryId)===eid(t)&&text(l.skipType||'manual')===text(t.skipType||'manual'));
+      const next={...(old?copy(old):{}),active:true,row:ri,turn:ti,server:text(rawRow.server),skipType:text(t.skipType||'manual'),entryId:eid(t)};
+      const existing=oldLocks[id];
+      if(!existing||!['active','row','turn','server','skipType','entryId'].every(k=>equal(existing[k],next[k]))){next.updatedAt=ts;next.updatedBy=actor;}
+      desiredLocks[id]=next;
+    });
+    for(const id of Object.keys(oldLocks))if(!desiredLocks[id])patch['rotationSkipLocksV101/'+key+'/'+id]=null;
+    for(const [id,l] of Object.entries(desiredLocks))if(!equal(oldLocks[id],l))patch['rotationSkipLocksV101/'+key+'/'+id]=l;
+    const references=[];
+    for(const [table,state] of Object.entries(tables||{})){
+      if(!state||typeof state!=='object')continue;
+      for(const field of ['boardRef','primaryBoardRef']){
+        const ref=state[field];if(!ref||text(ref.boardKey)!==key||Number(ref.row)!==ri)continue;
+        let ti=null;const id=text(ref.entryId||state.partyId);
+        if(id)ti=rowPlan.entryToNew[id];
+        else ti=rowPlan.oldMasterToNew[Number(ref.turn)];
+        if(!Number.isInteger(ti)){
+          // Dangling inactive historical refs are not rewritten. Live refs must be exact.
+          if(text(state.status).toLowerCase()==='seated')throw new Error('Active Floor link '+table+' has no matching party. No data changed.');
+          continue;
+        }
+        const primary=rowPlan.row.turns[ti];
+        const expected=field==='boardRef'?table:text(state.secondaryOf);
+        if(expected&&text(primary.table).toUpperCase()!==text(expected).toUpperCase())throw new Error('Floor '+table+' points to a different table. Repair stopped.');
+        const next={...copy(ref),turn:ti};
+        if(!equal(ref,next)){patch['tables/'+table+'/'+field]=next;references.push({table,field,before:copy(ref),after:next});}
+      }
+    }
+    return {...rowPlan,patch,desiredLocks,oldLocks,references,changed:Object.keys(patch).length>0};
+  }
+  return {planRow,plan,auto,equal,ordered,empty,semanticTurns};
+})();
+
+/* BAR-only migration UI and guarded atomic commit. No silent whole-Board PUT. */
+const bar817Runtime={busy:false,pending:null,lastPrompt:'',lastScan:0};
+function bar817Available(){
+  if(typeof boardKey!=='function'||shift()!=='PM'||loadedBoardKey!==boardKey())return false;
+  if(clearShiftInFlight||resetWrongInFlight||tableStatusInFlight||moveBusy||floorAutoSaving||quickAssignInFlight||
+     staffDutyInFlight||sectionControlInFlight||formationSaveInFlight||breaktimeInFlight||pendingBoardSave||pendingBoardFlushPromise)return false;
+  const gate=$('quickRoleGate');
+  return !gate||gate.classList.contains('closed');
+}
+function bar817Digest(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
+async function bar817ReadSnapshot(key){
+  const [rawBoard,locks,tables]=await Promise.all([
+    readJFresh(BOARD_ROOT+'/'+key+'.json'),readJFresh(SKIP_LOCK_ROOT+'/'+key+'.json'),readJFresh(TABLE_ROOT+'.json')
+  ]);
+  return {rawBoard,locks:locks||{},tables:tables||{}};
+}
+function bar817Plans(key,snapshot){
+  if(!snapshot.rawBoard||!snapshot.rawBoard.rows)return [];
+  const plans=[];
+  Bar817.ordered(snapshot.rawBoard.rows).forEach(([ri,row])=>{
+    if(!row||!row.server||!isBarSection(String(row.section||'')))return;
+    const p=Bar817.plan(key,ri,row,snapshot.locks,snapshot.tables,TABLE_IDS,Date.now(),role());
+    if(p.changed)plans.push(p);
+  });
+  return plans;
+}
+function bar817ShowError(message){
+  const overlay=$('bar817Overlay');if(!overlay)return;
+  $('bar817Title').textContent='BAR PM REPAIR PAUSED';
+  $('bar817Text').textContent=message+' No repair was saved. Existing table records were not replaced.';
+  $('bar817Preview').replaceChildren();
+  $('bar817Apply').disabled=true;overlay.classList.add('show');
+}
+function bar817Display(key,snapshot,plans){
+  bar817Runtime.pending={key,snapshot,plans};
+  $('bar817Title').textContent='REVIEW BAR PM REPAIR';
+  $('bar817Text').textContent='Close older app windows on your other devices before applying. Only BAR cells, their SKIP locks and exact Floor links will be updated. Guest counts, party IDs, seating metadata and all other server rows are kept.';
+  const mount=$('bar817Preview');mount.replaceChildren();
+  plans.forEach(p=>{
+    const heading=document.createElement('h3');heading.textContent=p.server;mount.appendChild(heading);
+    const totals=document.createElement('p');totals.className='bar817Totals';
+    totals.textContent=p.actual+' ACTUAL TABLES • '+p.autoSkips+' BAR AUTO SKIPS • '+p.manualSkips+' MANUAL SKIPS KEPT';mount.appendChild(totals);
+    const seq=document.createElement('div');seq.className='bar817Sequence';
+    p.row.turns.forEach((t,ti)=>{
+      if(!(t.skipped||(!t.skipped&&t.master===ti&&t.table)))return;
+      const tile=document.createElement('span');
+      tile.className=t.skipped?(t.skipType===BAR_AUTO_SKIP_KIND?'bar817Skip':'bar817Manual'):'bar817Table';
+      tile.textContent=t.skipped?(t.skipType===BAR_AUTO_SKIP_KIND?'AUTO SKIP':'MANUAL SKIP'):String(t.table);
+      if(!t.skipped)tile.title=(t.people?String(t.people)+' people':'Guest count not recorded')+(t.entryId?' • Original party ID preserved':'');
+      seq.appendChild(tile);
+    });mount.appendChild(seq);
+  });
+  $('bar817Apply').disabled=false;$('bar817Apply').textContent='YES • APPLY REPAIR';
+  $('bar817Overlay').classList.add('show');
+}
+async function bar817Inspect(force=false){
+  if(bar817Runtime.busy||!bar817Available()){
+    if(force)toast('Open the PM Board and finish pending actions before BAR repair.');return;
+  }
+  if(!quickIsManager()){if(force)toast('Manager / Owner only');return;}
+  if(!force&&($('bar817Overlay').classList.contains('show')||Date.now()-bar817Runtime.lastScan<7000))return;
+  bar817Runtime.busy=true;bar817Runtime.lastScan=Date.now();
+  const key=boardKey();
+  try{
+    const snapshot=await bar817ReadSnapshot(key);
+    if(boardKey()!==key||!bar817Available())return;
+    const signature=key+'|'+bar817Digest(JSON.stringify(Bar817.ordered(snapshot.rawBoard&&snapshot.rawBoard.rows).filter(([,r])=>r&&isBarSection(String(r.section||'')))));
+    const plans=bar817Plans(key,snapshot);
+    if(!plans.length){if(force)toast('BAR PM already matches 2 actual tables → 1 auto SKIP.');return;}
+    if(force||bar817Runtime.lastPrompt!==signature){bar817Runtime.lastPrompt=signature;bar817Display(key,snapshot,plans);}
+  }catch(e){
+    // No optimistic success. Export is available for unsupported/corrupt cases.
+    if(force||bar817Runtime.lastPrompt!=='error:'+String(e&&e.message)){
+      bar817Runtime.lastPrompt='error:'+String(e&&e.message);bar817ShowError(String(e&&e.message||'Could not read live BAR data.'));
+    }
+  }finally{bar817Runtime.busy=false;}
+}
+function bar817RelatedLocks(locks,plans){
+  const out={};Object.entries(locks||{}).forEach(([id,l])=>{
+    if(l&&plans.some(p=>String(l.server||'').trim().toLowerCase()===p.server.trim().toLowerCase()||(!l.server&&Number(l.row)===p.ri)))out[id]=l;
+  });return out;
+}
+function bar817RelatedTables(tables,key,plans){
+  const out={};Object.entries(tables||{}).forEach(([id,t])=>{
+    if(t&&['boardRef','primaryBoardRef'].some(f=>t[f]&&String(t[f].boardKey)===key&&plans.some(p=>Number(t[f].row)===p.ri)))out[id]=t;
+  });return out;
+}
+async function bar817Apply(){
+  const pending=bar817Runtime.pending;if(!pending||bar817Runtime.busy)return;
+  if(!quickIsManager()||!bar817Available()||pending.key!==boardKey())return toast('Board/role changed. Reopen BAR repair.');
+  bar817Runtime.busy=true;$('bar817Apply').disabled=true;$('bar817Apply').textContent='VERIFYING…';
+  const {key}=pending,owner=operationId('bar817-repair');let claimed=[],written=false;
+  try{
+    if(pendingBoardSave||pendingBoardFlushPromise)throw new Error('A Board edit is pending. Finish it first.');
+    const lockNames=['BOARD '+key+' CLEAR'];
+    pending.plans.forEach(p=>lockNames.push('BOARD '+key+' '+p.server));
+    Object.keys(bar817RelatedTables(pending.snapshot.tables,key,pending.plans)).forEach(id=>lockNames.push(id));
+    claimed=await claimTableLocksWithRetry([...new Set(lockNames)],owner);
+    if(claimed.length!==new Set(lockNames).size)throw new Error('BAR is busy on another device. Nothing was changed.');
+    const current=await bar817ReadSnapshot(key);
+    if(!current.rawBoard||key!==boardKey()||shift()!=='PM'||clearShiftInFlight)throw new Error('Board changed or was cleared. Reopen the repair.');
+    for(const p of pending.plans){
+      const old=pending.snapshot.rawBoard.rows[p.ri],latest=current.rawBoard.rows[p.ri];
+      if(!Bar817.equal(old,latest))throw new Error('BAR changed since this preview. Close and review again.');
+    }
+    if(!Bar817.equal(bar817RelatedLocks(current.locks,pending.plans),bar817RelatedLocks(pending.snapshot.locks,pending.plans))||
+       !Bar817.equal(bar817RelatedTables(current.tables,key,pending.plans),bar817RelatedTables(pending.snapshot.tables,key,pending.plans)))
+      throw new Error('BAR SKIP locks or Floor links changed. Close and review again.');
+    const plans=bar817Plans(key,current),patch={};
+    if(!plans.length){$('bar817Overlay').classList.remove('show');bar817Runtime.pending=null;toast('BAR was already repaired by another device.');return;}
+    // Do not repair a newly added/different row that was not in the preview.
+    if(plans.some(p=>!pending.plans.some(old=>p.ri===old.ri&&p.server===old.server)))throw new Error('BAR assignment changed. Review again.');
+    plans.forEach(p=>Object.assign(patch,p.patch));
+    // Store the exact BAR preimage once, for review/recovery only, NOT the whole database.
+    const audit={build:'R3M.8.17',at:Date.now(),boardKey:key,by:role(),
+      rows:Object.fromEntries(plans.map(p=>[p.ri,current.rawBoard.rows[p.ri]])),
+      locks:bar817RelatedLocks(current.locks,plans),tables:bar817RelatedTables(current.tables,key,plans),
+      expected:plans.map(p=>({row:p.ri,server:p.server,actual:p.actual,barSkips:p.autoSkips}))};
+    const journalPath=ROOT+'/barPmRepairJournal817/'+key+'/'+owner+'.json';
+    await writeJ(journalPath,audit,'PUT');
+    if(!(await renewTableLocks(claimed,owner)))throw new Error('Repair lock expired. No repair was saved.');
+    // Recheck after journal write. Old clients that ignore locks must be closed.
+    const finalCheck=await bar817ReadSnapshot(key);
+    if(!Bar817.equal(finalCheck.rawBoard,current.rawBoard)||!Bar817.equal(finalCheck.locks,current.locks)||
+      !Bar817.equal(bar817RelatedTables(finalCheck.tables,key,plans),bar817RelatedTables(current.tables,key,plans)))
+      throw new Error('Data changed during verification. No repair was saved. Close older app windows and try again.');
+    if(key!==boardKey()||clearShiftInFlight)throw new Error('Shift changed. No repair was saved.');
+    $('bar817Apply').textContent='SAVING…';
+    // One multi-path PATCH: BAR turns + reindexed locks + exact Floor references together.
+    await writeJ(ROOT+'.json',patch,'PATCH');written=true;
+    const confirmed=await bar817ReadSnapshot(key);
+    for(const p of plans){
+      const row=confirmed.rawBoard&&confirmed.rawBoard.rows&&confirmed.rawBoard.rows[p.ri];
+      if(!row||!Bar817.equal(Bar817.semanticTurns(row.turns),Bar817.semanticTurns(p.row.turns)))throw new Error('BAR read-back differs. Stop using older app windows.');
+      const normalized=normalizeBoard({rows:{[p.ri]:row}}).rows[p.ri];
+      if(rotationPartyCount(normalized)!==p.actual||rotationBarAutoSkipCount(normalized)!==p.autoSkips)throw new Error('BAR count verification failed.');
+      const repeat=Bar817.plan(key,p.ri,row,confirmed.locks,confirmed.tables,TABLE_IDS,Date.now(),role());
+      if(repeat.changed)throw new Error('BAR links/SKIP verification failed.');
+    }
+    // Ensure no non-BAR row was replaced by this repair.
+    Bar817.ordered(current.rawBoard.rows).forEach(([ri,row])=>{
+      if(plans.some(p=>p.ri===ri))return;
+      if(!Bar817.equal(row,confirmed.rawBoard.rows[ri]))throw new Error('Another server changed concurrently. Check the live Board.');
+    });
+    if(key===boardKey()){
+      board=canonicalizeBoardServers(cloneBoard(confirmed.rawBoard));boardBaseline=cloneBoard(board);loadedBoardKey=key;
+      tableState=confirmed.tables;cacheBoardSnapshot(key,board,'BAR PM 8.17 VERIFIED');
+      renderSheet();renderTables();updateNextServerSuggestion();quickScheduleRefresh();sync(true);
+    }
+    $('bar817Overlay').classList.remove('show');bar817Runtime.pending=null;
+    toast('BAR PM REPAIRED • '+plans.map(p=>p.actual+' ACTUAL / '+p.autoSkips+' AUTO SKIPS').join(' • '));
+  }catch(e){
+    const msg=String(e&&e.message||'Could not complete BAR repair.');
+    $('bar817Text').textContent=(written?'Repair was sent but verification did not complete. ':'No repair was saved. ')+msg;
+    $('bar817Apply').textContent='CLOSE AND REVIEW AGAIN';$('bar817Apply').disabled=true;
+    toast(msg);
+  }finally{await releaseTableLocksFast(claimed,owner);bar817Runtime.busy=false;}
+}
+async function bar817Export(){
+  try{
+    const key=boardKey(),snap=await bar817ReadSnapshot(key),bars=Bar817.ordered(snap.rawBoard&&snap.rawBoard.rows).filter(([,r])=>r&&isBarSection(String(r.section||'')));
+    const p=bars.map(([ri,r])=>({ri,server:String(r.server||'')}));
+    const data={build:'R3M.8.17',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),
+      skipLocks:bar817RelatedLocks(snap.locks,p),floor:bar817RelatedTables(snap.tables,key,p)};
+    const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');
+    a.href=url;a.download='FZ-BAR-REPAIR-'+key+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }catch(e){toast('BAR export failed. Check the connection.');}
+}
+function bar817Bind(){
+  $('bar817Apply').onclick=bar817Apply;$('bar817Export').onclick=bar817Export;
+  $('bar817Cancel').onclick=()=>{if(bar817Runtime.busy)return;$('bar817Overlay').classList.remove('show');bar817Runtime.pending=null};
+  $('quickBarRepair817').onclick=()=>bar817Inspect(true);
+  setInterval(()=>bar817Inspect(false),7000);
+  window.addEventListener('online',()=>bar817Inspect(false));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bar817Bind,{once:true});else bar817Bind();
+
+/* END BAR817 ISOLATED REPAIR MODULE */
 </script>
 
 
@@ -12614,7 +12928,6 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
     deferredInstallPrompt = null;
   });
 })();
-document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{r3mRewriteCurrentBarPmBoard()}catch(e){}},1800));
 </script>
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
