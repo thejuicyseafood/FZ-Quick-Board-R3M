@@ -1913,7 +1913,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 
 
-/* R3M.8.25 repair dialog controls only */
+/* R3M.8.27 repair dialog controls only */
 .bar818Recovery{margin:16px 0;padding:16px;border:1px solid #e8b640;border-radius:14px;background:#2b250e}
 .bar818Choice{display:flex;align-items:flex-start;gap:12px;padding:12px;margin:8px 0;border:1px solid #44667c;border-radius:10px;cursor:pointer;font-size:16px;line-height:1.45}
 .bar818Choice input{flex:0 0 23px;width:23px;height:23px;margin:0;accent-color:#31b882}
@@ -2063,7 +2063,7 @@ body.quickMode .toast{bottom:calc(16px + var(--fz-system-bottom))!important}
 .quickBottomNav{height:var(--fz-nav-h)!important;padding:7px 10px!important}
 .quickManagerOnly{display:none!important}
 body.quickManager .quickManagerOnly{display:block!important}
-body:not(.quickManager) #boardPdfBtn,body:not(.quickManager) #boardPdfWaBtn,body:not(.quickManager) #boardPdfEmailBtn,body:not(.quickManager) #clearBoard,body:not(.quickManager) #reservationXlsBtn,body:not(.quickManager) #reservationWaBtn,body:not(.quickManager) #reservationDeleteMultipleBtn{display:none!important}
+body:not(.quickManager) #boardPdfBtn,body:not(.quickManager) #boardPdfWaBtn,body:not(.quickManager) #boardPdfEmailBtn,body:not(.quickManager) #clearBoard,body:not(.quickManager) #reservationXlsBtn,body:not(.quickManager) #reservationWaBtn{display:none!important}
 #formationStaffStatus,#formationClearSection,#formationEditTables{display:none!important}
 body.quickFormationEditing #formationEditTables{display:inline-flex!important}
 .quickContextCard{display:grid;grid-template-columns:repeat(3,minmax(110px,1fr)) auto auto;gap:8px;align-items:stretch;margin:0 0 17px;padding:10px;border:1px solid #31536d;border-radius:14px;background:#0a1c2b}
@@ -2140,7 +2140,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   </div>
 </div>
 <div id="cutRecommendLayer" class="cutRecommendLayer" aria-hidden="true">
-  <div class="cutRecommendBox"><div style="color:#93c5fd;font-size:11px;font-weight:1000;letter-spacing:1px">CUT RECOMMENDATION</div><h2>Team yang masih bekerja hari ini</h2><div class="teamDayHint">Setelah CUT, gunakan daftar ini sebagai referensi server yang masih dijadwalkan bekerja.</div><div id="cutRecommendNames" class="cutRecommendNames"></div><button id="cutRecommendClose" class="cutRecommendClose" type="button">CLOSE</button></div>
+  <div class="cutRecommendBox"><div style="color:#93c5fd;font-size:11px;font-weight:1000;letter-spacing:1px">CUT RECOMMENDATION</div><h2>Team still scheduled today</h2><div class="teamDayHint">After CUT, use this list to see who is still scheduled to work.</div><div id="cutRecommendNames" class="cutRecommendNames"></div><button id="cutRecommendClose" class="cutRecommendClose" type="button">CLOSE</button></div>
 </div>
 
 <div id="quickUndoConfirm" class="quickUndoConfirm"><div class="quickUndoCard">
@@ -2149,7 +2149,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 </div></div>
 <div id="bar817Overlay" class="bar817Overlay" role="dialog" aria-modal="true" aria-labelledby="bar817Title">
  <div class="bar817Card">
-  <div class="bar817Tag">R3M.8.25 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
+  <div class="bar817Tag">R3M.8.27 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
   <h2 id="bar817Title">REVIEW BAR PM REPAIR</h2>
   <p id="bar817Text"></p>
   <div id="bar817Preview"></div>
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.25 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.27 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2234,7 +2234,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
         <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
-        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.25 • convert replacement manual SKIPs and review saved Floor links</span></button>
+        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.27 • convert replacement manual SKIPs and review saved Floor links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
       </div></div>
     </section>
@@ -2401,7 +2401,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
     <div class="breaktimeWrap">
       <div class="breaktimeBar">
         <span class="breaktimeTitle">BREAKTIME</span>
-        <span class="breaktimeHint">Ganti server dalam row rotation yang sama. Untuk 2 SERVER, pilih ALL atau hanya Section 2 / 4 / 3 / 5.</span>
+        <span class="breaktimeHint">Replace the server in the same rotation row. For 2 SERVER, select ALL or only Section 2 / 4 / 3 / 5.</span>
         <span id="breaktimeFormationMeta" class="breaktimeFormation">SHIFT — • FORMATION —</span>
       </div>
       <div class="breaktimeControls">
@@ -2472,7 +2472,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
 <div id="sectionControlModal" class="modalBack"><div class="modal sectionControlModal">
   <h2>Clear / Move Section</h2>
-  <p>Pindahkan server ke Section kosong, atau kosongkan tepat satu Section. Meja yang sedang SEATED / RESERVED dan seluruh Host Board history tetap aman.</p>
+  <p>Move a server to an empty section, or clear one section. Seated and reserved tables and all Board history are preserved.</p>
   <div id="sectionControlMeta" class="sectionControlMeta">SHIFT — • FORMATION —</div>
   <div class="sectionControlGrid">
     <div class="field"><label>FROM • CURRENT SECTION</label><select id="sectionControlSource"></select></div>
@@ -2480,7 +2480,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   </div>
   <div class="sectionControlServerCard"><span>SERVER</span><b id="sectionControlServer">—</b></div>
   <div id="sectionControlSummary" class="sectionControlSummary">Choose a current Section.</div>
-  <div class="sectionControlSafety">CLEAR hanya melepas future Section routing. MOVE mempertahankan server di row yang sama. Active party, secondary link, 60 turns, manual SKIP, BAR AUTO SKIP, dan SKIP LOCK tidak dihapus.</div>
+  <div class="sectionControlSafety">CLEAR releases future section assignments. MOVE keeps the server in the same row. Active parties, secondary links, history, manual SKIP, BAR AUTO SKIP, and SKIP locks are preserved.</div>
   <div class="actions">
     <button id="sectionControlClose" class="btn">CLOSE</button>
     <button id="sectionControlSubmit" class="btn sectionControlSubmit">SUBMIT</button>
@@ -2489,7 +2489,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
 <div id="staffStatusModal" class="modalBack"><div class="modal staffStatusModal">
   <h2>Staff Break / Cut</h2>
-  <p>BREAK menghentikan rotation dan meja baru, tetapi Section tetap di-hold. CUT STAFF melepas semua Section milik employee. Untuk satu Section saja, gunakan CLEAR / MOVE SECTION.</p>
+  <p>BREAK pauses rotation and new seating while holding the section. CUT STAFF releases all sections for that employee. Use CLEAR / MOVE SECTION for a single section.</p>
   <div class="field"><label>EMPLOYEE / SERVER</label><select id="staffStatusServer"></select></div>
   <div id="staffStatusCard" class="staffStatusCard">
     <div><span>STATUS</span><b id="staffDutyStatus">—</b></div>
@@ -5914,7 +5914,7 @@ function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
 function storedSectionAutoSkipsFromFormation(sourceFormation,section){
-  // R3M.8.25: rotation uses saved server turn cells, never section credits.
+  // R3M.8.27: rotation uses saved server turn cells, never section credits.
   // Retain legacy metadata for compatibility; it does not generate a SKIP.
   return 0;
 }
@@ -6878,9 +6878,7 @@ async function clearLockedTurn(){
   if(editRow===null)return;
   const ri=editRow,ti=editTurn,wasSkip=!!(board.rows[ri].turns[ti]&&board.rows[ri].turns[ti].skipped);
   if(wasSkip){const ok=await clearSkipImmediately(ri,ti);if(ok){closeM('lockedTurnModal');toast("SKIP cleared")}return}
-  clearGroup(ri,ti);try{compactBoardRowTurns(ri,board)}catch(_){}renderSheet();
-  const ok=await saveBoard();if(!ok){await fetchBoard(loadedBoardKey||boardKey());return}
-  closeM('lockedTurnModal');toast("Turn cleared • VERIFIED • history protected");
+  return clearHistoryParty26(ri,ti);
 }
 async function clearEditingTurn(){
   if(editRow===null)return;
@@ -6889,9 +6887,9 @@ async function clearEditingTurn(){
   if(editOriginalSkipped||!!(board.rows[ri].turns[ti]&&board.rows[ri].turns[ti].skipped)){
     const ok=await clearSkipImmediately(ri,ti);if(ok){closeM('turnModal');editExisting=false;editAuthorized=false;editOriginalSkipped=false;toast('SKIP cleared')}return;
   }
-  clearGroup(ri,ti);try{compactBoardRowTurns(ri,board)}catch(_){}renderSheet();
-  const ok=await saveBoard();if(!ok){await fetchBoard(loadedBoardKey||boardKey());return}
-  closeM('turnModal');editExisting=false;editAuthorized=false;toast('Turn cleared • VERIFIED • history protected');
+  const activeTable=TABLE_IDS.find(id=>{const st=tableState[id]||{};const ref=st.boardRef;return !st.secondaryOf&&operationalTableStatus(st)==='seated'&&ref&&String(ref.boardKey)===boardKey()&&Number(ref.row)===ri&&Number(ref.turn)===ti});
+  if(activeTable){closeM('turnModal');return resetWrongFloorEntry(activeTable)}
+  return clearHistoryParty26(ri,ti);
 }
 async function applyBoardTurnSave(){
   const table=$('turnTable').value,people=$('turnPeople').value;
@@ -7337,6 +7335,7 @@ async function clearShiftBoardVerified(target){
  if(!quickIsManager()){toast('Clear All • Manager only');return false}
  if(clearShiftInFlight){toast('GLOBAL CLEAR IS ALREADY RUNNING');return false}
  if(!confirm('CLEAR ALL SHIFT?\n\nThis resets the current shift Board and Floor completely.\n\nToday\'s Team, employees, reservations, Table Map and user accounts will be kept.'))return false;
+ if(typeof window.FZQBAnalyticsPreClear==='function'){const analyticsOk=await window.FZQBAnalyticsPreClear(target);if(!analyticsOk)return false}
  clearShiftInFlight=true;boardLoadSeq++;formationLoadSeq++;floorAssignmentLoadSeq++;tableLoadSeq++;
  setClearShiftProgress(true,'CLEARING CURRENT SHIFT…','BOARD + FLOOR');
  try{
@@ -8207,11 +8206,11 @@ function renderStaffStatusModal(){
   $('staffReturn').style.display=duty.state==='BREAK'?'':'none';
   $('staffCut').style.display=(duty.state==='ACTIVE'||duty.state==='BREAK')?'':'none';$('staffUndoCut').style.display=duty.state==='CUT'?'':'none';$('staffClearCutRow').style.display=duty.state==='CUT'?'':'none';
   $('staffDutyHint').textContent=duty.state==='ACTIVE'
-    ?'BREAK = Section tetap di-hold. CUT STAFF = keluar dari rotation dan future assignment dilepas. Meja yang masih SEATED tetap milik server/bartender lama sampai selesai.'
+    ?'BREAK holds the section. CUT STAFF removes the employee from rotation and releases future assignments. Seated tables stay with the original server or bartender until finished.'
     :duty.state==='BREAK'
-      ?'Server tidak masuk NEXT dan tidak bisa menerima meja baru. RETURN mengaktifkan rotation tanpa mengubah history.'
+      ?'The server is excluded from NEXT and new seating. RETURN resumes rotation without changing history.'
       :duty.state==='CUT'
-        ?'Server sudah CUT. Meja SEATED lama tetap tersimpan. Tekan UNDO CUT untuk memulihkan Section + future assignment terakhir jika belum dipakai server lain.'
+        ?'The server is CUT. Existing seated tables are preserved. UNDO CUT restores the previous section and future assignments if still available.'
         :'Choose an employee.';
 }
 function openStaffStatus(server=''){
@@ -8409,12 +8408,12 @@ async function performStaffDutyChange(server,action,sectionHint='',options={}){
   if(action==='BREAK'&&previewDuty.state!=='ACTIVE')return toast(server+' is already '+previewDuty.state+'.');
   if(action==='RETURN'&&previewDuty.state!=='BREAK')return toast(server+' is not on BREAK.');
   if(action==='CUT'&&previewDuty.state==='CUT')return toast(server+' is already CUT.');
-  const previewTables=activePrimaryTablesForServer(server,tableState),previewTableNote=previewTables.length?('\n\nSEATED tetap aman: '+previewTables.join(', ')+'.'):'\n\nNo active seated table.';
+  const previewTables=activePrimaryTablesForServer(server,tableState),previewTableNote=previewTables.length?('\n\nSeated tables preserved: '+previewTables.join(', ')+'.'):'\n\nNo active seated table.';
   const previewQuestion=action==='BREAK'
-    ?('START BREAK for '+server+'?\n\nSection tetap di-hold; server keluar dari NEXT dan tidak menerima meja baru.'+previewTableNote)
+    ?('START BREAK for '+server+'?\n\nThe section stays assigned; the server is excluded from NEXT and new seating.'+previewTableNote)
     :action==='RETURN'
-      ?('RETURN '+server+' from BREAK?\n\nServer kembali masuk rotation dengan history yang sama.'+previewTableNote)
-      :('CUT '+server+'?\n\nSection dan future assignment akan dilepas. Host Board history tidak dihapus.'+previewTableNote);
+      ?('RETURN '+server+' from BREAK?\n\nThe server returns to rotation with the same history.'+previewTableNote)
+      :('CUT '+server+'?\n\nThe section and future assignments will be released. Board history is preserved.'+previewTableNote);
   /* Never hold Firebase locks while a human confirmation dialog is open. */
   if(!(options&&options.skipConfirm)&&!confirm(previewQuestion))return false;
   staffDutyInFlight=true;formationSaveInFlight=true;formationEditorDirty=true;
@@ -8573,11 +8572,11 @@ function renderSectionControl(){
   const target=String(targetSelect.value||''),active=choice?TABLE_IDS.filter(id=>{
     const state=tableState[id]||{};return ['seated','reserved'].includes(operationalTableStatus(state))&&breaktimeServerKey(state.server)===breaktimeServerKey(choice.server);
   }):[];
-  const sourceLabel=choice?(choice.label.replace(/^ALL • /,'')):'—',activeLine=active.length?(' Active tetap '+choice.server+': '+sortTableIdsGrouped(active).join(', ')+'.'):' No active physical table.';
+  const sourceLabel=choice?(choice.label.replace(/^ALL • /,'')):'—',activeLine=active.length?(' Active parties stay with '+choice.server+': '+sortTableIdsGrouped(active).join(', ')+'.'):' No active physical table.';
   $('sectionControlSummary').textContent=!choice?'No assigned Section is available.'
     :target==='__CLEAR__'
-      ?'CLEAR '+sourceLabel+' → UNASSIGNED. Future tables dilepas.'+activeLine+' Host Board history tetap.'
-      :'MOVE '+choice.server+' • '+sourceLabel+' → SECTION '+target+'. Source jadi UNASSIGNED; destination mulai memakai server yang sama.'+activeLine;
+      ?'CLEAR '+sourceLabel+' → UNASSIGNED. Future table assignments released.'+activeLine+' Board history preserved.'
+      :'MOVE '+choice.server+' • '+sourceLabel+' → SECTION '+target+'. Source becomes UNASSIGNED; destination uses the same server.'+activeLine;
   const submit=$('sectionControlSubmit'),clearMode=target==='__CLEAR__';
   submit.textContent=clearMode?'CLEAR SECTION':'MOVE SERVER SECTION';submit.classList.toggle('clearMode',clearMode);submit.disabled=sectionControlInFlight||!choice||!target;
   $('sectionControlClose').disabled=sectionControlInFlight;
@@ -10250,21 +10249,76 @@ async function quickWizardSetReserved(){
   }catch(e){toast('RESERVATION FAILED')}
 }
 
-function quickCanResetWrongEntry(){return quickIsManager()||role()==='Front Host'}
-async function resetWrongFloorEntry(sourceOverride=""){
+async function clearHistoryParty26(ri,ti){
+  if(!quickCanResetWrongEntry())return toast('Host or Manager only');
+  if(resetWrongInFlight)return toast('Another edit is saving. Please wait.');
+  const key=boardKey(),beforeTurn=JSON.parse(JSON.stringify(board.rows[ri].turns[ti])),server=board.rows[ri].server,owner=operationId('clear-history');
+  if(!confirm('DELETE this party from Board history? Later entries will move left.'))return;
+  resetWrongInFlight=true;let claimed=[];
+  try{
+    const refs=boardRowReferencedTables(tableState,key,ri);
+    claimed=await claimTableLocksWithRetry([...refs,'BOARD '+key+' CLEAR','BOARD '+key+' '+server],owner);
+    if(!claimed.length)throw Error('Board is busy. Try again.');
+    const [raw,floor,locks]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json'),readSkipLocksStrict(key)]);
+    if(!floor)throw Error('Floor data missing.');
+    if(!sameJson(refs,boardRowReferencedTables(floor,key,ri)))throw Error('Floor links changed. Reopen the entry.');
+    const latest=strictBoardFromRemote(key,raw,'CLEAR HISTORY');applySkipLocksToBoard(latest,locks);
+    if(!sameJson(latest.rows[ri].turns[ti],beforeTurn)||latest.rows[ri].server!==server)throw Error('Board entry changed. Reopen it.');
+    if(refs.some(id=>['boardRef','primaryBoardRef'].some(field=>Number(floor[id][field]?.turn)===ti&&Number(floor[id][field]?.row)===ri)))throw Error('This party is still active. Use Floor → RESET / DELETE PARTY.');
+    const before=cloneBoard(latest);board=cloneBoard(latest);clearGroup(ri,ti);
+    const first=compactBoardRowTurns(ri,board);reconcileBarAutoSkipCells(ri,String(beforeTurn.entryId||''));const second=compactBoardRowTurns(ri,board),map=new Map();first.masterMap.forEach((mid,old)=>map.set(old,second.masterMap.get(mid)));
+    const patch={},boardPatch=buildBoardCellPatch(before,board);
+    Object.entries(boardPatch).forEach(([path,value])=>patch['rotationBoardV31/'+key+'/'+path]=value);
+    refs.forEach(id=>{const state={...floor[id]};for(const field of ['boardRef','primaryBoardRef']){const ref=state[field];if(!ref||String(ref.boardKey)!==key||Number(ref.row)!==ri)continue;const turn=map.get(Number(ref.turn));if(!Number.isInteger(turn))throw Error('Cannot update Floor reference.');state[field]={...ref,turn}}patch['tables/'+id]=state});
+    for(let i=0;i<BOARD_TURN_CAPACITY;i++){const t=board.rows[ri].turns[i];patch['rotationSkipLocksV101/'+key+'/'+skipLockId(ri,i)]=t.skipped?{active:true,row:ri,turn:i,server,skipType:t.skipType||'manual',entryId:t.entryId||'',updatedAt:Date.now(),updatedBy:role()}:null}
+    if(key!==boardKey()||!await renewTableLocks(claimed,owner))throw Error('Shift or lock changed. Nothing saved.');
+    await writeJ(ROOT+'.json',patch,'PATCH');
+    const [check,checkFloor]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json')]);
+    const verified=strictBoardFromRemote(key,check,'CLEAR HISTORY VERIFY');
+    if(Object.keys(boardPatch).some(path=>!sameJson(boardPatchValue(verified,path),boardPatchValue(board,path))))throw Error('Board verification failed. Reload.');
+    if(refs.some(id=>!sameJson(checkFloor?.[id],patch['tables/'+id])))throw Error('Floor reference verification failed. Reload.');
+    board=verified;boardBaseline=cloneBoard(verified);loadedBoardKey=key;tableState=checkFloor;closeM('turnModal');closeM('lockedTurnModal');editExisting=false;editAuthorized=false;renderSheet();quickRenderBoard();toast('Party deleted • Board rearranged');
+  }catch(e){toast(e.message);await fetchBoard(boardKey());await fetchTables()}
+  finally{for(const lock of claimed)await releaseTableLock(lock,owner);resetWrongInFlight=false}
+}
+
+function resizePartyRow26(row,target,people){
+  const original=row.turns||[],groups=[],seen=new Set(),masterMap=new Map();let used=0;
+  for(let i=0;i<original.length;i++){
+    const t=original[i];if(!t||!(t.table||t.people||t.skipped))continue;
+    const master=Number.isInteger(t.master)?t.master:i;if(seen.has(master))continue;seen.add(master);
+    const cells=original.filter((x,j)=>x&&(Number.isInteger(x.master)?x.master:j)===master&&(x.table||x.people||x.skipped));
+    const head=original[master];if(!head||!(head.table||head.people||head.skipped))throw Error('Invalid Board group. Reload first.');
+    const count=master===target?Math.ceil(people/4):cells.length;
+    if(master===target&&head.skipped)throw Error('Choose a seated party.');
+    masterMap.set(master,used);
+    for(let j=0;j<count;j++)groups.push({...cells[Math.min(j,cells.length-1)],table:master===target?(j===0?head.table:''):cells[j].table,people:master===target?String(people):cells[j].people,master:used});
+    used+=count;
+  }
+  if(!seen.has(target))throw Error('Party not found.');
+  if(used>BOARD_TURN_CAPACITY)throw Error('Not enough Board slots. Nothing was changed.');
+  while(groups.length<BOARD_TURN_CAPACITY)groups.push(emptyTurn());row.turns=groups;return {masterMap,used};
+}
+function editFloorPeople26(id){
+  if(!quickCanResetWrongEntry())return toast('Host or Manager only');
+  const state=tableState[id]||{};
+  if(operationalTableStatus(state)!=='seated')return toast('Choose a seated table.');
+  const raw=prompt('EDIT PEOPLE — '+id+'\nEnter the new total number of people (1–120):',String(state.people||''));
+  if(raw===null)return;const n=Number(raw);if(!Number.isInteger(n)||n<1||n>120)return toast('Enter a whole number from 1 to 120.');
+  if(String(n)===String(state.people))return toast('People count is unchanged.');
+  return resetWrongFloorEntry(id,n);
+}
+function quickCanResetWrongEntry(){return quickIsManager()||['Front Host','Floor Host'].includes(role())}
+function authorizeHostTableAction(fn,label){if(quickCanResetWrongEntry())return fn();return requireManagerAuthorization(fn,label)}
+async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
+  const editingPeople=peopleOverride!==null,newPeople=editingPeople?validPeopleCount(peopleOverride):null;
+  if(editingPeople&&(!newPeople||Number(peopleOverride)!==newPeople))return toast("Enter a whole number from 1 to 120.");
   if(resetWrongInFlight)return toast('RESET IS ALREADY SAVING • ONE TAP WAS RECEIVED');
   if(!quickCanResetWrongEntry())return toast('RESET • Front Host or Manager only');
   const requestedSource=typeof sourceOverride==='string'?String(sourceOverride):'';
   const source=String((TABLE_IDS.includes(requestedSource)?requestedSource:'')||($('moveSourceTable')?$('moveSourceTable').value:"")||selectedTable||"");
   if(!source)return toast("Choose current seated table");
   if(!TABLE_IDS.includes(source))return toast("Choose a valid current table");
-
-  const resetPassword=prompt("RESET PASSWORD");
-  if(resetPassword===null)return;
-  if(String(resetPassword).trim()!==RESET_PASSWORD){
-    toast("Wrong RESET password");
-    return;
-  }
 
   let floorState=tableState[source]||{};
   if(operationalTableStatus(floorState)!=="seated"){
@@ -10274,20 +10328,19 @@ async function resetWrongFloorEntry(sourceOverride=""){
     return toast("Reset the primary table "+floorState.secondaryOf+" instead");
   }
 
-  const ok=confirm(
+  const ok=editingPeople?confirm("EDIT PEOPLE — "+source+"\n\n"+floorState.people+" → "+newPeople+" people.\nBoard slots and later entries will be rearranged automatically."):confirm(
     "RESET "+source+"?\n\n"+
     "This will:\n"+
     "• Make this table READY\n"+
     "• Make linked secondary tables READY\n"+
     "• REMOVE this active entry from Host Board\n\n"+
-    "Password accepted. Use RESET only for a wrong entry."
+    "Use RESET only for a cancelled party or a wrong entry. Remaining Board entries will move left."
   );
   if(!ok)return;
 
   /* Save one previous state for both Undo Reset and Undo Delete.
      This is the exact state before RESET • REMOVE BOARD makes the table READY. */
-  await saveFloorHistory('reset',source);
-  await saveFloorHistory('delete',source);
+  if(!editingPeople){await saveFloorHistory('reset',source);await saveFloorHistory('delete',source);}
 
   const operationKey=boardKey(),viewBoardBefore=board?cloneBoard(board):null,viewBaselineBefore=boardBaseline?cloneBoard(boardBaseline):null,viewLoadedKeyBefore=loadedBoardKey,currentServerAtOpen=String(floorState.server||($('moveCurServer')&&$('moveCurServer').textContent)||''),owner=operationId('reset-table');
   const initialLinked=activePartySecondaryTables(source,floorState,tableState),initialCurrent=resolveActiveBoardEntry(source,floorState,board,operationKey);
@@ -10295,9 +10348,9 @@ async function resetWrongFloorEntry(sourceOverride=""){
   if(!Number.isInteger(initialRi)||initialRi<0||initialRi>=15)return toast('Active Host Board link is not ready. Reload Board and try RESET again.');
   const initialRefTables=boardRowReferencedTables(tableState,operationKey,initialRi);
   resetWrongInFlight=true;
-  quickState.resettingEntryId=String((floorState.boardRef&&floorState.boardRef.entryId)||floorState.partyId||'');
+  quickState.resettingEntryId=editingPeople?'':String((floorState.boardRef&&floorState.boardRef.entryId)||floorState.partyId||'');
   quickSetOpen('quickTableAction',false);closeM('moveChangeModal');quickRenderBoard();
-  toast('RESET '+source+' • BOARD CLOSING NOW • SAVING & VERIFYING…');
+  toast((editingPeople?'EDIT PEOPLE ':'RESET ')+source+' • SAVING & VERIFYING…');
 
   let claimed=[];
 
@@ -10310,7 +10363,7 @@ async function resetWrongFloorEntry(sourceOverride=""){
     if(latestTables===null)throw new Error('Floor Map data is missing. RESET stopped safely.');
     const liveState=latestTables[source]||{};
     const liveLinked=activePartySecondaryTables(source,liveState,latestTables);
-    if(operationalTableStatus(liveState)!=='seated'||String(liveState.partyId||'')!==String(floorState.partyId||'')||String(liveState.server||'')!==String(floorState.server||'')||!sameJson(liveState.boardRef,floorState.boardRef)||!sameJson(liveLinked,initialLinked))throw new Error(source+' changed on another device. Reopen RESET.');
+    if((editingPeople&&String(liveState.people)!==String(floorState.people))||operationalTableStatus(liveState)!=='seated'||String(liveState.partyId||'')!==String(floorState.partyId||'')||String(liveState.server||'')!==String(floorState.server||'')||!sameJson(liveState.boardRef,floorState.boardRef)||!sameJson(liveLinked,initialLinked))throw new Error(source+' changed on another device. Reopen RESET.');
     liveLinked.forEach(id=>{
       const linkedState=latestTables[id]||{};
       if(operationalTableStatus(linkedState)!=='seated'||String(linkedState.secondaryOf||'')!==source||String(linkedState.partyId||'')!==String(liveState.partyId||''))throw new Error('Secondary table '+id+' changed. RESET stopped safely.');
@@ -10345,8 +10398,8 @@ async function resetWrongFloorEntry(sourceOverride=""){
       V80+ cell-level PATCH means unrelated earlier turns cannot be erased.
     */
     const entryId=String(current.t.entryId||floorState.partyId||'');
-    clearGroup(current.ri,current.ti);
-    const firstCompaction=compactBoardRowTurns(current.ri,board);
+    if(!editingPeople)clearGroup(current.ri,current.ti);
+    const firstCompaction=editingPeople?resizePartyRow26(board.rows[current.ri],current.ti,newPeople):compactBoardRowTurns(current.ri,board);
     reconcileBarAutoSkipCells(current.ri,entryId);
     const secondCompaction=compactBoardRowTurns(current.ri,board),finalMasterMap=new Map();
     firstCompaction.masterMap.forEach((middleTurn,oldTurn)=>{
@@ -10374,6 +10427,16 @@ async function resetWrongFloorEntry(sourceOverride=""){
       partyId:"",boardRef:null,primaryBoardRef:null,moveOperationId:"",
       updatedBy:role(),updatedAt:ts
     };
+    if(editingPeople){
+      const newTurn=finalMasterMap.get(current.ti);
+      if(!Number.isInteger(newTurn))throw Error('Edited party could not be located.');
+      [source,...liveLinked].forEach(id=>{
+        const old=latestTables[id];const next={...old,partyPeople:String(newPeople),updatedBy:role(),updatedAt:ts};
+        if(id===source)next.people=String(newPeople);
+        ['boardRef','primaryBoardRef'].forEach(field=>{if(old[field]&&String(old[field].boardKey)===operationKey&&Number(old[field].row)===current.ri)next[field]={...old[field],turn:newTurn};});
+        floorUpdates[id]=next;
+      });
+    }
     const referenceExpectations={};
     liveRefTables.forEach(id=>{
       if(Object.prototype.hasOwnProperty.call(floorUpdates,id))return;
@@ -10390,7 +10453,7 @@ async function resetWrongFloorEntry(sourceOverride=""){
       if(changed){nextState.updatedBy=role();nextState.updatedAt=ts;floorUpdates[id]=nextState;referenceExpectations[id]=expected}
     });
     const boardPatch=buildBoardCellPatch(boardBefore,board);
-    if(!Object.keys(boardPatch).length)throw new Error('RESET found no active Board cells to remove.');
+    if(!Object.keys(boardPatch).length)throw new Error('No changes to save.');
     Object.entries(boardPatch).forEach(([path,value])=>{rootPatch['rotationBoardV31/'+operationKey+'/'+path]=value});
     Object.entries(floorUpdates).forEach(([id,value])=>{rootPatch['tables/'+id]=value});
     for(let ti=0;ti<BOARD_TURN_CAPACITY;ti++)rootPatch['rotationSkipLocksV101/'+operationKey+'/'+skipLockId(current.ri,ti)]=null;
@@ -10407,13 +10470,10 @@ async function resetWrongFloorEntry(sourceOverride=""){
     const confirmed=strictBoardFromRemote(operationKey,confirmedRawBoard,'RESET READ-BACK');
     applySkipLocksToBoard(confirmed,confirmedSkipLocks||{});
     const row=confirmed.rows[current.ri];
-    if(!row||(row.turns||[]).some(t=>t&&!t.skipped&&String(t.entryId||'')===entryId))throw new Error("Host Board RESET could not be verified.");
+    if(!row||(!editingPeople&&(row.turns||[]).some(t=>t&&!t.skipped&&String(t.entryId||'')===entryId)))throw new Error("Host Board RESET could not be verified.");
     let foundBlank=false;(row.turns||[]).forEach(t=>{const occupied=!!(t&&(t.table||t.people||t.skipped||Number.isInteger(t.master)));if(!occupied)foundBlank=true;else if(foundBlank)throw new Error('Host Board RESET left a hole in Rotation History.')});
     if(Object.keys(boardPatch).some(path=>!sameJson(boardPatchValue(confirmed,path),boardPatchValue(board,path))))throw new Error('Host Board RESET cell verification failed.');
-    if(confirmedFloor===null||[source,...liveLinked].some(id=>{
-      const state=confirmedFloor[id]||{};
-      return operationalTableStatus(state)!=='ready'||state.available!==true||String(state.server||'')||String(state.people||'')||String(state.partyPeople||'')||String(state.partyId||'')||String(state.secondaryOf||'')||(Array.isArray(state.secondaryTables)&&state.secondaryTables.length)||state.boardRef!=null||state.primaryBoardRef!=null;
-    }))throw new Error('Floor Map RESET could not be verified.');
+    if(confirmedFloor===null||Object.entries(floorUpdates).some(([id,expected])=>!sameJson(confirmedFloor[id],expected)))throw new Error('Floor update could not be verified.');
     Object.entries(referenceExpectations).forEach(([id,fields])=>{Object.entries(fields).forEach(([field,ref])=>{if(!sameJson(((confirmedFloor||{})[id]||{})[field],ref))throw new Error('Compacted Floor reference for '+id+' was not verified.')})});
     for(let ti=0;ti<BOARD_TURN_CAPACITY;ti++){
       const turn=(row.turns||[])[ti]||{},lock=confirmedSkipLocks[skipLockId(current.ri,ti)];
@@ -10432,7 +10492,7 @@ async function resetWrongFloorEntry(sourceOverride=""){
     quickRenderBoard();
     updateNextServerSuggestion();
 
-    toast("RESET "+source+" • TABLE READY • BOARD REMOVED + COMPACTED");
+    toast(editingPeople?source+" • "+newPeople+" PEOPLE • BOARD REARRANGED":"RESET "+source+" • TABLE READY • BOARD REMOVED + COMPACTED");
   }catch(e){
     quickState.resettingEntryId='';quickRenderBoard();
     toast((e&&e.message)?e.message:"RESET failed");
@@ -11506,8 +11566,8 @@ function syncReservationSelectAll(){
 }
 function deleteMultipleReservations(){
   const ids=selectedReservationIds();if(!ids.length)return toast('Select reservation(s) first.');
-  requireManagerAuthorization(async()=>{
-    if(!confirm('Manager: DELETE '+ids.length+' selected reservation(s)?\n\nThis cannot be undone.'))return;
+  authorizeHostTableAction(async()=>{
+    if(!confirm('DELETE '+ids.length+' selected reservation(s)?\n\nThis cannot be undone.'))return;
     try{
       const patch={};ids.forEach(id=>patch[id]=null);
       await writeJ(RESERVATION_ROOT+'.json',patch,'PATCH');
@@ -11532,12 +11592,12 @@ async function saveNewReservation(){
 }
 function editReservation(id){
   const r=reservations[id];if(!r)return;
-  requireManagerAuthorization(()=>{
+  authorizeHostTableAction(()=>{
     const finalized=!!r.finalSaved;
     editingReservationManager=true;
     editingReservationId=id;
-    $('reservationEditTitle').textContent=finalized?'Manager Edit Final Reservation':'Manager Edit Reservation';
-    $('reservationEditHelp').textContent='Manager authorization approved. You may edit this reservation.';
+    $('reservationEditTitle').textContent=finalized?'Edit Final Reservation':'Edit Reservation';
+    $('reservationEditHelp').textContent='Host or Manager access approved. You may edit this reservation.';
     $('managerStatusField').style.display=finalized?'block':'none';
     $('editResDate').value=r.date||'';$('editResTime').value=r.time||'';$('editResName').value=r.name||'';$('editResPhone').value=r.phone||'';$('editResPeople').value=r.people||'';$('editResStatus').value=r.status||'Scheduled';
     openM('reservationEditModal');
@@ -11559,8 +11619,8 @@ async function saveReservationEdit(){
 }
 function deleteReservation(id){
   const r=reservations[id];if(!r)return;
-  requireManagerAuthorization(async()=>{
-    if(!confirm(r.finalSaved?'Manager: delete this FINAL reservation?':'Manager: delete this reservation?'))return;
+  authorizeHostTableAction(async()=>{
+    if(!confirm(r.finalSaved?'delete this FINAL reservation?':'delete this reservation?'))return;
     try{await writeJ(RESERVATION_ROOT+'/'+id+'.json',null);delete reservations[id];renderReservations();toast('Reservation deleted.')}catch(e){toast('Delete failed.')}
   },"Delete reservation");
 }
@@ -11575,7 +11635,7 @@ async function finalSaveReservation(){
   const id=finalizingReservationId;if(!id)return;
   const r=reservations[id];if(!r||r.finalSaved)return;
   const status=$('finalResStatus').value;
-  if(!confirm('FINAL SAVE as '+status+'? After this, only a manager can edit or delete it.'))return;
+  if(!confirm('FINAL SAVE as '+status+'? After this, a Host or Manager may edit or delete it.'))return;
   const updated={...r,status,finalSaved:true,finalSavedAt:Date.now(),finalSavedBy:role()};
   try{
     await writeJ(RESERVATION_ROOT+'/'+id+'.json',updated);reservations[id]=updated;
@@ -11810,7 +11870,7 @@ function workingTeamAfterCut(cutServer){
 async function showCutRecommendations(cutServer){
   try{teamDayRows=normalizeTeamDay(await readJ(teamDayPath()+'.json'))}catch(e){}
   const list=workingTeamAfterCut(cutServer),box=$('cutRecommendNames');
-  box.innerHTML=list.length?list.map(x=>'<span class="cutRecommendName">'+esc(x.name)+' • '+esc(x.position||'Server')+' • '+esc(x.shift)+'</span>').join(''):'<span class="teamDayHint">Tidak ada server lain di Today Team.</span>';
+  box.innerHTML=list.length?list.map(x=>'<span class="cutRecommendName">'+esc(x.name)+' • '+esc(x.position||'Server')+' • '+esc(x.shift)+'</span>').join(''):'<span class="teamDayHint">No other servers in Today Team.</span>';
   $('cutRecommendLayer').classList.add('show');$('cutRecommendLayer').setAttribute('aria-hidden','false')
 }
 
@@ -12068,6 +12128,7 @@ function quickRenderTableAction(id,status){
   if(status==='seated'){
     grid.append(quickActionButton('READY','ready',()=>quickSetTableStatus(id,'ready')),quickActionButton('CLEAN','clean',()=>quickSetTableStatus(id,'cleaning')),quickActionButton('MOVE / CHANGE','move',()=>{quickSetOpen('quickTableAction',false);openMoveChange(id)}));
     if(quickCanResetWrongEntry())grid.append(quickActionButton('RESET • REMOVE BOARD','danger',()=>{quickSetOpen('quickTableAction',false);resetWrongFloorEntry(id)}));
+    advanced.append(quickActionButton('EDIT PEOPLE','',()=>editFloorPeople26(id)),quickActionButton('DELETE PARTY • REMOVE BOARD','danger',()=>resetWrongFloorEntry(id)));
     advanced.append(quickActionButton('EDIT SECONDARY','',()=>{quickSetOpen('quickTableAction',false);openMoveChange(id);setTimeout(openEditSecondary,80)}));
   }else if(status==='cleaning')grid.append(quickActionButton('READY','ready',()=>quickSetTableStatus(id,'ready')));
   else if(status==='reserved')grid.append(quickActionButton('READY','ready',()=>quickSetTableStatus(id,'ready')));
@@ -12613,7 +12674,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
 
 /* BEGIN BAR818 ISOLATED REPAIR MODULE */
-/* R3M.8.25 — isolated BAR repair planner. No I/O and no mutation of inputs. */
+/* R3M.8.27 — isolated BAR repair planner. No I/O and no mutation of inputs. */
 const Bar818 = (() => {
   'use strict';
   const CAPACITY=60, KIND='barAuto';
@@ -13005,7 +13066,7 @@ async function bar817Apply(){
       if(!plans.some(p=>path==='rotationBoardV31/'+key+'/rows/'+p.ri+'/turns')&&
          !path.startsWith('rotationSkipLocksV101/'+key+'/')&&!/^tables\/[^/]+\/(?:boardRef|primaryBoardRef)$/.test(path))throw new Error('Unexpected repair write path.');
     }
-    const audit={build:'R3M.8.25',at:Date.now(),boardKey:key,by:role(),
+    const audit={build:'R3M.8.27',at:Date.now(),boardKey:key,by:role(),
       rows:Object.fromEntries(plans.map(p=>[p.ri,current.rawBoard.rows[p.ri]])),locks:bar817RelatedLocks(current.locks,plans),tables:bar817RelatedTables(current.tables,key,plans),
       approved:plans.map(p=>({row:p.ri,server:p.server,convertedManual:p.converted,recoveredFloor:p.recovered,actual:p.actual,barAutoSkips:p.autoSkips}))};
     // Preserve exact preimages in the existing dedicated repair journal, not in the GitHub repository.
@@ -13044,7 +13105,7 @@ async function bar817Apply(){
 async function bar817Export(){
   try{
     const key=boardKey(),snap=await bar817ReadSnapshot(key),bars=bar818Bars(snap),ps=bars.map(([ri,r])=>({ri,server:String(r.server||'')}));
-    const data={build:'R3M.8.25',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
+    const data={build:'R3M.8.27',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');
     a.href=url;a.download='FZ-BAR-REPAIR-'+key+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }catch(e){toast('BAR export failed. Check the connection.');}
@@ -13064,7 +13125,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3L-ROTATE-SHOUTOUT';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.27-SHIFT-ANALYTICS';
 
   // Clean obsolete service-worker caches from earlier web/iPad experiments.
   if ('serviceWorker' in navigator) {
@@ -13092,7 +13153,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="monitor-captions.js?v=R3M.8.25"></script>
+<script src="shift-analytics-v27.js?v=R3M.8.27"></script>
+<script src="monitor-captions.js?v=R3M.8.27"></script>
 </body>
 </html>
 <style>
@@ -13135,6 +13197,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.25">
-<script src="smart-next.js?v=R3M.8.25"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.25"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.27">
+<script src="smart-next.js?v=R3M.8.27"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.27"></script>
