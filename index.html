@@ -1913,7 +1913,7 @@ body:not(.quickManager) [data-res-final]{display:none!important}
 .table.reserved,.floorTable.reserved,[data-status="reserved"]{background:#7c3aed!important;color:#fff!important;border-color:#a78bfa!important}
 
 
-/* R3M.8.30 repair dialog controls only */
+/* R3M.8.31 repair dialog controls only */
 .bar818Recovery{margin:16px 0;padding:16px;border:1px solid #e8b640;border-radius:14px;background:#2b250e}
 .bar818Choice{display:flex;align-items:flex-start;gap:12px;padding:12px;margin:8px 0;border:1px solid #44667c;border-radius:10px;cursor:pointer;font-size:16px;line-height:1.45}
 .bar818Choice input{flex:0 0 23px;width:23px;height:23px;margin:0;accent-color:#31b882}
@@ -2149,7 +2149,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
 </div></div>
 <div id="bar817Overlay" class="bar817Overlay" role="dialog" aria-modal="true" aria-labelledby="bar817Title">
  <div class="bar817Card">
-  <div class="bar817Tag">R3M.8.30 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
+  <div class="bar817Tag">R3M.8.31 • MANUAL → AUTO SKIP • LIVE DATA REVIEW</div>
   <h2 id="bar817Title">REVIEW BAR PM REPAIR</h2>
   <p id="bar817Text"></p>
   <div id="bar817Preview"></div>
@@ -2173,10 +2173,10 @@ body.quickOwner #quickManagerLogout{display:block!important}
 
 <div id="quickShell" class="quickShell" aria-label="Fred Zhang Quick Board">
   <button id="quickShiftBadge" class="quickShiftBadge" type="button" aria-label="Change AM or PM shift">AM</button>
-  <button id="quickManagerLogout" class="quickManagerLogout quickManagerOnly" type="button" aria-label="Log out Manager session">MANAGER LOG OUT</button>
+  <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.30 • SMART NEXT • READY TABLES • SEATING CAUTIONS</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.31 • STAY LOGIN • TEAM ONCE • SMART NEXT</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2222,6 +2222,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickEditFormation" class="quickMenuBtn quickManagerOnly"><strong>Edit Formation</strong><span>Manager • formation structure and servers</span></button>
       </div></div>
       <div class="quickGroup"><div class="quickGroupTitle">STAFF</div><div class="quickMenuGrid">
+        <button id="quickEditTeamMenu" class="quickMenuBtn"><strong>Edit Today's Team</strong><span>All roles • reopen Today's Team only when you need to make changes</span></button>
         <button id="quickBreakStaff" class="quickMenuBtn"><strong>Break / Return Employee</strong><span>Hold the Section; pause or resume rotation</span></button>
         <button id="quickStaff" class="quickMenuBtn"><strong>Cut / Uncut Employee</strong><span>Hide or restore an employee; history stays protected</span></button>
       </div></div>
@@ -2234,7 +2235,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
         <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
-        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.30 • convert replacement manual SKIPs and review saved Floor links</span></button>
+        <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.31 • convert replacement manual SKIPs and review saved Floor links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
       </div></div>
     </section>
@@ -4057,7 +4058,7 @@ module.exports = QRCode;
 
 const FB="https://table-live-by-iwanto-zhang-default-rtdb.firebaseio.com",BASE_ROOT=FB+"/juicyTableLive/JUICY-HUNTSVILLE",ROOT=BASE_ROOT+"/flexibleFloorV1";
 const FLOOR_HISTORY_ROOT=ROOT+"/floorHistoryV2";
-const TABLE_ROOT=ROOT+"/tables",ANNOUNCE_ROOT=ROOT+"/statusAnnouncements",TEAM_SHOUT_ROOT=BASE_ROOT+"/teamShoutOutV1",MESSAGE_ROOT=BASE_ROOT+"/messages",ALARM_ROOT=BASE_ROOT+"/alarms",SERVER_ROOT=ROOT+"/serverListV30",BOARD_ROOT=ROOT+"/rotationBoardV31",BOARD_BACKUP_ROOT=ROOT+"/rotationBoardBackupsV1094",BREAKTIME_AUDIT_ROOT=ROOT+"/breaktimeTransfersV1096",SECTION_CONTROL_AUDIT_ROOT=ROOT+"/sectionTransfersV1097",RESERVATION_ROOT=ROOT+"/reservationsV34",MANAGER_QR_ROOT=BASE_ROOT+"/managerQrV50",FLOOR_ASSIGN_ROOT=ROOT+"/floorAssignmentsV64",FLOOR_FORMATION_ROOT=ROOT+"/floorFormationV66",FORMATION_TABLE_ROOT=ROOT+"/formationTableConfigV92",CHAT_ROOT=BASE_ROOT+"/managerFrontChatV95",CHAT_VOICE_ROOT=BASE_ROOT+"/managerFrontVoiceV109",CALL_ROOT=BASE_ROOT+"/managerFrontCallsV1098",CALL_INBOX_ROOT=BASE_ROOT+"/managerFrontCallInboxV1098",CALL_PRESENCE_ROOT=BASE_ROOT+"/managerFrontCallPresenceV1098",CALL_CONFIG_ROOT=BASE_ROOT+"/managerFrontCallConfigV1098",SKIP_LOCK_ROOT=ROOT+"/rotationSkipLocksV101",TABLE_LOCK_ROOT=ROOT+"/tableOperationLocksV109",CUT_UNDO_ROOT=ROOT+"/staffCutUndoV11",ACCESS_USER_ROOT=ROOT+"/accessUsersV2",ACCESS_AUDIT_ROOT=ROOT+"/accessAuditV2",RECENT_SEAT_ROOT=ROOT+"/recentSeatGuardV1",TEAM_DAY_ROOT=ROOT+"/teamDayV1";
+const TABLE_ROOT=ROOT+"/tables",ANNOUNCE_ROOT=ROOT+"/statusAnnouncements",TEAM_SHOUT_ROOT=BASE_ROOT+"/teamShoutOutV1",MESSAGE_ROOT=BASE_ROOT+"/messages",ALARM_ROOT=BASE_ROOT+"/alarms",SERVER_ROOT=ROOT+"/serverListV30",BOARD_ROOT=ROOT+"/rotationBoardV31",BOARD_BACKUP_ROOT=ROOT+"/rotationBoardBackupsV1094",BREAKTIME_AUDIT_ROOT=ROOT+"/breaktimeTransfersV1096",SECTION_CONTROL_AUDIT_ROOT=ROOT+"/sectionTransfersV1097",RESERVATION_ROOT=ROOT+"/reservationsV34",MANAGER_QR_ROOT=BASE_ROOT+"/managerQrV50",FLOOR_ASSIGN_ROOT=ROOT+"/floorAssignmentsV64",FLOOR_FORMATION_ROOT=ROOT+"/floorFormationV66",FORMATION_TABLE_ROOT=ROOT+"/formationTableConfigV92",CHAT_ROOT=BASE_ROOT+"/managerFrontChatV95",CHAT_VOICE_ROOT=BASE_ROOT+"/managerFrontVoiceV109",CALL_ROOT=BASE_ROOT+"/managerFrontCallsV1098",CALL_INBOX_ROOT=BASE_ROOT+"/managerFrontCallInboxV1098",CALL_PRESENCE_ROOT=BASE_ROOT+"/managerFrontCallPresenceV1098",CALL_CONFIG_ROOT=BASE_ROOT+"/managerFrontCallConfigV1098",SKIP_LOCK_ROOT=ROOT+"/rotationSkipLocksV101",TABLE_LOCK_ROOT=ROOT+"/tableOperationLocksV109",CUT_UNDO_ROOT=ROOT+"/staffCutUndoV11",ACCESS_USER_ROOT=ROOT+"/accessUsersV2",ACCESS_AUDIT_ROOT=ROOT+"/accessAuditV2",RECENT_SEAT_ROOT=ROOT+"/recentSeatGuardV1",TEAM_DAY_ROOT=ROOT+"/teamDayV1",TEAM_DAY_META_ROOT=ROOT+"/teamDayMetaV1";
 const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},{"id":"R6","label":"R6","x":16.0,"y":8.0,"w":8.0,"h":6.0,"r":-18},{"id":"R5","label":"R5","x":25.3,"y":6.8,"w":8.0,"h":6.0,"r":0},{"id":"R4","label":"R4","x":35.0,"y":7.5,"w":7.5,"h":6.0,"r":0},{"id":"R3","label":"R3","x":43.8,"y":8.7,"w":7.5,"h":6.0,"r":0},{"id":"R1","label":"R1","x":31.5,"y":15.8,"w":7.3,"h":6.0,"r":0},{"id":"R2","label":"R2","x":40.0,"y":16.1,"w":7.3,"h":6.0,"r":0},{"id":"L3","label":"L3","x":58.3,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L4","label":"L4","x":68.0,"y":10.4,"w":7.5,"h":6.0,"r":0},{"id":"L5","label":"L5","x":77.3,"y":12.0,"w":7.5,"h":6.0,"r":0},{"id":"L6","label":"L6","x":87.0,"y":15.6,"w":8.5,"h":6.2,"r":20},{"id":"L2","label":"L2","x":61.0,"y":20.1,"w":7.5,"h":6.0,"r":0},{"id":"L1","label":"L1","x":70.0,"y":21.1,"w":7.5,"h":6.0,"r":0},{"id":"F6","label":"F6","x":5.7,"y":33.0,"w":6.5,"h":6.6,"r":0},{"id":"E5","label":"E5","x":15.8,"y":33.0,"w":7.4,"h":7.6,"r":0},{"id":"F5","label":"F5","x":5.6,"y":41.5,"w":6.5,"h":6.6,"r":0},{"id":"E4","label":"E4","x":15.8,"y":42.3,"w":7.4,"h":7.6,"r":0},{"id":"F4","label":"F4","x":5.6,"y":50.2,"w":6.5,"h":6.6,"r":0},{"id":"E3","label":"E3","x":15.9,"y":51.0,"w":7.4,"h":7.6,"r":0},{"id":"F3","label":"F3","x":5.7,"y":59.6,"w":6.5,"h":6.6,"r":0},{"id":"E2","label":"E2","x":16.1,"y":59.4,"w":7.4,"h":7.6,"r":0},{"id":"F2","label":"F2","x":5.6,"y":72.3,"w":6.8,"h":7.2,"r":0},{"id":"F1","label":"F1","x":5.6,"y":87.2,"w":6.8,"h":7.2,"r":0},{"id":"E1","label":"E1","x":16.2,"y":86.2,"w":7.4,"h":7.6,"r":0},{"id":"D3","label":"D3","x":25.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"D2","label":"D2","x":25.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"D1","label":"D1","x":25.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C4","label":"C4","x":35.0,"y":42.8,"w":6.8,"h":7.3,"r":0},{"id":"C3","label":"C3","x":35.0,"y":51.0,"w":6.8,"h":7.3,"r":0},{"id":"C2","label":"C2","x":35.0,"y":59.5,"w":6.8,"h":7.3,"r":0},{"id":"C1","label":"C1","x":35.0,"y":69.0,"w":6.8,"h":7.3,"r":0},{"id":"H3","label":"H3","x":47.0,"y":68.2,"w":8.9,"h":6.8,"r":0},{"id":"H4","label":"H4","x":47.0,"y":48.8,"w":8.9,"h":6.8,"r":0},{"id":"H2","label":"H2","x":48.3,"y":88.8,"w":8.7,"h":6.5,"r":0},{"id":"H1","label":"H1","x":57.6,"y":89.0,"w":7.6,"h":6.5,"r":0},{"id":"M2","label":"M2","x":57.5,"y":51.0,"w":6.0,"h":8.0,"r":0},{"id":"M1","label":"M1","x":57.4,"y":73.0,"w":6.0,"h":8.0,"r":0},{"id":"A4","label":"A4","x":88.2,"y":49.5,"w":5.9,"h":7.4,"r":0},{"id":"A3","label":"A3","x":88.2,"y":58.5,"w":5.9,"h":7.4,"r":0},{"id":"A2","label":"A2","x":88.2,"y":68.0,"w":5.9,"h":7.4,"r":0},{"id":"A1","label":"A1","x":88.2,"y":79.2,"w":5.9,"h":7.4,"r":0},{"id":"B3","label":"B3","x":81.0,"y":54.5,"w":5.8,"h":7.2,"r":0},{"id":"B2","label":"B2","x":81.0,"y":63.3,"w":5.8,"h":7.2,"r":0},{"id":"B1","label":"B1","x":81.0,"y":74.3,"w":5.8,"h":7.2,"r":0},{"id":"Bar 3","label":"Bar 3","x":65.3,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 2","label":"Bar 2","x":72.0,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 1","label":"Bar 1","x":78.6,"y":45.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 4","label":"Bar 4","x":63.5,"y":52.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 5","label":"Bar 5","x":63.5,"y":59.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 6","label":"Bar 6","x":63.5,"y":66.4,"w":5.8,"h":6.0,"r":0},{"id":"Bar 7","label":"Bar 7","x":63.5,"y":73.6,"w":5.8,"h":6.0,"r":0},{"id":"Bar 8","label":"Bar 8","x":63.5,"y":80.8,"w":5.8,"h":6.0,"r":0},{"id":"Bar 9","label":"Bar 9","x":63.5,"y":88.0,"w":5.8,"h":6.0,"r":0},{"id":"Bar 10","label":"Bar 10","x":63.5,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 11","label":"Bar 11","x":70.2,"y":95.2,"w":5.8,"h":6.0,"r":0},{"id":"Bar 12","label":"Bar 12","x":76.9,"y":95.2,"w":5.8,"h":6.0,"r":0}],TABLE_IDS=["A1","A2","A3","A4","B1","B2","B3","Bar 1","Bar 2","Bar 3","Bar 4","Bar 5","Bar 6","Bar 7","Bar 8","Bar 9","Bar 10","Bar 11","Bar 12","C1","C2","C3","C4","D1","D2","D3","E1","E2","E3","E4","E5","F1","F2","F3","F4","F5","F6","H1","H2","H3","H4","L1","L2","L3","L4","L5","L6","M1","M2","R1","R2","R3","R4","R5","R6","R7"],DEFAULT_SERVERS=["Adrieanna Walker", "Alaina Montalvo", "Angela Grizzad", "A.J.", "Ashley Garcia", "Brandi Copeland", "Caitlin Dillon", "Christina Gurley", "Cynthia Risner", "Dorothy Makovicka", "Hannah Dempsey", "Jesus Ovalle-Munoz", "Katelyn Ramsey", "Libby Lane", "Megan Meadows", "Megan Sisk", "Mia Burress", "Sara Swift", "Sarah Kibler", "Aida", "Leonardo Sanchez-Miguel"],SECTIONS=["1", "2", "3", "4", "5", "6", "7", "8", "9", "BAR", "1-Bar", "2-4", "3-5"];
 const WORK_SHIFTS=["AM","PM","Double","Long Shift"],ASSIGN_COLORS=["#FACC15","#22D3EE","#A78BFA","#FB923C","#F472B6","#A3E635","#2DD4BF","#60A5FA","#E879F9","#FDE047"];
 const MANAGER_PASSWORD="Laopho$1988",RESET_PASSWORD="888",BAR_AUTO_SKIP_KIND="barAuto";
@@ -5914,7 +5915,7 @@ function rotationBarAutoSkipCount(row){
   return (row.turns||[]).reduce((n,t)=>n+(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND?1:0),0);
 }
 function storedSectionAutoSkipsFromFormation(sourceFormation,section){
-  // R3M.8.30: rotation uses saved server turn cells, never section credits.
+  // R3M.8.31: rotation uses saved server turn cells, never section credits.
   // Retain legacy metadata for compatibility; it does not generate a SKIP.
   return 0;
 }
@@ -11745,6 +11746,42 @@ function quickEditManagerPassword(){
   if(next!==String(confirmPw))return toast('Password confirmation does not match');
   toast('Security mode: protected passwords are not stored on this device. Use Users & Roles for account-based access.');
 }
+const QUICK_SESSION_KEY='fzqb_quick_session_v31';
+const TEAM_DAY_DONE_PREFIX='fzqb_team_done_v31_';
+function quickPersistentSession(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(QUICK_SESSION_KEY)||'null');
+    const roleName=raw&&String(raw.role||'');
+    if(!['Front Host','Floor Host','Manager','Owner'].includes(roleName))return null;
+    return {role:roleName,savedAt:Number(raw.savedAt||0)};
+  }catch(e){return null}
+}
+function quickPersistSession(roleName){
+  roleName=String(roleName||'');if(!['Front Host','Floor Host','Manager','Owner'].includes(roleName))return false;
+  try{localStorage.setItem(QUICK_SESSION_KEY,JSON.stringify({role:roleName,savedAt:Date.now()}));return true}catch(e){return false}
+}
+function quickClearPersistentSession(){try{localStorage.removeItem(QUICK_SESSION_KEY)}catch(e){}}
+function teamDayDoneLocalKey(date=teamDayDateKey()){return TEAM_DAY_DONE_PREFIX+String(date||'')}
+function markTeamDayConfiguredLocal(date=teamDayDateKey()){try{localStorage.setItem(teamDayDoneLocalKey(date),'1')}catch(e){}}
+function isTeamDayConfiguredLocal(date=teamDayDateKey()){try{return localStorage.getItem(teamDayDoneLocalKey(date))==='1'}catch(e){return false}}
+async function isTeamDayConfigured(date=teamDayDateKey()){
+  if(isTeamDayConfiguredLocal(date))return true;
+  try{
+    const meta=await readJ(TEAM_DAY_META_ROOT+'/'+date+'.json');
+    if(meta&&meta.configured===true){markTeamDayConfiguredLocal(date);return true}
+  }catch(e){}
+  /* Backward compatibility: an already-saved Team from older builds counts as configured. */
+  try{
+    const existing=normalizeTeamDay(await readJ(TEAM_DAY_ROOT+'/'+date+'.json'));
+    if(existing.length){
+      markTeamDayConfiguredLocal(date);
+      try{await writeJ(TEAM_DAY_META_ROOT+'/'+date+'.json',{configured:true,migrated:true,count:existing.length,updatedAt:Date.now(),updatedBy:'R3M.8.31'})}catch(e){}
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+function quickSessionRoleLabel(){const saved=quickPersistentSession();return saved?saved.role:''}
 function quickShowRoleGate(){
   if(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight){toast('AN OPERATION IS STILL SAVING…');return}
   const gate=$('quickRoleGate');if(!gate)return;
@@ -11753,36 +11790,28 @@ function quickShowRoleGate(){
 }
 function quickCloseRoleGate(){try{$('quickManagerPassword').blur()}catch(e){}const gate=$('quickRoleGate');if(gate){gate.classList.add('closed');gate.classList.remove('managerEntry','managerKeyboard')}}
 function quickLogoutManager(){
+  const activeRole=ownerRoleUnlocked?'Owner':role();
   if(ownerRoleUnlocked&&$('r3mOwnerLayer')&&$('r3mOwnerLayer').classList.contains('show'))r3mClose();
-  if(!quickIsManager()){quickShowRoleGate();return}
   if(callState||incomingCall||callStartBusy||callAcceptBusy)return toast('End or decline the current call before logging out');
   if(quickState.busy||floorAutoSaving||tableStatusInFlight||moveBusy||sectionControlInFlight||formationSaveInFlight||staffDutyInFlight||breaktimeInFlight||quickAssignInFlight||clearShiftInFlight||managerQrRefreshBusy)return toast('An action is still saving • please wait');
-  if(!confirm('Log out Manager access on this device?'))return;
+  if(!confirm('Log out '+activeRole+' on this device?\n\nReload will require login again.'))return;
 
-  /* Revoke cached one-action grants before changing any visible role state. */
   pendingManagerAction=null;pendingManagerLabel='';
   editAuthorized=false;editExisting=false;editRow=null;editTurn=null;
   editingReservationManager=false;editingReservationId=null;finalizingReservationId=null;
   formationEditorDirty=false;formationDraftServer='';sectionEditDirty=false;sectionEditDraft=null;
   document.body.classList.remove('quickFormationEditing');
   if($('managerDynamicCodeInput'))$('managerDynamicCodeInput').value='';
-
-  /* Park Manager-only legacy content and close every non-mandatory modal. */
-  quickCloseLegacy();
-  closeManagerQr();
+  quickCloseLegacy();closeManagerQr();
   if(managerFrontChatOpen)closeManagerFrontChat();
   const keepOpen=new Set(['incomingAlarmModal','incomingCallModal','activeCallModal','shiftAlertModal','reservationAlarmModal']);
   document.querySelectorAll('.modalBack.show').forEach(back=>{if(!keepOpen.has(back.id))closeM(back.id)});
 
-  managerRoleUnlocked=false;ownerRoleUnlocked=false;
-  lastNonManagerRole='Front Host';
-  $('role').value='Front Host';
-  applyRole('Front Host');
-  quickApplyAccessVisibility();
-  quickSyncHeader();
-  quickShowPane('board');
-  quickShowRoleGate();
-  toast('Manager logged out • protected tools locked');
+  quickClearPersistentSession();
+  managerRoleUnlocked=false;ownerRoleUnlocked=false;lastNonManagerRole='Front Host';
+  $('role').value='Front Host';applyRole('Front Host');quickApplyAccessVisibility();quickSyncHeader();quickShowPane('board');
+  if($('quickManagerLogout'))$('quickManagerLogout').textContent='LOG OUT';
+  quickShowRoleGate();toast(activeRole+' logged out');
 }
 
 
@@ -11828,7 +11857,7 @@ const TEAM_DAY_POSITIONS=['Server','Bartender','Host','Cashier','Busser','Runner
 function teamDayDateKey(){return dateKey()}
 function teamDayPath(){return TEAM_DAY_ROOT+'/'+teamDayDateKey()}
 function teamDayPrettyDate(){const d=new Date();return d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
-function teamDayCanEdit(){return teamDayRoleSelected==='Manager'||teamDayRoleSelected==='Owner'}
+function teamDayCanEdit(){return ['Front Host','Floor Host','Manager','Owner'].includes(teamDayRoleSelected)}
 function normalizeTeamDay(raw){
  const arr=Array.isArray(raw)?raw:Object.values(raw&&typeof raw==='object'?raw:{}),seen=new Set(),out=[];
  arr.forEach(v=>{if(!v)return;const name=canonicalServerName(v.name||v.server),shift=TEAM_DAY_SHIFTS.includes(v.shift)?v.shift:'AM',position=TEAM_DAY_POSITIONS.includes(v.position)?v.position:'Server',key=doubleSeatGuardKey(name);if(name&&!seen.has(key)){seen.add(key);out.push({name,position,shift})}});
@@ -11853,8 +11882,9 @@ function renderTeamDay(){
  document.querySelectorAll('[data-team-delete]').forEach(el=>el.onclick=()=>{teamDayRows.splice(+el.dataset.teamDelete,1);renderTeamDay()});
  const edit=$('teamDayEdit');if(edit){edit.style.display=can?'block':'none';edit.textContent=teamDayEditing?'DONE EDITING':'EDIT TEAM'}
 }
-async function saveTeamDay(){const clean=normalizeTeamDay(teamDayRows);try{await writeJ(teamDayPath()+'.json',clean);const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');teamDayRows=confirmed;try{await fetchFormation();floorFormation.serverShifts=floorFormation.serverShifts||{};confirmed.forEach(e=>{if(e.position==='Server'||e.position==='Bartender')floorFormation.serverShifts[canonicalServerName(e.name)]=todayTeamShiftToFormationValue(e.shift)});await saveFormation()}catch(syncErr){}toast('TODAY TEAM UPDATED • SYNCED');renderTeamDay();return true}catch(e){toast((e&&e.message)||'Team update failed');return false}}
-async function openTeamDay(roleName){teamDayRoleSelected=roleName||'Front Host';teamDayEditing=teamDayCanEdit();$('teamDayLayer').classList.add('show');$('teamDayLayer').setAttribute('aria-hidden','false');await loadTeamDay()}
+async function saveTeamDay(){const clean=normalizeTeamDay(teamDayRows),date=teamDayDateKey();try{await writeJ(teamDayPath()+'.json',clean);const confirmed=normalizeTeamDay(await readJ(teamDayPath()+'.json'));if(JSON.stringify(clean)!==JSON.stringify(confirmed))throw new Error('Team update could not be verified.');const meta={configured:true,count:confirmed.length,updatedAt:Date.now(),updatedBy:teamDayRoleSelected||role(),deviceId:deviceId()};await writeJ(TEAM_DAY_META_ROOT+'/'+date+'.json',meta);const metaCheck=await readJ(TEAM_DAY_META_ROOT+'/'+date+'.json');if(!metaCheck||metaCheck.configured!==true)throw new Error('Team setup status could not be verified.');markTeamDayConfiguredLocal(date);teamDayRows=confirmed;try{await fetchFormation();floorFormation.serverShifts=floorFormation.serverShifts||{};confirmed.forEach(e=>{if(e.position==='Server'||e.position==='Bartender')floorFormation.serverShifts[canonicalServerName(e.name)]=todayTeamShiftToFormationValue(e.shift)});await saveFormation()}catch(syncErr){}toast('TODAY TEAM UPDATED • SAVED FOR TODAY');renderTeamDay();return true}catch(e){toast((e&&e.message)||'Team update failed');return false}}
+async function openTeamDay(roleName,editMode=true){teamDayRoleSelected=roleName||'Front Host';teamDayEditing=editMode&&teamDayCanEdit();$('teamDayLayer').classList.add('show');$('teamDayLayer').setAttribute('aria-hidden','false');await loadTeamDay()}
+async function openTeamDayFromMenu(){const roleName=ownerRoleUnlocked?'Owner':role();await openTeamDay(roleName,true)}
 function closeTeamDay(){$('teamDayLayer').classList.remove('show');$('teamDayLayer').setAttribute('aria-hidden','true');quickShowPane('board')}
 function toggleNewEmployee(){const e=$('teamNewEmployee');if(e)e.classList.toggle('show')}
 function addNewEmployeeToday(){
@@ -11874,19 +11904,23 @@ async function showCutRecommendations(cutServer){
   $('cutRecommendLayer').classList.add('show');$('cutRecommendLayer').setAttribute('aria-hidden','false')
 }
 
-function quickEnterRole(selectedRole){
+async function quickEnterRole(selectedRole,options={}){
   if(callState||incomingCall)return toast('End the current call before changing role');
-  selectedRole=['Front Host','Manager','Owner'].includes(selectedRole)?selectedRole:'Front Host';
+  selectedRole=['Front Host','Floor Host','Manager','Owner'].includes(selectedRole)?selectedRole:'Front Host';
   ownerRoleUnlocked=selectedRole==='Owner';
   managerRoleUnlocked=selectedRole==='Manager'||selectedRole==='Owner';
   const baseRole=selectedRole==='Owner'?'Manager':selectedRole;
   $('role').value=baseRole;applyRole(baseRole);quickSyncHeader();
-  if(ownerRoleUnlocked){if($('quickRole'))$('quickRole').value='Owner';if($('quickContextRole'))$('quickContextRole').textContent='Owner';if($('quickManagerLogout'))$('quickManagerLogout').textContent='OWNER LOG OUT'}
-  else if($('quickManagerLogout'))$('quickManagerLogout').textContent='MANAGER LOG OUT';
-  quickApplyAccessVisibility();quickCloseRoleGate();
+  if(ownerRoleUnlocked){if($('quickRole'))$('quickRole').value='Owner';if($('quickContextRole'))$('quickContextRole').textContent='Owner'}
+  if($('quickManagerLogout'))$('quickManagerLogout').textContent=selectedRole==='Owner'?'OWNER LOG OUT':selectedRole==='Manager'?'MANAGER LOG OUT':'LOG OUT';
+  quickApplyAccessVisibility();quickCloseRoleGate();quickPersistSession(selectedRole);
   teamDayRoleSelected=selectedRole;
   try{$('workDate').value=dateKey()}catch(e){}
-  openTeamDay(selectedRole);
+  const configured=await isTeamDayConfigured(teamDayDateKey());
+  if(configured||options.skipTeam===true){
+    try{await loadTeamDay()}catch(e){}
+    closeTeamDay();quickShowPane('board');
+  }else await openTeamDay(selectedRole,true);
   if(selectedRole==='Front Host')setTimeout(()=>{try{r3mAutoFrontSetup()}catch(e){}},150);
 }
 let quickPendingProtectedRole='Manager';
@@ -11898,7 +11932,7 @@ function quickChooseEntryRole(selectedRole){
     $('quickRoleChoices').hidden=true;$('quickManagerGate').hidden=false;
     setTimeout(quickFocusManagerPassword,50);return
   }
-  quickEnterRole(selectedRole);
+  void quickEnterRole(selectedRole);
 }
 function quickFocusManagerPassword(){
   const gate=$('quickRoleGate'),password=$('quickManagerPassword');if(!gate||!password)return;
@@ -11914,7 +11948,7 @@ async function quickSubmitManagerGate(){
   const button=$('quickManagerEnter'),password=$('quickManagerPassword');button.disabled=true;$('quickManagerGateError').textContent='Checking…';
   const ok=await quickValidateManagerPassword(password.value);button.disabled=false;
   if(!ok){$('quickManagerGateError').textContent='Wrong manager password.';password.select();return}
-  $('quickManagerGateError').textContent='';quickEnterRole(quickPendingProtectedRole||'Manager');
+  $('quickManagerGateError').textContent='';await quickEnterRole(quickPendingProtectedRole||'Manager');
 }
 function quickSetOpen(id,open){const el=$(id);if(el)el.classList.toggle('show',!!open)}
 function quickCloseWizard(){if(quickState.busy)return;quickSetOpen('quickSeatWizard',false)}
@@ -12525,6 +12559,7 @@ function quickBind(){
   if($('teamDayAddNewToggle'))$('teamDayAddNewToggle').onclick=toggleNewEmployee;if($('teamNewSave'))$('teamNewSave').onclick=addNewEmployeeToday;
   if($('teamDayUpdate'))$('teamDayUpdate').onclick=async()=>{if(await saveTeamDay())closeTeamDay()};
   if($('teamDayEdit'))$('teamDayEdit').onclick=()=>{if(!teamDayCanEdit())return;teamDayEditing=!teamDayEditing;renderTeamDay()};
+  if($('quickEditTeamMenu'))$('quickEditTeamMenu').onclick=openTeamDayFromMenu;
   if($('cutRecommendClose'))$('cutRecommendClose').onclick=()=>{$('cutRecommendLayer').classList.remove('show');$('cutRecommendLayer').setAttribute('aria-hidden','true')};
   $('quickManagerBack').onclick=quickShowRoleGate;$('quickManagerEnter').onclick=quickSubmitManagerGate;$('quickManagerPassword').onfocus=quickManagerPasswordFocused;$('quickManagerPassword').onblur=()=>{const gate=$('quickRoleGate');if(gate)setTimeout(()=>{if(document.activeElement!==$('quickManagerPassword'))gate.classList.remove('managerKeyboard')},120)};$('quickManagerPassword').onkeydown=e=>{if(e.key==='Enter')quickSubmitManagerGate()};
   if($('shiftAutoCancel'))$('shiftAutoCancel').onclick=()=>closeShiftAutoDialog(false);if($('shiftAutoConfirm'))$('shiftAutoConfirm').onclick=()=>closeShiftAutoDialog(true);if($('joinSkipNo'))$('joinSkipNo').onclick=()=>closeJoinSkipDialog(false);if($('joinSkipYes'))$('joinSkipYes').onclick=()=>closeJoinSkipDialog(true);if($('seatGuardNo'))$('seatGuardNo').onclick=()=>closeSeatGuardDialog(false);if($('seatGuardYes'))$('seatGuardYes').onclick=()=>closeSeatGuardDialog(true);$('quickAlarm').onclick=openAlarm;$('quickMoreAlarm').onclick=openAlarm;$('quickTeamShout').onclick=openTeamShoutManager;$('quickChangeRole').onclick=()=>(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight)?toast('AN OPERATION IS STILL SAVING…'):quickShowRoleGate();$('quickManagerLogout').onclick=quickLogoutManager;$('quickSeatNext').onclick=()=>{const next=getNextServerSuggestion();if(next)quickOpenWizard(next.row.server,'')};
@@ -12561,7 +12596,8 @@ function quickInit(){
     if(quickState.pane!=='board'){quickShowPane('board');return true}
     return false;
   };
-  quickBind();r3mBind();quickInstallHooks();quickRebindTables();quickSyncHeader();quickRenderBoard();quickRenderFloorMeta();quickShowPane('board');quickShowRoleGate();
+  quickBind();r3mBind();quickInstallHooks();quickRebindTables();quickSyncHeader();quickRenderBoard();quickRenderFloorMeta();quickShowPane('board');
+  const savedSession=quickPersistentSession();if(savedSession){quickCloseRoleGate();setTimeout(()=>{void quickEnterRole(savedSession.role)},0)}else quickShowRoleGate();
   setInterval(quickScheduleRefresh,3500);
 }
 
@@ -12643,7 +12679,10 @@ $('closeReservationDetail').onclick=()=>closeM('reservationDetailModal');
 }
 async function init(){
   const today=dateKey();autoWorkDateDay=today;
-  $('workDate').value=today;localStorage.setItem('jhb31_date',today);$('dateLabel').textContent=today;$('shift').value=localStorage.getItem("jhb31_shift")||((new Date()).getHours()<16?"AM":"PM");lastNonManagerRole="Front Host";$('role').value="Front Host";managerRoleUnlocked=false;applyRole("Front Host");
+  $('workDate').value=today;localStorage.setItem('jhb31_date',today);$('dateLabel').textContent=today;$('shift').value=localStorage.getItem("jhb31_shift")||((new Date()).getHours()<16?"AM":"PM");
+  const savedSession=quickPersistentSession();
+  if(savedSession){ownerRoleUnlocked=savedSession.role==='Owner';managerRoleUnlocked=savedSession.role==='Manager'||savedSession.role==='Owner';lastNonManagerRole=['Front Host','Floor Host'].includes(savedSession.role)?savedSession.role:'Front Host';const baseRole=savedSession.role==='Owner'?'Manager':savedSession.role;$('role').value=baseRole;applyRole(baseRole)}
+  else{lastNonManagerRole="Front Host";$('role').value="Front Host";managerRoleUnlocked=false;ownerRoleUnlocked=false;applyRole("Front Host")}
   buildFloor();bind();installModalCloseButtons();clearReservationForm();await fetchServers();await fetchTables();const resumedKey=resumeBoardSelectionFromActiveTables(tableState);if(resumedKey)toast('RESUMED ACTIVE FLOOR • '+resumedKey);await fetchBoard(boardKey());await fetchFormationTableConfig();await fetchFloorFormation();await fetchFloorAssignments();await fetchTables();await fetchReservations();await fetchManagerFrontChat();renderSheet();renderFormationOverlays();updateNextServerSuggestion();updateViewMeta();renderBeeperView();renderSectionEditEditor();renderBreaktimeView(true);quickInit();await publishCallPresence(true);await pollManagerFrontCalls();
   setInterval(fetchTables,3000);setInterval(()=>enforceSkipLocks(boardKey()),2500);setInterval(fetchFormationTableConfig,8000);setInterval(fetchFloorFormation,8000);setInterval(fetchFloorAssignments,8000);setInterval(refreshPersistentNextRotation,4000);setInterval(fetchAnnouncements,2500);setInterval(fetchAlarms,1500);setInterval(fetchManagerFrontChat,2500);setInterval(pollManagerFrontCalls,1000);setInterval(()=>publishCallPresence(false),5000);setInterval(fetchReservations,15000);setInterval(fetchTeamShout,3000);setInterval(checkReservationAlarms,20000);setInterval(checkScheduledStaffAlerts,20000);setInterval(refreshAutomaticWorkDate,60000);
 }
@@ -12674,7 +12713,7 @@ window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
 
 /* BEGIN BAR818 ISOLATED REPAIR MODULE */
-/* R3M.8.30 — isolated BAR repair planner. No I/O and no mutation of inputs. */
+/* R3M.8.31 — isolated BAR repair planner. No I/O and no mutation of inputs. */
 const Bar818 = (() => {
   'use strict';
   const CAPACITY=60, KIND='barAuto';
@@ -13066,7 +13105,7 @@ async function bar817Apply(){
       if(!plans.some(p=>path==='rotationBoardV31/'+key+'/rows/'+p.ri+'/turns')&&
          !path.startsWith('rotationSkipLocksV101/'+key+'/')&&!/^tables\/[^/]+\/(?:boardRef|primaryBoardRef)$/.test(path))throw new Error('Unexpected repair write path.');
     }
-    const audit={build:'R3M.8.30',at:Date.now(),boardKey:key,by:role(),
+    const audit={build:'R3M.8.31',at:Date.now(),boardKey:key,by:role(),
       rows:Object.fromEntries(plans.map(p=>[p.ri,current.rawBoard.rows[p.ri]])),locks:bar817RelatedLocks(current.locks,plans),tables:bar817RelatedTables(current.tables,key,plans),
       approved:plans.map(p=>({row:p.ri,server:p.server,convertedManual:p.converted,recoveredFloor:p.recovered,actual:p.actual,barAutoSkips:p.autoSkips}))};
     // Preserve exact preimages in the existing dedicated repair journal, not in the GitHub repository.
@@ -13105,7 +13144,7 @@ async function bar817Apply(){
 async function bar817Export(){
   try{
     const key=boardKey(),snap=await bar817ReadSnapshot(key),bars=bar818Bars(snap),ps=bars.map(([ri,r])=>({ri,server:String(r.server||'')}));
-    const data={build:'R3M.8.30',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
+    const data={build:'R3M.8.31',boardKey:key,exportedAt:new Date().toISOString(),rows:Object.fromEntries(bars),skipLocks:bar817RelatedLocks(snap.locks,ps),floor:bar817RelatedTables(snap.tables,key,ps)};
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');
     a.href=url;a.download='FZ-BAR-REPAIR-'+key+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }catch(e){toast('BAR export failed. Check the connection.');}
@@ -13125,7 +13164,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.30-TABLE-CAPACITY-SETUP';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.31-STAY-LOGIN-TEAM-ONCE';
 
   // Clean obsolete service-worker caches from earlier web/iPad experiments.
   if ('serviceWorker' in navigator) {
@@ -13153,8 +13192,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.30"></script>
-<script src="monitor-captions.js?v=R3M.8.30"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.31"></script>
+<script src="monitor-captions.js?v=R3M.8.31"></script>
 </body>
 </html>
 <style>
@@ -13197,7 +13236,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.30"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.30">
-<script src="smart-next.js?v=R3M.8.30"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.30"></script>
+<script src="table-capacity-v30.js?v=R3M.8.31"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.31">
+<script src="smart-next.js?v=R3M.8.31"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.31"></script>
