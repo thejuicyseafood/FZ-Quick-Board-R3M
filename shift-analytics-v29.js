@@ -1,8 +1,8 @@
-/* FZ Quick Board R3M.8.29 — Shift Correction + Owner 5D Analytics • Server Guest/Table Split */
+/* FZ Quick Board R3M.8.30 — Shift Correction + Owner 5D Analytics • Server Guest/Table Split */
 (function(global){
 'use strict';
 
-const BUILD='R3M.8.29';
+const BUILD='R3M.8.30';
 const BAR_AUTO='barAuto';
 const CAPACITY=60;
 const ROWS=15;
