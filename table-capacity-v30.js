@@ -1,9 +1,9 @@
-/* FZ Quick Board R3M.8.33 — Owner Table Capacity Setup
+/* FZ Quick Board R3M.8.34 — Owner Table Capacity Setup
    Persists maximum guest capacity per physical table in Firebase and local cache.
    Unknown legacy capacities are never guessed. */
 (function(root){
   'use strict';
-  const VERSION='R3M.8.33';
+  const VERSION='R3M.8.34';
   const CACHE_KEY='fzqb_table_capacity_v1';
   const RANGE_MIN=1,RANGE_MAX=30;
   const KNOWN_DEFAULTS={
