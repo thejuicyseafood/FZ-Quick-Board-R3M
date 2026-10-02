@@ -1,4 +1,4 @@
-const CACHE='fzqb-r3m8-39-day-group-hour-charts-extra-large-v1';
+const CACHE='fzqb-r3m8-40-bar-last-occurrence-restore-v1';
 self.addEventListener('install',()=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{

@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.39 • STAY LOGIN • TEAM ONCE • SMART NEXT</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.40 • BAR RESTORE FIX • STAY LOGIN • TEAM ONCE • SMART NEXT</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -10183,21 +10183,36 @@ function boardEventTime(ev,row){
   if(ev&&typeof ev==='object'){
     const raw=ev.at||ev.time||ev.timestamp||ev.seatedAt||ev.createdAt||ev.updatedAt||0;
     if(raw)return Number(raw)||raw;
+    /* Modern Board seat IDs are generated as seat_<epochMs>_<device>_<random>.
+       Recover that exact seating time instead of showing Time unavailable. */
+    const entryId=String(ev.entryId||'');
+    const match=entryId.match(/^seat_(\d{11,})_/i);
+    if(match){const ts=Number(match[1]);if(Number.isFinite(ts)&&ts>0)return ts}
   }
   return Number(row&&row.updatedAt||0)||0;
 }
-function findLatestBoardTableRecord(tableId){
-  const wanted=String(tableId||'').trim().toUpperCase();if(!wanted)return null;
-  let best=null;
-  (board.rows||[]).forEach(row=>{
+function findLatestBoardTableRecord(tableId,sourceBoard=board,serverHint='',entryIdHint=''){
+  const wanted=String(tableId||'').trim().toUpperCase();if(!wanted||!sourceBoard||!Array.isArray(sourceBoard.rows))return null;
+  const wantedServer=canonicalServerName(serverHint||''),wantedEntry=String(entryIdHint||'');
+  let best=null,sequence=0;
+  sourceBoard.rows.forEach((row,ri)=>{
     const server=canonicalServerName(row&&row.server||'');
+    if(wantedServer&&server!==wantedServer)return;
     const pools=[];
-    ['turns','boxes','history','seatings','tables'].forEach(k=>{if(Array.isArray(row&&row[k]))pools.push(row[k])});
-    pools.forEach(arr=>arr.forEach((ev,index)=>{
+    ['turns','boxes','history','seatings','tables'].forEach(k=>{if(Array.isArray(row&&row[k]))pools.push({key:k,arr:row[k]})});
+    pools.forEach(pool=>pool.arr.forEach((ev,index)=>{
+      sequence++;
       if(boardEventTableId(ev).toUpperCase()!==wanted)return;
-      const at=boardEventTime(ev,row);
-      const score=(typeof at==='number'&&at>0)?at:index;
-      if(!best||score>=best.score)best={tableId:wanted,server,at,score,event:ev,row};
+      const entryId=String(ev&&typeof ev==='object'&&ev.entryId||'');
+      if(wantedEntry&&entryId!==wantedEntry)return;
+      const at=boardEventTime(ev,row),hasTime=Number.isFinite(Number(at))&&Number(at)>0;
+      const master=ev&&typeof ev==='object'&&Number.isInteger(ev.master)?Number(ev.master):index;
+      const candidate={tableId:String(tableId||'').trim(),server,at:hasTime?Number(at):0,event:ev,row,ri,ti:index,master,entryId,people:String(ev&&typeof ev==='object'&&ev.people||''),source:pool.key,sequence};
+      if(!best||
+        (hasTime&&!best.at)||
+        (hasTime&&best.at&&Number(at)>Number(best.at))||
+        ((!hasTime&&!best.at)&&sequence>best.sequence)||
+        (hasTime&&best.at&&Number(at)===Number(best.at)&&sequence>best.sequence))best=candidate;
     }));
   });
   return best;
@@ -10206,35 +10221,66 @@ async function openFloorUndo(action){
   if(action!=='delete')return;
   const tableId=String(selectedTable||'').trim();
   if(!tableId)return toast('Select a READY table first');
-  /* Refresh current Board before lookup so another device's latest seating is included. */
+  /* UNDO DELETE is scoped to the active AM/PM Board only. It restores the
+     LAST occurrence of this physical table in this shift — never an older
+     occurrence from another shift. */
   try{await fetchBoard()}catch(_){}
-  const hit=findLatestBoardTableRecord(tableId);
-  if(!hit)return toast(tableId+' was not found in the current Board history');
-  quickUndoPending={action:'delete',tableId:hit.tableId,server:hit.server,at:hit.at,event:hit.event};
+  const hit=findLatestBoardTableRecord(tableId,board);
+  if(!hit)return toast(tableId+' was not found in the current '+shift()+' Board history');
+  quickUndoPending={action:'delete',boardKey:boardKey(),tableId:hit.tableId,server:hit.server,at:hit.at,event:hit.event,entryId:hit.entryId,people:hit.people,ri:hit.ri,ti:hit.ti,master:hit.master};
   let when='Time unavailable';
   try{if(hit.at)when=new Date(Number(hit.at)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}catch(_){}
   $('quickUndoTitle').textContent='UNDO DELETE?';
-  $('quickUndoDetail').innerHTML='Table: <b>'+esc(hit.tableId)+'</b><br>Server: <b>'+esc(hit.server||'Unassigned')+'</b><br>Last seated: <b>'+esc(when)+'</b><br><br>Restore '+esc(hit.tableId)+' to the Floor?';
+  $('quickUndoDetail').innerHTML='Table: <b>'+esc(hit.tableId)+'</b><br>Server: <b>'+esc(hit.server||'Unassigned')+'</b><br>Last seated: <b>'+esc(when)+'</b><br><br>Restore '+esc(hit.tableId)+' to the Floor under '+esc(hit.server||'Unassigned')+'?';
   $('quickUndoConfirm').classList.add('show');
 }
 async function restoreFloorHistory(){
   const rec=quickUndoPending;if(!rec||rec.action!=='delete')return;
-  const id=String(rec.tableId||''),server=canonicalServerName(rec.server||'');
+  const id=String(rec.tableId||''),operationKey=boardKey(),owner=operationId('undo-delete');let claimed=[];
   try{
-    const current=JSON.parse(JSON.stringify((tableState||{})[id]||{}));
-    const restored={
-      ...current,status:'seated',available:false,reserved:false,server,
-      updatedBy:role(),updatedAt:Date.now()
+    if(String(rec.boardKey||'')!==String(operationKey))throw new Error('Shift changed. Reopen UNDO DELETE.');
+    claimed=await claimTableLocksWithRetry([id],owner);
+    if(!claimed.length)throw new Error(id+' is busy. Try UNDO DELETE again.');
+    const [rawBoard,latestTables]=await Promise.all([readJ(BOARD_ROOT+'/'+operationKey+'.json'),readJ(TABLE_ROOT+'.json')]);
+    if(rawBoard===null||latestTables===null)throw new Error('Live Board/Floor data could not be read.');
+    const liveBoard=strictBoardFromRemote(operationKey,rawBoard,'UNDO DELETE RESTORE');
+    /* Re-resolve the exact occurrence shown in the dialog. If its modern
+       entryId exists, require that exact party. Legacy rows fall back to the
+       last same-table occurrence for the same server in this shift. */
+    let hit=findLatestBoardTableRecord(id,liveBoard,rec.server,rec.entryId||'');
+    if(!hit&&rec.entryId)throw new Error('That exact '+id+' seating is no longer in this shift Board.');
+    if(!hit)hit=findLatestBoardTableRecord(id,liveBoard,rec.server||'');
+    if(!hit)throw new Error(id+' history is no longer available in this '+shift()+' shift.');
+    const state=latestTables[id]||{},status=operationalTableStatus(state);
+    if(status==='seated'){
+      if(String(state.partyId||'')===String(hit.entryId||'')&&canonicalServerName(state.server||'')===hit.server){
+        $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;toast(id+' is already restored to '+(hit.server||'UNASSIGNED'));return;
+      }
+      throw new Error(id+' is already SEATED by another active party.');
+    }
+    if(status==='reserved')throw new Error(id+' is RESERVED. Cancel the reservation before restore.');
+    if(!['ready','cleaning',''].includes(status))throw new Error(id+' is not available for restore.');
+    const people=String(hit.people||rec.people||'');
+    const entryId=String(hit.entryId||rec.entryId||'');
+    const master=Number.isInteger(hit.master)?hit.master:hit.ti;
+    const ts=Date.now(),restored={
+      ...state,status:'seated',available:false,reserved:false,server:hit.server,
+      people,partyPeople:'',secondaryOf:'',secondaryTables:[],partyId:entryId,
+      boardRef:boardRefFor(hit.ri,master,entryId,operationKey),primaryBoardRef:null,
+      updatedBy:role(),updatedAt:ts
     };
-    /* Restore Floor occupancy only. Board already contains the original F5 record,
-       so never append another seating and never change the server's table count. */
     await writeJ(TABLE_ROOT+'/'+id+'.json',restored,'PUT');
-    tableState[id]=restored;
+    const confirmed=await readJ(TABLE_ROOT+'/'+id+'.json');
+    if(!confirmed||operationalTableStatus(confirmed)!=='seated'||canonicalServerName(confirmed.server||'')!==hit.server||String(confirmed.partyId||'')!==entryId||!sameJson(confirmed.boardRef,restored.boardRef))throw new Error('RESTORE could not be verified.');
+    tableState[id]=confirmed;
+    if(operationKey===boardKey()){board=liveBoard;boardBaseline=cloneBoard(liveBoard);loadedBoardKey=operationKey}
     renderTables();sync(true);
     $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;
     quickCloseWizard();quickShowPane('floor');
-    toast('RESTORED • TABLE '+id+' • '+(server||'UNASSIGNED'));
-  }catch(e){toast('RESTORE FAILED')}
+    let when='';try{if(hit.at)when=' • '+new Date(Number(hit.at)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}catch(_){}
+    toast('RESTORED • '+id+' • '+(hit.server||'UNASSIGNED')+when);
+  }catch(e){toast((e&&e.message)||'RESTORE FAILED')}
+  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
 }
 async function quickWizardSetReserved(){
   const id=String(selectedTable||'');
@@ -13164,13 +13210,13 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.39-DAY-GROUP-HOUR-CHARTS-EXTRA-LARGE-PDF';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.40-BAR-LAST-OCCURRENCE-RESTORE';
 
   // Clean obsolete service-worker caches from earlier web/iPad experiments.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async function(){
       try {
-        const reg = await navigator.serviceWorker.register('./sw.js?v=6', {scope:'./', updateViaCache:'none'});
+        const reg = await navigator.serviceWorker.register('./sw.js?v=7', {scope:'./', updateViaCache:'none'});
         await reg.update();
       } catch(e) { console.warn('FZ PWA SW:', e); }
     });
@@ -13192,8 +13238,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.39"></script>
-<script src="monitor-captions.js?v=R3M.8.39"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.40"></script>
+<script src="monitor-captions.js?v=R3M.8.40"></script>
 </body>
 </html>
 <style>
@@ -13236,7 +13282,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.39"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.39">
-<script src="smart-next.js?v=R3M.8.39"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.39"></script>
+<script src="table-capacity-v30.js?v=R3M.8.40"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.40">
+<script src="smart-next.js?v=R3M.8.40"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.40"></script>
