@@ -1,22 +1,35 @@
 {
-  "name": "Fred Zhang Quick Board R3M.8.39",
+  "id": "/FZ-Quick-Board-R3M/",
+  "name": "Fred Zhang Quick Board R3M.8.41",
   "short_name": "FZ Quick Board",
-  "start_url": "./",
-  "scope": "./",
+  "description": "Fred Zhang Quick Board for The Juicy Seafood \u2014 floor, rotation, team and owner analytics.",
+  "start_url": "/FZ-Quick-Board-R3M/",
+  "scope": "/FZ-Quick-Board-R3M/",
   "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
   "background_color": "#06111b",
   "theme_color": "#071522",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

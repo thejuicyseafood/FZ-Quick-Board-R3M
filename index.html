@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=5" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.41" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.40 • BAR RESTORE FIX • STAY LOGIN • TEAM ONCE • SMART NEXT</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.41 • PWA INSTALL FIX • BAR RESTORE • STAY LOGIN</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2227,6 +2227,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickStaff" class="quickMenuBtn"><strong>Cut / Uncut Employee</strong><span>Hide or restore an employee; history stays protected</span></button>
       </div></div>
       <div class="quickGroup"><div class="quickGroupTitle">DATA &amp; COMMUNICATION</div><div class="quickMenuGrid">
+        <button id="quickInstallApp" class="quickMenuBtn" type="button"><strong>⬇ INSTALL FZ QUICK BOARD</strong><span id="quickInstallAppHint">Samsung / Android • install this Quick Board as its own app</span></button>
         <button id="quickReservations" class="quickMenuBtn"><strong>Reservations</strong><span>Schedule and final save</span></button>
         <button id="quickHistory" class="quickMenuBtn quickManagerOnly"><strong>Full History</strong><span>Manager • active and CUT rows × 60 turns</span></button>
         <button id="quickReports" class="quickMenuBtn quickManagerOnly"><strong>Reports</strong><span>Manager • PDF, XLS, WhatsApp and email</span></button>
@@ -13210,36 +13211,99 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.40-BAR-LAST-OCCURRENCE-RESTORE';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.41-PWA-INSTALL-FIX';
+  const APP_SCOPE='/FZ-Quick-Board-R3M/';
+  let deferredInstallPrompt=null;
+  let installBanner=null;
 
-  // Clean obsolete service-worker caches from earlier web/iPad experiments.
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async function(){
-      try {
-        const reg = await navigator.serviceWorker.register('./sw.js?v=7', {scope:'./', updateViaCache:'none'});
+  function standalone(){
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+  }
+  function installButton(){return document.getElementById('quickInstallApp')}
+  function installHint(){return document.getElementById('quickInstallAppHint')}
+  function updateInstallUi(){
+    const b=installButton(),h=installHint();
+    if(!b)return;
+    if(standalone()){
+      b.disabled=true;
+      if(b.querySelector('strong'))b.querySelector('strong').textContent='✓ FZ QUICK BOARD INSTALLED';
+      if(h)h.textContent='Running as the installed Quick Board app';
+      document.documentElement.dataset.pwaInstalled='yes';
+    }else if(deferredInstallPrompt){
+      b.disabled=false;
+      if(b.querySelector('strong'))b.querySelector('strong').textContent='⬇ INSTALL FZ QUICK BOARD';
+      if(h)h.textContent='Ready • tap here to open the Samsung / Chrome install prompt';
+      document.documentElement.dataset.pwaInstallable='yes';
+    }else{
+      b.disabled=false;
+      if(b.querySelector('strong'))b.querySelector('strong').textContent='⬇ INSTALL FZ QUICK BOARD';
+      if(h)h.textContent='Tap to check install status / show Samsung Chrome instructions';
+    }
+  }
+  function removeBanner(){if(installBanner){installBanner.remove();installBanner=null}}
+  function showBanner(){
+    if(standalone()||!deferredInstallPrompt||installBanner)return;
+    const wrap=document.createElement('div');
+    wrap.id='fzPwaInstallBanner';
+    wrap.style.cssText='position:fixed;left:12px;right:12px;bottom:82px;z-index:2147483000;background:linear-gradient(135deg,#0d2e49,#123d5c);color:#fff;border:2px solid #54d2ff;border-radius:18px;padding:14px;box-shadow:0 18px 50px rgba(0,0,0,.55);font-family:Arial,sans-serif';
+    wrap.innerHTML='<div style="font-weight:1000;font-size:18px;margin-bottom:4px">INSTALL FZ QUICK BOARD</div><div style="font-size:12px;line-height:1.35;color:#c9ecff;margin-bottom:11px">Install this Quick Board as its own app on this Samsung device.</div><div style="display:flex;gap:8px"><button id="fzPwaInstallNow" style="flex:1;min-height:45px;border:0;border-radius:12px;background:#55d6ff;color:#04131e;font-weight:1000;font-size:14px">INSTALL APP</button><button id="fzPwaInstallLater" style="min-width:95px;border:1px solid #6e8fa6;border-radius:12px;background:#102638;color:white;font-weight:900">NOT NOW</button></div>';
+    document.body.appendChild(wrap);installBanner=wrap;
+    document.getElementById('fzPwaInstallNow').onclick=()=>requestInstall();
+    document.getElementById('fzPwaInstallLater').onclick=()=>removeBanner();
+  }
+  async function requestInstall(){
+    if(standalone()){updateInstallUi();return;}
+    if(deferredInstallPrompt){
+      const prompt=deferredInstallPrompt;
+      deferredInstallPrompt=null;
+      removeBanner();
+      try{
+        await prompt.prompt();
+        const choice=await prompt.userChoice;
+        if(choice&&choice.outcome==='accepted'){
+          document.documentElement.dataset.pwaInstalled='pending';
+          if(typeof toast==='function')toast('Installing FZ Quick Board…');
+        }else if(typeof toast==='function')toast('Install was not completed');
+      }catch(e){if(typeof toast==='function')toast('Install prompt could not open');}
+      updateInstallUi();return;
+    }
+    const msg='Samsung Chrome: tap ⋮ → Install and create shortcut → Install app. If Chrome still says already installed, close all Chrome tabs for Quick Board, reopen this page, and try this INSTALL button again.';
+    if(typeof toast==='function')toast('Install prompt is not ready yet');
+    alert(msg);
+  }
+  window.fzInstallQuickBoard=requestInstall;
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',async function(){
+      try{
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.41',{scope:'./',updateViaCache:'none'});
         await reg.update();
-      } catch(e) { console.warn('FZ PWA SW:', e); }
+      }catch(e){console.warn('FZ PWA SW:',e);}
+      updateInstallUi();
     });
   }
-
-  // If Chrome exposes its native install prompt, keep it available.
-  let deferredInstallPrompt = null;
-  window.addEventListener('beforeinstallprompt', function(e){
+  window.addEventListener('beforeinstallprompt',function(e){
     e.preventDefault();
-    deferredInstallPrompt = e;
-    document.documentElement.dataset.pwaInstallable = 'yes';
+    deferredInstallPrompt=e;
+    updateInstallUi();
+    setTimeout(showBanner,450);
   });
-  window.addEventListener('appinstalled', function(){
-    document.documentElement.dataset.pwaInstalled = 'yes';
-    deferredInstallPrompt = null;
+  window.addEventListener('appinstalled',function(){
+    deferredInstallPrompt=null;removeBanner();updateInstallUi();
+    document.documentElement.dataset.pwaInstalled='yes';
+    if(typeof toast==='function')toast('FZ Quick Board installed');
   });
+  window.addEventListener('DOMContentLoaded',function(){
+    const b=installButton();if(b)b.addEventListener('click',requestInstall);
+    updateInstallUi();
+  },{once:true});
 })();
 </script>
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.40"></script>
-<script src="monitor-captions.js?v=R3M.8.40"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.41"></script>
+<script src="monitor-captions.js?v=R3M.8.41"></script>
 </body>
 </html>
 <style>
@@ -13282,7 +13346,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.40"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.40">
-<script src="smart-next.js?v=R3M.8.40"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.40"></script>
+<script src="table-capacity-v30.js?v=R3M.8.41"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.41">
+<script src="smart-next.js?v=R3M.8.41"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.41"></script>
