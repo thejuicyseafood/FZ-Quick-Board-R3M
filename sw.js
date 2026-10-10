@@ -1,4 +1,4 @@
-const CACHE='fzqb-r3m8-41-pwa-install-v1';
+const CACHE='fzqb-r3m8-42-rotation-compact-v1';
 const SHELL=[
   './','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png',
   './shift-analytics-v29.js','./monitor-captions.js','./table-capacity-v30.js',

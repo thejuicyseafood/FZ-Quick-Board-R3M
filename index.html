@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.41" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.42" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.41 • PWA INSTALL FIX • BAR RESTORE • STAY LOGIN</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.42 • ROTATION COMPACTION FIX • BAR RESTORE • PWA INSTALL</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -5832,6 +5832,24 @@ function compactBoardRowTurns(ri,sourceBoard=board){
   return {masterMap,used:cursor};
 }
 
+function composeBoardMasterMaps(first,second){
+  const out=new Map();
+  if(!first||!first.masterMap||!second||!second.masterMap)return out;
+  first.masterMap.forEach((middleTurn,oldTurn)=>{
+    const finalTurn=second.masterMap.get(middleTurn);
+    if(Number.isInteger(finalTurn))out.set(oldTurn,finalTurn);
+  });
+  return out;
+}
+function assertBoardRowNoHoles(row,label='Host Board row'){
+  let blankSeen=false;
+  (row&&Array.isArray(row.turns)?row.turns:[]).forEach((turn,ti)=>{
+    const occupied=!!(turn&&(turn.table||turn.people||turn.skipped||Number.isInteger(turn.master)));
+    if(!occupied)blankSeen=true;
+    else if(blankSeen)throw new Error(label+' contains a blank before turn '+(ti+1)+'.');
+  });
+  return true;
+}
 function slotIsFree(turns,i,ignoreMaster=null){
   const t=turns[i];
   if(!t)return true;
@@ -10314,7 +10332,8 @@ async function clearHistoryParty26(ri,ti){
     if(!sameJson(latest.rows[ri].turns[ti],beforeTurn)||latest.rows[ri].server!==server)throw Error('Board entry changed. Reopen it.');
     if(refs.some(id=>['boardRef','primaryBoardRef'].some(field=>Number(floor[id][field]?.turn)===ti&&Number(floor[id][field]?.row)===ri)))throw Error('This party is still active. Use Floor → RESET / DELETE PARTY.');
     const before=cloneBoard(latest);board=cloneBoard(latest);clearGroup(ri,ti);
-    const first=compactBoardRowTurns(ri,board);reconcileBarAutoSkipCells(ri,String(beforeTurn.entryId||''));const second=compactBoardRowTurns(ri,board),map=new Map();first.masterMap.forEach((mid,old)=>map.set(old,second.masterMap.get(mid)));
+    const first=compactBoardRowTurns(ri,board);reconcileBarAutoSkipCells(ri,String(beforeTurn.entryId||''));const second=compactBoardRowTurns(ri,board),map=composeBoardMasterMaps(first,second);
+    assertBoardRowNoHoles(board.rows[ri],'Host Board DELETE');
     const patch={},boardPatch=buildBoardCellPatch(before,board);
     Object.entries(boardPatch).forEach(([path,value])=>patch['rotationBoardV31/'+key+'/'+path]=value);
     refs.forEach(id=>{const state={...floor[id]};for(const field of ['boardRef','primaryBoardRef']){const ref=state[field];if(!ref||String(ref.boardKey)!==key||Number(ref.row)!==ri)continue;const turn=map.get(Number(ref.turn));if(!Number.isInteger(turn))throw Error('Cannot update Floor reference.');state[field]={...ref,turn}}patch['tables/'+id]=state});
@@ -10323,6 +10342,7 @@ async function clearHistoryParty26(ri,ti){
     await writeJ(ROOT+'.json',patch,'PATCH');
     const [check,checkFloor]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json')]);
     const verified=strictBoardFromRemote(key,check,'CLEAR HISTORY VERIFY');
+    assertBoardRowNoHoles(verified.rows[ri],'Host Board DELETE');
     if(Object.keys(boardPatch).some(path=>!sameJson(boardPatchValue(verified,path),boardPatchValue(board,path))))throw Error('Board verification failed. Reload.');
     if(refs.some(id=>!sameJson(checkFloor?.[id],patch['tables/'+id])))throw Error('Floor reference verification failed. Reload.');
     board=verified;boardBaseline=cloneBoard(verified);loadedBoardKey=key;tableState=checkFloor;closeM('turnModal');closeM('lockedTurnModal');editExisting=false;editAuthorized=false;renderSheet();quickRenderBoard();toast('Party deleted • Board rearranged');
@@ -10449,11 +10469,8 @@ async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
     if(!editingPeople)clearGroup(current.ri,current.ti);
     const firstCompaction=editingPeople?resizePartyRow26(board.rows[current.ri],current.ti,newPeople):compactBoardRowTurns(current.ri,board);
     reconcileBarAutoSkipCells(current.ri,entryId);
-    const secondCompaction=compactBoardRowTurns(current.ri,board),finalMasterMap=new Map();
-    firstCompaction.masterMap.forEach((middleTurn,oldTurn)=>{
-      const finalTurn=secondCompaction.masterMap.get(middleTurn);
-      if(Number.isInteger(finalTurn))finalMasterMap.set(oldTurn,finalTurn);
-    });
+    const secondCompaction=compactBoardRowTurns(current.ri,board),finalMasterMap=composeBoardMasterMaps(firstCompaction,secondCompaction);
+    assertBoardRowNoHoles(board.rows[current.ri],'Host Board RESET');
 
     /*
       Board deletion, primary/secondary release, and BAR SKIP reconciliation
@@ -10771,13 +10788,13 @@ async function saveMoveChange(){
   if(!TABLE_IDS.includes(target))return toast('Choose a valid table');
   const initialState=JSON.parse(JSON.stringify(tableState[source]||{}));
   const initialLinked=sortTableIdsGrouped(Array.isArray(initialState.secondaryTables)?initialState.secondaryTables.filter(id=>TABLE_IDS.includes(id)):[]);
-  const key=moveBoardKeyForState(initialState),viewKeyAtStart=boardKey(),opId=operationId('swap');
+  const key=moveBoardKeyForState(initialState),initialSourceRi=Number(initialState&&initialState.boardRef&&initialState.boardRef.row),initialSourceRowRefs=Number.isInteger(initialSourceRi)?boardRowReferencedTables(tableState,key,initialSourceRi):[],viewKeyAtStart=boardKey(),opId=operationId('swap');
   const viewBoardBefore=board?cloneBoard(board):null,viewBaselineBefore=boardBaseline?cloneBoard(boardBaseline):null,viewLoadedKeyBefore=loadedBoardKey;
   let claimed=[],committed=false;
   setMoveBusy(true);
   try{
     if(!(await flushScheduledBoardSave()))throw new Error('Pending Host Board edit was not saved. Swap cancelled.');
-    claimed=await claimTableLocks([source,target,...initialLinked,'BOARD '+key+' CLEAR','BOARD '+key+' '+currentServerUI,'BOARD '+key+' '+targetServer],opId);
+    claimed=await claimTableLocks([source,target,...initialLinked,...initialSourceRowRefs,'BOARD '+key+' CLEAR','BOARD '+key+' '+currentServerUI,'BOARD '+key+' '+targetServer],opId);
     if(!claimed.length)throw new Error('Action is being processed.');
     const [rawBoard,rawTables,locks]=await Promise.all([
       readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json'),readSkipLocks(key)
@@ -10797,6 +10814,8 @@ async function saveMoveChange(){
     if(!current)throw new Error('Active Host Board link was not found. READY/RESET the correct shift first.');
     const currentServer=String(state.server||latest.rows[current.ri].server||currentServerUI||'');
     if(!currentServer||breaktimeServerKey(latest.rows[current.ri].server)!==breaktimeServerKey(currentServer))throw new Error('Current server changed on another device. Reopen MOVE / CHANGE.');
+    const liveSourceRowRefs=boardRowReferencedTables(liveTables,key,current.ri);
+    if(!sameJson(liveSourceRowRefs,initialSourceRowRefs))throw new Error('Another active party link changed. Reopen MOVE / CHANGE so Rotation History can be compacted safely.');
     if(currentServerUI&&breaktimeServerKey(currentServerUI)!==breaktimeServerKey(currentServer))throw new Error('Current server changed while MOVE was open. Reopen it.');
     if(chosenMode==='table')targetServer=currentServer;
     else{
@@ -10808,7 +10827,7 @@ async function saveMoveChange(){
     }
     const people=String(state.people||current.t.people||''),n=Math.max(1,parseInt(people||'1',10)||1),need=Math.ceil(n/4);
     const entryId=String(current.t.entryId||state.partyId||operationId('party'));
-    let expectedRi=current.ri,expectedTi=current.ti,oldReconcile={added:[],removed:[]},newReconcile={added:[],removed:[]};
+    let expectedRi=current.ri,expectedTi=current.ti,newReconcile={added:[],removed:[]},sourceMasterMap=null,sourceRowCompacted=false;
     const operationShift=moveBoardShift(key);
 
     if(breaktimeServerKey(targetServer)===breaktimeServerKey(latest.rows[current.ri].server)){
@@ -10818,8 +10837,16 @@ async function saveMoveChange(){
         if(t&&t.master===current.ti){t.entryId=entryId;if(i===current.ti)t.table=target}
       }
     }else{
+      /* R3M.8.42 invariant: removing a party from a server row may NEVER
+         leave a blank between older and newer Rotation History. Compact the
+         source row first, then reconcile BAR PM auto-SKIPs and compact again. */
       clearGroup(current.ri,current.ti);
-      oldReconcile=reconcileBarAutoSkipCells(current.ri,entryId,operationShift);
+      const sourceFirst=compactBoardRowTurns(current.ri,latest);
+      reconcileBarAutoSkipCells(current.ri,entryId,operationShift);
+      const sourceSecond=compactBoardRowTurns(current.ri,latest);
+      sourceMasterMap=composeBoardMasterMaps(sourceFirst,sourceSecond);
+      sourceRowCompacted=true;
+      assertBoardRowNoHoles(latest.rows[current.ri],'MOVE / CHANGE source row');
       const targetWasMissing=staffDutyState(targetServer,latest).state==='MISSING';
       const targetRi=ensureBoardRowForServer(targetServer,false);
       if(targetRi===-2)throw new Error(unavailableServerMessage(targetServer,latest));
@@ -10832,19 +10859,37 @@ async function saveMoveChange(){
       expectedRi=targetRi;expectedTi=appendAt;
     }
 
-    const ts=Date.now(),ref=boardRefFor(expectedRi,expectedTi,entryId,key),floorUpdates={};
+    const ts=Date.now(),ref=boardRefFor(expectedRi,expectedTi,entryId,key),floorUpdates={},sourceReferenceExpectations={};
     if(source!==target){
       floorUpdates[source]={...(liveTables[source]||{}),status:'ready',available:true,server:'',people:'',partyPeople:'',secondaryOf:'',secondaryTables:[],partyId:'',boardRef:null,primaryBoardRef:null,updatedBy:role(),updatedAt:ts};
     }
     floorUpdates[target]={...(liveTables[target]||{}),status:'seated',available:false,server:targetServer,people:String(people),partyPeople:'',secondaryOf:'',secondaryTables:linked,partyId:entryId,boardRef:ref,primaryBoardRef:null,moveOperationId:opId,updatedBy:role(),updatedAt:ts};
     linked.forEach(secTable=>{floorUpdates[secTable]={...(liveTables[secTable]||{}),status:'seated',available:false,server:targetServer,people:'',partyPeople:String(people),secondaryOf:target,secondaryTables:[],partyId:entryId,boardRef:null,primaryBoardRef:ref,moveOperationId:opId,updatedBy:role(),updatedAt:ts}});
+    if(sourceRowCompacted){
+      liveSourceRowRefs.forEach(id=>{
+        if(id===source||linked.includes(id)||Object.prototype.hasOwnProperty.call(floorUpdates,id))return;
+        const old=liveTables[id]||{},next={...old};let changed=false;const expected={};
+        ['boardRef','primaryBoardRef'].forEach(field=>{
+          const oldRef=old[field];
+          if(!oldRef||String(oldRef.boardKey||'')!==key||Number(oldRef.row)!==current.ri)return;
+          const newTurn=sourceMasterMap&&sourceMasterMap.get(Number(oldRef.turn));
+          if(!Number.isInteger(newTurn))throw new Error('Active Floor reference for '+id+' cannot follow Rotation compaction safely.');
+          const moved=(latest.rows[current.ri].turns||[])[newTurn]||{};
+          if(oldRef.entryId&&String(moved.entryId||'')!==String(oldRef.entryId))throw new Error('Active Floor reference for '+id+' no longer matches its Rotation party.');
+          next[field]={...oldRef,turn:newTurn};expected[field]=next[field];changed=changed||newTurn!==Number(oldRef.turn);
+        });
+        if(changed){next.updatedBy=role();next.updatedAt=ts;floorUpdates[id]=next;sourceReferenceExpectations[id]=expected}
+      });
+    }
 
     const rootPatch={};
     Object.entries(buildBoardCellPatch(boardBefore,latest)).forEach(([p,v])=>{rootPatch['rotationBoardV31/'+key+'/'+p]=v});
     Object.entries(floorUpdates).forEach(([id,v])=>{rootPatch['tables/'+id]=v});
-    oldReconcile.removed.forEach(ti=>{rootPatch['rotationSkipLocksV101/'+key+'/'+skipLockId(current.ri,ti)]=null});
+    if(sourceRowCompacted){
+      for(let ti=0;ti<BOARD_TURN_CAPACITY;ti++)rootPatch['rotationSkipLocksV101/'+key+'/'+skipLockId(current.ri,ti)]=null;
+      (latest.rows[current.ri].turns||[]).forEach((turn,ti)=>{if(turn&&turn.skipped)rootPatch['rotationSkipLocksV101/'+key+'/'+skipLockId(current.ri,ti)]={active:true,row:current.ri,turn:ti,server:currentServer,skipType:String(turn.skipType||'manual'),entryId:String(turn.entryId||''),updatedAt:ts,updatedBy:role()}});
+    }
     newReconcile.removed.forEach(ti=>{rootPatch['rotationSkipLocksV101/'+key+'/'+skipLockId(expectedRi,ti)]=null});
-    oldReconcile.added.forEach(ti=>{rootPatch['rotationSkipLocksV101/'+key+'/'+skipLockId(current.ri,ti)]={active:true,row:current.ri,turn:ti,server:currentServer,skipType:BAR_AUTO_SKIP_KIND,entryId,updatedAt:ts,updatedBy:role()}});
     newReconcile.added.forEach(ti=>{rootPatch['rotationSkipLocksV101/'+key+'/'+skipLockId(expectedRi,ti)]={active:true,row:expectedRi,turn:ti,server:targetServer,skipType:BAR_AUTO_SKIP_KIND,entryId,updatedAt:ts,updatedBy:role()}});
     rootPatch['statusAnnouncements/ann_'+ts+'_'+Math.random().toString(36).slice(2,6)]={table:target,status:'seated',from:role(),sourceId:deviceId(),createdAt:ts};
     if(!(await renewTableLocks(claimed,opId)))throw new Error('MOVE lock expired. Nothing was saved; reopen it.');
@@ -10860,13 +10905,18 @@ async function saveMoveChange(){
       const secState=(confirmedTables||{})[secTable]||{};
       if(operationalTableStatus(secState)!=='seated'||String(secState.server||'')!==targetServer||String(secState.secondaryOf||'')!==target||String(secState.partyId||'')!==entryId||!sameJson(secState.primaryBoardRef||null,ref))throw new Error('Secondary table '+secTable+' move was not verified.');
     }
-    oldReconcile.added.forEach(ti=>{const lock=confirmedLocks[skipLockId(current.ri,ti)];if(!lock||lock.active===false||String(lock.entryId||'')!==entryId||String(lock.skipType||'')!==BAR_AUTO_SKIP_KIND)throw new Error('BAR SKIP lock verification failed.')});
     newReconcile.added.forEach(ti=>{const lock=confirmedLocks[skipLockId(expectedRi,ti)];if(!lock||lock.active===false||String(lock.entryId||'')!==entryId||String(lock.skipType||'')!==BAR_AUTO_SKIP_KIND)throw new Error('BAR SKIP lock verification failed.')});
-    oldReconcile.removed.forEach(ti=>{const lock=confirmedLocks[skipLockId(current.ri,ti)];if(lock&&lock.active!==false)throw new Error('Old BAR SKIP lock was not removed.')});
     newReconcile.removed.forEach(ti=>{const lock=confirmedLocks[skipLockId(expectedRi,ti)];if(lock&&lock.active!==false)throw new Error('New BAR SKIP lock was not removed.')});
-    if(targetServer!==currentServer){
+    if(sourceRowCompacted){
       const oldRow=checked.rows[current.ri];
-      for(let i=0;i<need;i++){const t=oldRow.turns[current.ti+i]||{};if(t.table||t.people||t.skipped||Number.isInteger(t.master))throw new Error('Old server entry was not cleared.');}
+      assertBoardRowNoHoles(oldRow,'MOVE / CHANGE source row');
+      if((oldRow.turns||[]).some(t=>t&&!t.skipped&&String(t.entryId||'')===entryId))throw new Error('Old server party was not removed.');
+      Object.entries(sourceReferenceExpectations).forEach(([id,fields])=>Object.entries(fields).forEach(([field,expected])=>{if(!sameJson(((confirmedTables||{})[id]||{})[field],expected))throw new Error('Compacted Floor reference for '+id+' was not verified.')}));
+      for(let ti=0;ti<BOARD_TURN_CAPACITY;ti++){
+        const t=(oldRow.turns||[])[ti]||{},lock=confirmedLocks[skipLockId(current.ri,ti)];
+        if(t.skipped){if(!lock||lock.active===false||Number(lock.turn)!==ti||String(lock.server||'')!==currentServer||String(lock.skipType||'manual')!==String(t.skipType||'manual')||String(lock.entryId||'')!==String(t.entryId||''))throw new Error('Compacted source SKIP lock '+(ti+1)+' was not verified.')}
+        else if(lock&&lock.active!==false)throw new Error('Old source SKIP lock '+(ti+1)+' was not removed.')
+      }
     }
 
     tableState=confirmedTables||{};
@@ -13211,7 +13261,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.41-PWA-INSTALL-FIX';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.42-ROTATION-COMPACTION-FIX';
   const APP_SCOPE='/FZ-Quick-Board-R3M/';
   let deferredInstallPrompt=null;
   let installBanner=null;
@@ -13276,7 +13326,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if('serviceWorker' in navigator){
     window.addEventListener('load',async function(){
       try{
-        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.41',{scope:'./',updateViaCache:'none'});
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.42',{scope:'./',updateViaCache:'none'});
         await reg.update();
       }catch(e){console.warn('FZ PWA SW:',e);}
       updateInstallUi();
@@ -13302,8 +13352,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.41"></script>
-<script src="monitor-captions.js?v=R3M.8.41"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.42"></script>
+<script src="monitor-captions.js?v=R3M.8.42"></script>
 </body>
 </html>
 <style>
@@ -13346,7 +13396,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.41"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.41">
-<script src="smart-next.js?v=R3M.8.41"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.41"></script>
+<script src="table-capacity-v30.js?v=R3M.8.42"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.42">
+<script src="smart-next.js?v=R3M.8.42"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.42"></script>
