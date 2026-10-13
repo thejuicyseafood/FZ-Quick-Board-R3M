@@ -1,8 +1,8 @@
-const CACHE='fzqb-r3m8-43-beeper-history-v1';
+const CACHE='fzqb-r3m8-44-table-audit-v1';
 const SHELL=[
   './','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png',
   './shift-analytics-v29.js','./monitor-captions.js','./table-capacity-v30.js',
-  './smart-next.css','./smart-next.js','./scheduled-cut-v23.js','./beeper-history-v43.js'
+  './smart-next.css','./smart-next.js','./scheduled-cut-v23.js','./beeper-history-v43.js','./table-audit-v44.js'
 ];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).catch(()=>{}).then(()=>self.skipWaiting()));

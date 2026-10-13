@@ -1,4 +1,4 @@
-/* FZ Quick Board R3M.8.39 — Day-Group Hour Charts • Extra-Large PDF Text */
+/* FZ Quick Board R3M.8.44 — Shift Analytics with persistent Table Audit migration */
 (function(global){
 'use strict';
 
@@ -462,7 +462,7 @@ function tableRefTurnIsResolvable(state,sourceKey,transformed){
 }
 async function readShiftCorrectionBundle(sourceKey,targetKey){
   const roots=[
-    ['sourceBoard',BOARD_ROOT+'/'+sourceKey+'.json'],['targetBoard',BOARD_ROOT+'/'+targetKey+'.json'],['sourceFormation',FLOOR_FORMATION_ROOT+'/'+sourceKey+'.json'],['targetFormation',FLOOR_FORMATION_ROOT+'/'+targetKey+'.json'],['sourceAssignments',FLOOR_ASSIGN_ROOT+'/'+sourceKey+'.json'],['targetAssignments',FLOOR_ASSIGN_ROOT+'/'+targetKey+'.json'],['sourceLocks',SKIP_LOCK_ROOT+'/'+sourceKey+'.json'],['targetLocks',SKIP_LOCK_ROOT+'/'+targetKey+'.json'],['tables',TABLE_ROOT+'.json'],['sourceFloorHistory',FLOOR_HISTORY_ROOT+'/'+sourceKey+'.json'],['sourceCutUndo',CUT_UNDO_ROOT+'/'+sourceKey+'.json'],['sourceRecent',RECENT_SEAT_ROOT+'/'+sourceKey+'.json'],['sourceBreakAudit',BREAKTIME_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceSectionAudit',SECTION_CONTROL_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceBackup',BOARD_BACKUP_ROOT+'/'+sourceKey+'.json'],['sourceAnalytics',analyticsRoot()+'/'+sourceKey+'.json']
+    ['sourceBoard',BOARD_ROOT+'/'+sourceKey+'.json'],['targetBoard',BOARD_ROOT+'/'+targetKey+'.json'],['sourceFormation',FLOOR_FORMATION_ROOT+'/'+sourceKey+'.json'],['targetFormation',FLOOR_FORMATION_ROOT+'/'+targetKey+'.json'],['sourceAssignments',FLOOR_ASSIGN_ROOT+'/'+sourceKey+'.json'],['targetAssignments',FLOOR_ASSIGN_ROOT+'/'+targetKey+'.json'],['sourceLocks',SKIP_LOCK_ROOT+'/'+sourceKey+'.json'],['targetLocks',SKIP_LOCK_ROOT+'/'+targetKey+'.json'],['tables',TABLE_ROOT+'.json'],['sourceFloorHistory',FLOOR_HISTORY_ROOT+'/'+sourceKey+'.json'],['sourceCutUndo',CUT_UNDO_ROOT+'/'+sourceKey+'.json'],['sourceRecent',RECENT_SEAT_ROOT+'/'+sourceKey+'.json'],['sourceBreakAudit',BREAKTIME_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceSectionAudit',SECTION_CONTROL_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceTableAudit',ROOT+'/tableAuditV44/'+sourceKey+'.json'],['targetTableAudit',ROOT+'/tableAuditV44/'+targetKey+'.json'],['sourceBackup',BOARD_BACKUP_ROOT+'/'+sourceKey+'.json'],['sourceAnalytics',analyticsRoot()+'/'+sourceKey+'.json']
   ];
   const vals=await Promise.all(roots.map(x=>readJ(x[1]))),out={};roots.forEach((x,i)=>out[x[0]]=vals[i]);return out;
 }
@@ -503,6 +503,7 @@ async function correctCurrentShift(targetShift,onProgress){
     patch[relChild(RECENT_SEAT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceRecent||null,sourceKey,targetKey);patch[relChild(RECENT_SEAT_ROOT,sourceKey)]=null;
     patch[relChild(BREAKTIME_AUDIT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceBreakAudit||null,sourceKey,targetKey);patch[relChild(BREAKTIME_AUDIT_ROOT,sourceKey)]=null;
     patch[relChild(SECTION_CONTROL_AUDIT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceSectionAudit||null,sourceKey,targetKey);patch[relChild(SECTION_CONTROL_AUDIT_ROOT,sourceKey)]=null;
+    patch['tableAuditV44/'+targetKey]=recursiveBoardKeyReplace(pre.sourceTableAudit||pre.targetTableAudit||null,sourceKey,targetKey);patch['tableAuditV44/'+sourceKey]=null;
     if(pre.sourceBackup!=null){patch[relChild(BOARD_BACKUP_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceBackup,sourceKey,targetKey);patch[relChild(BOARD_BACKUP_ROOT,sourceKey)]=null}
     Object.entries(tableUpdates).forEach(([id,state])=>patch[relChild(TABLE_ROOT,id)]=state);
     patch[ANALYTICS_CHILD+'/'+targetKey]=snap;patch[ANALYTICS_CHILD+'/'+sourceKey]=null;
