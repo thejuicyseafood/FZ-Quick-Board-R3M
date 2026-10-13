@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.44" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.45" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2073,7 +2073,7 @@ body.quickFormationEditing #formationEditTables{display:inline-flex!important}
 #quickBoardPane{overflow-x:hidden!important;overflow-y:auto!important;padding-bottom:18px!important;scroll-padding-bottom:calc(var(--fz-nav-h) + 18px);overflow-anchor:none!important;overscroll-behavior-y:contain!important}
 .quickRotationRow{display:grid;grid-template-columns:minmax(180px,230px) minmax(0,1fr) 152px;gap:9px;align-items:center;min-width:0;min-height:126px;padding:9px;border:1px solid #2d4f68;border-radius:14px;background:linear-gradient(180deg,#10283c,#091b2a);box-shadow:0 4px 14px rgba(0,0,0,.2)}
 .quickRotationRow.next{border:2px solid #efbd32;background:linear-gradient(180deg,#3b310d,#191b18)}
-.quickRotationIdentity{min-width:0;display:grid;grid-template-columns:50px minmax(0,1fr);gap:9px;align-items:center}.quickRotationIdentity .quickSectionBubble{width:48px;height:48px;border-radius:14px;font-size:18px}.quickRotationName{min-width:0;font-size:17px;font-weight:1000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quickRotationMeta{margin-top:4px;color:#9bb8cc;font-size:9px;font-weight:900}.quickRotationMeta .beeperBig{display:inline-block;margin-top:4px;padding:3px 7px;border:1px solid #d49e15;border-radius:7px;background:#6a4b05;color:#ffe28a;font-size:13px}
+.quickRotationIdentity{min-width:0;display:grid;grid-template-columns:50px minmax(0,1fr);gap:9px;align-items:center}.quickRotationIdentity .quickSectionBubble{width:48px;height:48px;border-radius:14px;font-size:18px}.quickRotationName{min-width:0;font-size:17px;font-weight:1000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quickRotationMeta{margin-top:4px;color:#9bb8cc;font-size:9px;font-weight:900}.quickRotationMeta .beeperBig{display:inline-block;margin-top:4px;padding:3px 7px;border:1px solid #d49e15;border-radius:7px;background:#6a4b05;color:#ffe28a;font-size:13px}.quickBarAutoToggle{margin-top:5px;min-height:26px;padding:3px 8px;border-radius:8px;border:1px solid #3ddc97;background:#0d4b35;color:#bfffe2;font-size:9px;font-weight:1000;letter-spacing:.3px}.quickBarAutoToggle.off{border-color:#fb7185;background:#5a1723;color:#ffd0d7}.quickBarAutoToggle.on{border-color:#3ddc97;background:#0d4b35;color:#bfffe2}
 .quickTurnStrip{width:100%;max-width:100%;min-width:0;display:grid;grid-template-columns:repeat(15,minmax(0,1fr));grid-template-rows:repeat(3,36px);gap:3px;overflow:hidden!important;padding:2px;touch-action:pan-y;position:relative}.quickRotationRows{position:relative!important}.quickFrontierGuide{position:absolute;top:0;bottom:0;width:0;z-index:25;pointer-events:none}.quickFrontierGuide.min{border-left:2px dashed #facc15;filter:drop-shadow(0 0 2px rgba(250,204,21,.45))}.quickFrontierGuide.max{border-left:2px dashed #38bdf8;filter:drop-shadow(0 0 2px rgba(56,189,248,.45))}.quickFrontierGuide::before{position:absolute;top:-15px;left:4px;padding:1px 4px;border-radius:4px;font-size:8px;font-weight:1000;letter-spacing:.4px;background:#071827}.quickFrontierGuide.min::before{content:"MIN " attr(data-turn);color:#fde68a}.quickFrontierGuide.max::before{content:"MAX " attr(data-turn);color:#bae6fd}.quickHistoryCell{min-width:0;width:100%;height:34px;border:1px solid #3d5d74;border-radius:6px;background:#0b1c2a;color:#e9f2f8;display:flex;align-items:center;justify-content:center;padding:1px 2px;font-weight:1000;overflow:hidden}.quickHistoryCell small{display:none!important}.quickHistoryCell b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:1}.quickHistoryCell.filled{border-color:#ff8d8d;background:linear-gradient(180deg,#d92d36,#991b1f);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}.quickHistoryCell.filled b{font-size:13px}.quickHistoryCell.skip{border-color:#b87522;background:#3a260b;color:#ffd17b}.quickHistoryCell.skip.clearable{cursor:pointer;outline:1px solid rgba(255,209,123,.42);outline-offset:0}.quickHistoryCell.skip.saving{background:#75500d;color:#fff2c7;animation:quickSavingPulse .75s ease-in-out infinite alternate}.quickHistoryCell.barSkip{border-color:#9d55d2;background:#2a153d;color:#e4c2ff}.quickHistoryCell.empty{opacity:.42}.quickHistoryCell.current{outline:2px solid #52a8ff;outline-offset:-2px}@keyframes quickSavingPulse{to{filter:brightness(1.35)}}
 .quickRotationActions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.quickRotationActions button{height:43px;border-radius:9px;color:#fff;font-size:11px;font-weight:1000}.quickRowSeat{grid-column:1/-1;border:1px solid #78e5a5;background:#178a50}.quickRowSkip{border:1px solid #f0c06f;background:#8b570b}.quickRowFloor{border:1px solid #80bfff;background:#1c5d9f}
 .quickConfirmServer{grid-template-columns:repeat(3,minmax(0,1fr))!important}.quickServerSearch{width:100%;height:48px;margin-bottom:10px;border:1px solid #4b7090;border-radius:11px;background:#081b2b;color:#fff;padding:0 13px;font-size:15px;font-weight:900}.quickServerPick{min-width:0}.quickServerPick strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.44 • TABLE SHIFT REPORT • BEEPER HISTORY • NO-HOLE ROTATION</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.45 • AUDIT RETENTION • BAR AUTO SKIP CONTROL • BEEPER HISTORY</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -5296,7 +5296,7 @@ function authorizeByManagerPassword(){
 }
 const BOARD_TURN_CAPACITY=60;
 function emptyTurn(){return {table:"",people:"",master:null,skipped:false,skipType:"",entryId:""}}
-function emptyRow(){return {server:"",section:"",workShift:"",beeper:"",active:false,cutAt:0,cutReason:"",turns:Array.from({length:BOARD_TURN_CAPACITY},()=>emptyTurn())}}
+function emptyRow(){return {server:"",section:"",workShift:"",beeper:"",active:false,cutAt:0,cutReason:"",barAutoSkipEnabled:true,barAutoSkipBaseActual:0,barAutoSkipBaseSkips:0,barAutoSkipChangedAt:0,turns:Array.from({length:BOARD_TURN_CAPACITY},()=>emptyTurn())}}
 function emptyBoard(){return{rows:Array.from({length:15},()=>emptyRow())}}
 function indexedValues(v,len){
   const out=Array.from({length:len},()=>null);
@@ -5338,6 +5338,10 @@ function normalizeBoard(b){
       active:server?(r.active!==false):false,
       cutAt:Number(r.cutAt||0)||0,
       cutReason:String(r.cutReason||""),
+      barAutoSkipEnabled:r.barAutoSkipEnabled!==false,
+      barAutoSkipBaseActual:Number(r.barAutoSkipBaseActual||0)||0,
+      barAutoSkipBaseSkips:Number(r.barAutoSkipBaseSkips||0)||0,
+      barAutoSkipChangedAt:Number(r.barAutoSkipChangedAt||0)||0,
       turns
     };
   });
@@ -5963,6 +5967,20 @@ function firstActualTurnIndex(row){
   }
   return -1;
 }
+function barAutoSkipPolicy(row){
+  const actual=rotationPartyCount(row),stored=rotationBarAutoSkipCount(row);
+  const enabled=!(row&&row.barAutoSkipEnabled===false);
+  const hasBaseline=!!(row&&(Number(row.barAutoSkipBaseActual||0)>0||Number(row.barAutoSkipBaseSkips||0)>0||Number(row.barAutoSkipChangedAt||0)>0));
+  const baseActual=hasBaseline?Math.max(0,Number(row.barAutoSkipBaseActual||0)||0):0;
+  const baseSkips=hasBaseline?Math.max(0,Number(row.barAutoSkipBaseSkips||0)||0):0;
+  return {enabled,hasBaseline,baseActual,baseSkips,actual,stored};
+}
+function barAutoSkipExpectedForActual(row,actualCount){
+  const p=barAutoSkipPolicy(row),actual=Math.max(0,Number(actualCount)||0);
+  if(!p.enabled)return p.stored;
+  if(p.hasBaseline)return Math.max(p.baseSkips,p.baseSkips+Math.floor(Math.max(0,actual-p.baseActual)/2));
+  return Math.floor(actual/2);
+}
 function barPmCycleStats(row){
   /*
     V107 BAR PM / UNASSIGNED AUTO-SKIP RULE
@@ -5985,10 +6003,11 @@ function barPmCycleStats(row){
   });
   const units=rotationTableUnits(row);
   const actualTables=rotationPartyCount(row);
-  const earnedAutoSkips=Math.floor(actualTables/2);
+  const policy=barAutoSkipPolicy(row);
   const storedAutoSkips=rotationBarAutoSkipCount(row);
-  const pendingAutoSkips=Math.max(0,earnedAutoSkips-storedAutoSkips);
-  const cycleProgress=actualTables%2;
+  const earnedAutoSkips=barAutoSkipExpectedForActual(row,actualTables);
+  const pendingAutoSkips=policy.enabled?Math.max(0,earnedAutoSkips-storedAutoSkips):0;
+  const cycleProgress=policy.enabled?(policy.hasBaseline?Math.max(0,actualTables-policy.baseActual)%2:actualTables%2):0;
   return {
     started:firstActual>=0,
     firstActual,
@@ -6000,7 +6019,10 @@ function barPmCycleStats(row){
     autoSkips:earnedAutoSkips,
     storedAutoSkips,
     pendingAutoSkips,
-    cycleProgress
+    cycleProgress,
+    enabled:policy.enabled,
+    baseActual:policy.baseActual,
+    baseSkips:policy.baseSkips
   };
 }
 /* BAR PM RULE: 2 ACTUAL SEATED PARTIES/TABLES = 1 AUTO SKIP. Manual/pre-arrival skips do NOT advance the 2-table cycle. */
@@ -6008,7 +6030,8 @@ function reconcileBarAutoSkipCells(ri,triggerEntryId='',shiftOverride=''){
   const result={added:[],removed:[]};
   if(!board||ri<0||ri>=board.rows.length)return result;
   const row=board.rows[ri];if(!isPmBarRow(row,shiftOverride))return result;
-  const expected=Math.floor(rotationPartyCount(row)/2);
+  if(row.barAutoSkipEnabled===false)return result;
+  const expected=barAutoSkipExpectedForActual(row,rotationPartyCount(row));
   const stored=[];(row.turns||[]).forEach((t,i)=>{if(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND)stored.push(i)});
   while(stored.length>expected){const ti=stored.pop();row.turns[ti]=emptyTurn();result.removed.push(ti)}
   const missing=expected-stored.length;
@@ -6140,6 +6163,7 @@ function acknowledgeNextFullAlert(){nextFullAcknowledgedSignature=nextFullAlertS
 function barPmCardText(s){
   if(!s||!s.barCycle)return s?s.units+' TABLE':'—';
   const b=s.barCycle,pre=s.preAssignAutoSkips||0;
+  if(b.enabled===false)return b.actualTables+' ACTUAL • AUTO SKIP OFF';
   if(!b.started){
     return 'WAIT • AUTO SKIP '+pre+(b.preArrivalSkips?(' • MANUAL '+b.preArrivalSkips):'');
   }
@@ -6166,9 +6190,11 @@ function renderRotationDashboard(){
   if(nextCount){
     if(next&&next.barCycle){
       const b=next.barCycle;
-      nextCount.textContent=!b.started
-        ?('BAR WAIT • AUTO SKIP '+(next.preAssignAutoSkips||0))
-        :(b.cycleProgress===1?'BAR PM • 1/2 BEFORE BAR SKIP':('BAR PM • BAR SKIP '+b.autoSkips+' APPLIED'));
+      nextCount.textContent=b.enabled===false
+        ?('BAR PM • AUTO SKIP OFF')
+        :(!b.started
+          ?('BAR WAIT • AUTO SKIP '+(next.preAssignAutoSkips||0))
+          :(b.cycleProgress===1?'BAR PM • 1/2 BEFORE BAR SKIP':('BAR PM • BAR SKIP '+b.autoSkips+' APPLIED')));
     }else nextCount.textContent=next?(next.units+" TABLE"+((next.preAssignAutoSkips||0)?(' • AUTO SKIP '+next.preAssignAutoSkips):'')):"—";
   }
   setTimeout(()=>checkNextServerFloorFull(next),0);
@@ -6188,9 +6214,11 @@ function renderRotationDashboard(){
     let tip='';
     if(s.barCycle){
       const b=s.barCycle;
-      tip=!b.started
-        ?('BAR PM is assigned but has no actual table yet. Pre-assignment auto skips: '+(s.preAssignAutoSkips||0)+'. First actual BAR table becomes TABLE 1 of the 2-table cycle.')
-        :('BAR PM cycle: '+b.cycleProgress+'/2 toward next BAR skip. BAR skips earned: '+b.autoSkips+'. Pre-assignment auto skips: '+(s.preAssignAutoSkips||0)+'.');
+      tip=b.enabled===false
+        ?('BAR PM automatic 2-table → 1-skip rule is OFF for future turns. Existing BAR AUTO SKIPs stay in history.')
+        :(!b.started
+          ?('BAR PM is assigned but has no actual table yet. Pre-assignment auto skips: '+(s.preAssignAutoSkips||0)+'. First actual BAR table becomes TABLE 1 of the 2-table cycle.')
+          :('BAR PM cycle: '+b.cycleProgress+'/2 toward next BAR skip. BAR skips earned: '+b.autoSkips+'. Pre-assignment auto skips: '+(s.preAssignAutoSkips||0)+'.'));
     }else if(s.preAssignAutoSkips){
       tip='This section was assigned late and carries '+s.preAssignAutoSkips+' automatic skipped rotation turn(s) from before assignment.';
     }
@@ -6701,9 +6729,9 @@ async function applyFloorSeat(autoMode=false){
       const isPmBar=shift()==='PM'&&isBarSection(String(rowBefore.section||autoSection||''));
       const barActualBefore=rotationPartyCount(rowBefore);
       const barActualAfter=barActualBefore+1;
-      const barEarnedAfter=Math.floor(barActualAfter/2);
       const barStoredBefore=rotationBarAutoSkipCount(rowBefore);
-      const dueBarSkips=isPmBar&&barActualAfter%2===0
+      const barEarnedAfter=isPmBar?barAutoSkipExpectedForActual(rowBefore,barActualAfter):barStoredBefore;
+      const dueBarSkips=isPmBar&&rowBefore.barAutoSkipEnabled!==false
         ?Math.max(0,barEarnedAfter-barStoredBefore)
         :0;
 
@@ -10840,7 +10868,7 @@ async function saveMoveChange(){
         if(t&&t.master===current.ti){t.entryId=entryId;if(i===current.ti)t.table=target}
       }
     }else{
-      /* R3M.8.44 invariant: removing a party from a server row may NEVER
+      /* R3M.8.45 invariant: removing a party from a server row may NEVER
          leave a blank between older and newer Rotation History. Compact the
          source row first, then reconcile BAR PM auto-SKIPs and compact again. */
       clearGroup(current.ri,current.ti);
@@ -12141,6 +12169,26 @@ function quickRenderNextTables(){
   const ids=TABLE_IDS.filter(id=>operationalTableStatus(tableState[id]||{})==='ready'&&breaktimeServerKey(serverForTable(id))===breaktimeServerKey(name));
   box.innerHTML='<div class="quickReadyLabel">READY TABLES · '+ids.length+' AVAILABLE</div>'+(ids.length?'<div class="quickReadyList">'+ids.map(id=>{const cap=tableGuestCapacity(id);return '<span>'+esc(id)+' <b>· '+(cap?cap+' guests':'capacity not set')+'</b></span>'}).join('')+'</div>':'<div class="quickReadyNone">No READY tables. Check the Floor before seating.</div>');
 }
+async function quickToggleBarAutoSkip(ri){
+  if(!quickIsManager())return toast('BAR AUTO SKIP control • Manager / Owner only');
+  const key=boardKey(),owner=operationId('bar-auto-skip-toggle');let claimed=[];
+  try{
+    const localRow=board&&board.rows&&board.rows[ri];
+    if(!localRow||String(localRow.section||'').toUpperCase()!=='BAR')throw new Error('BAR row is not available.');
+    claimed=await claimTableLocksWithRetry(['BOARD '+key+' CLEAR','BOARD '+key+' '+String(localRow.server||'BAR')],owner,1200);
+    if(!claimed.length)throw new Error('BAR is busy. Try again.');
+    const raw=await readJ(BOARD_ROOT+'/'+key+'.json'),live=strictBoardFromRemote(key,raw,'BAR AUTO SKIP TOGGLE'),row=live.rows[ri];
+    if(!row||String(row.section||'').toUpperCase()!=='BAR')throw new Error('BAR row changed. Refresh and try again.');
+    const actual=rotationPartyCount(row),stored=rotationBarAutoSkipCount(row),nextEnabled=row.barAutoSkipEnabled===false;
+    const patch={};patch['rows/'+ri+'/barAutoSkipEnabled']=nextEnabled;patch['rows/'+ri+'/barAutoSkipBaseActual']=actual;patch['rows/'+ri+'/barAutoSkipBaseSkips']=stored;patch['rows/'+ri+'/barAutoSkipChangedAt']=Date.now();
+    await writeJ(BOARD_ROOT+'/'+key+'.json',patch,'PATCH');
+    const confirmed=await readBoardStrict(key,'BAR AUTO SKIP VERIFY'),cr=confirmed.rows[ri];
+    if(!cr||cr.barAutoSkipEnabled!==nextEnabled||Number(cr.barAutoSkipBaseActual)!==actual||Number(cr.barAutoSkipBaseSkips)!==stored)throw new Error('BAR AUTO SKIP setting could not be verified.');
+    board=confirmed;boardBaseline=cloneBoard(confirmed);loadedBoardKey=key;renderSheet();updateViewMeta();sync(true);
+    toast('BAR AUTO SKIP '+(nextEnabled?'ON':'OFF')+' • previous BAR AUTO SKIPs kept');
+  }catch(e){toast((e&&e.message)||'Could not change BAR AUTO SKIP')}
+  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+}
 function quickRenderBoard(){
   const grid=$('quickServerGrid');if(!grid)return;
   const boardPane=$('quickBoardPane'),boardPaneActive=!!(boardPane&&boardPane.classList.contains('active'));
@@ -12184,7 +12232,9 @@ function quickRenderBoard(){
     const isNext=!!(next&&next.ri===item.ri),section=quickSectionLabel(item.row),beeper=normalizeBeeperNumber(item.row.beeper)||assignedBeeperForServer(item.row.server);
     const row=document.createElement('article');row.className='quickRotationRow'+(isNext?' next':'');
     const identity=document.createElement('div');identity.className='quickRotationIdentity';
-    identity.innerHTML='<div class="quickSectionBubble '+(section==='BAR'?'bar':'')+'">'+esc(section==='BAR'?'BAR':('S'+section))+'</div><div><div class="quickRotationName">'+esc(item.row.server)+'</div><div class="quickRotationMeta">'+esc(quickCountLabel(stat,displayRow))+(beeper?'<br><span class="beeperBig">BEEPER '+esc(beeper)+'</span>':'')+'</div></div>';
+    const barToggle=section==='BAR'?('<button class="quickBarAutoToggle '+(item.row.barAutoSkipEnabled===false?'off':'on')+'" type="button">AUTO SKIP '+(item.row.barAutoSkipEnabled===false?'OFF':'ON')+'</button>'):'';
+    identity.innerHTML='<div class="quickSectionBubble '+(section==='BAR'?'bar':'')+'">'+esc(section==='BAR'?'BAR':('S'+section))+'</div><div><div class="quickRotationName">'+esc(item.row.server)+'</div>'+barToggle+'<div class="quickRotationMeta">'+esc(quickCountLabel(stat,displayRow))+(beeper?'<br><span class="beeperBig">BEEPER '+esc(beeper)+'</span>':'')+'</div></div>';
+    const barToggleBtn=identity.querySelector('.quickBarAutoToggle');if(barToggleBtn)barToggleBtn.onclick=e=>{e.preventDefault();e.stopPropagation();quickToggleBarAutoSkip(item.ri)};
     const strip=document.createElement('div');strip.className='quickTurnStrip';strip.dataset.rowIndex=String(item.ri);strip.setAttribute('aria-label','Rotation history, 3 rows by 15 boxes, for '+item.row.server);
     for(let ti=globalStart;ti<=globalEnd;ti++){
       const turn=turns[ti]||{},hasMaster=Number.isInteger(turn.master),continuation=hasMaster&&turn.master!==ti,barSkip=!!turn.skipped&&turn.skipType===BAR_AUTO_SKIP_KIND,manualSkip=!!turn.skipped&&!barSkip,actual=!!(turn.table||turn.people||hasMaster);
@@ -13265,7 +13315,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.44-TABLE-SHIFT-REPORT-AUDIT';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.45-AUDIT-RETENTION-BAR-AUTO-TOGGLE';
   const APP_SCOPE='/FZ-Quick-Board-R3M/';
   let deferredInstallPrompt=null;
   let installBanner=null;
@@ -13330,7 +13380,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if('serviceWorker' in navigator){
     window.addEventListener('load',async function(){
       try{
-        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.44',{scope:'./',updateViaCache:'none'});
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.45',{scope:'./',updateViaCache:'none'});
         await reg.update();
       }catch(e){console.warn('FZ PWA SW:',e);}
       updateInstallUi();
@@ -13356,10 +13406,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.44"></script>
-<script src="monitor-captions.js?v=R3M.8.44"></script>
-<script src="beeper-history-v43.js?v=R3M.8.44"></script>
-<script src="table-audit-v44.js?v=R3M.8.44"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.45"></script>
+<script src="monitor-captions.js?v=R3M.8.45"></script>
+<script src="beeper-history-v43.js?v=R3M.8.45"></script>
+<script src="table-audit-v45.js?v=R3M.8.45"></script>
 </body>
 </html>
 <style>
@@ -13402,7 +13452,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.44"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.44">
-<script src="smart-next.js?v=R3M.8.44"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.44"></script>
+<script src="table-capacity-v30.js?v=R3M.8.45"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.45">
+<script src="smart-next.js?v=R3M.8.45"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.45"></script>
