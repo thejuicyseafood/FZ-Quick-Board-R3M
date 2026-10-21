@@ -1,9 +1,9 @@
-const CACHE='fzqb-r3m8-49-database-path-v1';
+const CACHE='fzqb-r3m8-50-database-lock-v1';
 const SHELL=[
   './','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png',
   './shift-analytics-v29.js','./monitor-captions.js','./table-capacity-v30.js',
-  './smart-next.css','./smart-next.js','./scheduled-cut-v23.js','./beeper-history-v43.js','./table-audit-v49.js',
-  './database-transport-v49.js','./background-sync-v49.js'
+  './smart-next.css','./smart-next.js','./scheduled-cut-v23.js','./beeper-history-v43.js','./table-audit-v50.js',
+  './database-transport-v50.js','./background-sync-v50.js'
 ];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).catch(()=>{}).then(()=>self.skipWaiting()));

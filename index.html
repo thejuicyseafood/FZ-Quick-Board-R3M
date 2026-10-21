@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.49" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.50" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2177,7 +2177,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.49 • DATABASE PATH FIX • REPORT + BAR CONTROL</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.50 • DATABASE LOCK FIX • REPORT + BAR CONTROL</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2784,8 +2784,8 @@ body.quickOwner #quickManagerLogout{display:block!important}
 <div id="scheduledCutModal" class="modalBack scheduledCutLayer"><div class="modal scheduledCutModal">
 <div class="scheduledCutBadge">SCHEDULED STAFF ACTION</div><h2 id="scheduledCutTitle">Scheduled Cut</h2><p id="scheduledCutMessage"></p><div id="scheduledCutNames" class="scheduledCutNames"></div><div id="scheduledCutRule" class="scheduledCutRule"></div><div class="scheduledCutNote">BAR is excluded. Closing this notice will CUT the employees listed above. They can still be restored from CUT / UNCUT.</div><div class="actions"><button id="scheduledCutClose" class="btn scheduledCutClose">CLOSE</button></div></div></div>
 <audio id="voicePlayer" preload="auto" style="display:none"></audio><div id="toast" class="toast"></div>
-<script src="database-transport-v49.js?v=R3M.8.49"></script>
-<script src="background-sync-v49.js?v=R3M.8.49"></script>
+<script src="database-transport-v50.js?v=R3M.8.50"></script>
+<script src="background-sync-v50.js?v=R3M.8.50"></script>
 <script>
 
 /* Embedded QR generator */
@@ -4296,7 +4296,7 @@ async function writeJ(url,data,method="PUT"){
     try{const confirmed=await readJ(BOARD_ROOT+'/'+key+'.json');if(confirmed!==null){cacheBoardSnapshot(key,confirmed,'VERIFIED WRITE');boardNewKey='';clearBoardRecovery(key)}}catch(e){}
   }
 }
-/* R3M.8.49: use only when the caller already holds the relevant Board barrier/server
+/* R3M.8.50: use only when the caller already holds the relevant Board barrier/server
    locks AND performs its own explicit fresh read-back verification immediately after
    the write. This avoids duplicate Board pre-read/post-read round trips without
    weakening the caller's verification contract. */
@@ -4322,7 +4322,7 @@ async function claimTableLock(table,owner){
   const lockKey=tableLockKey(table),url=TABLE_LOCK_ROOT+'/'+lockKey+'.json';
   for(let attempt=0;attempt<3;attempt++){
     const now=Date.now();
-    const r=await databaseFetch(url,{headers:{'X-Firebase-ETag':'true','Cache-Control':'no-cache'}});if(!r.ok)throw new Error('Could not check '+table+' lock');
+    const r=await databaseFetch(url,{headers:{'X-Firebase-ETag':'true','Cache-Control':'no-cache'}});if(!r.ok)throw new Error('Could not check '+table+' lock (database HTTP '+r.status+').');
     const etag=r.headers.get('etag'),current=await r.json();
     const active=!!(current&&Number(current.expiresAt||0)>now),sameOwner=!!(current&&String(current.owner||'')===String(owner||''));
     const sameRuntime=!!(current&&String(current.sessionId||'')===RUNTIME_LOCK_SESSION_ID),heldHere=sameRuntime&&runtimeHeldLocks.get(lockKey)===String(current.owner||''),claimingHere=sameRuntime&&isRuntimeLockClaiming(lockKey,current.owner);
@@ -4335,7 +4335,7 @@ async function claimTableLock(table,owner){
     let put;
     try{put=await databaseFetch(url,{method:'PUT',databaseSilent:true,headers:{'Content-Type':'application/json',...(etag?{'If-Match':etag}:{})},body:JSON.stringify({owner,table,deviceId:deviceId(),sessionId:RUNTIME_LOCK_SESSION_ID,createdAt:now,expiresAt:now+TABLE_LOCK_LEASE_MS,reclaimedOrphan:runtimeOrphan})})}
     finally{unmarkRuntimeLockClaiming(lockKey,owner)}
-    if(put.ok){runtimeHeldLocks.set(lockKey,String(owner||''));return true}if(put.status!==412)throw new Error('Could not lock '+table);
+    if(put.ok){runtimeHeldLocks.set(lockKey,String(owner||''));return true}if(put.status!==412)throw new Error('Could not lock '+table+' (database HTTP '+put.status+').');
   }
   return false;
 }
@@ -4389,7 +4389,7 @@ async function claimTableLocksWithRetry(tables,owner,waitMs=OPERATION_LOCK_WAIT_
   const unique=Array.from(new Set((Array.isArray(tables)?tables:[tables]).filter(Boolean).map(String)));
   const deadline=Date.now()+Math.max(0,Number(waitMs)||0);
   do{
-    /* R3M.8.49: claim one batch, including the shared Board barrier. The batch
+    /* R3M.8.50: claim one batch, including the shared Board barrier. The batch
        helper releases every successful sibling before returning or throwing.
        No separate barrier can be stranded by a later failed network request. */
     const claimed=await claimTableLocksBatched(unique,owner,LOCK_PARALLEL_LIMIT);
@@ -10898,7 +10898,7 @@ async function saveMoveChange(){
         if(t&&t.master===current.ti){t.entryId=entryId;if(i===current.ti)t.table=target}
       }
     }else{
-      /* R3M.8.49 invariant: removing a party from a server row may NEVER
+      /* R3M.8.50 invariant: removing a party from a server row may NEVER
          leave a blank between older and newer Rotation History. Compact the
          source row first, then reconcile BAR PM auto-SKIPs and compact again. */
       clearGroup(current.ri,current.ti);
@@ -13349,7 +13349,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.49-DATABASE-PATH';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.50-DATABASE-LOCK';
   const APP_SCOPE='/FZ-Quick-Board-R3M/';
   let deferredInstallPrompt=null;
   let installBanner=null;
@@ -13414,7 +13414,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if('serviceWorker' in navigator){
     window.addEventListener('load',async function(){
       try{
-        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.49',{scope:'./',updateViaCache:'none'});
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.50',{scope:'./',updateViaCache:'none'});
         await reg.update();
       }catch(e){console.warn('FZ PWA SW:',e);}
       updateInstallUi();
@@ -13440,10 +13440,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.49"></script>
-<script src="monitor-captions.js?v=R3M.8.49"></script>
-<script src="beeper-history-v43.js?v=R3M.8.49"></script>
-<script src="table-audit-v49.js?v=R3M.8.49"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.50"></script>
+<script src="monitor-captions.js?v=R3M.8.50"></script>
+<script src="beeper-history-v43.js?v=R3M.8.50"></script>
+<script src="table-audit-v50.js?v=R3M.8.50"></script>
 </body>
 </html>
 <style>
@@ -13486,7 +13486,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.49"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.49">
-<script src="smart-next.js?v=R3M.8.49"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.49"></script>
+<script src="table-capacity-v30.js?v=R3M.8.50"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.50">
+<script src="smart-next.js?v=R3M.8.50"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.50"></script>
