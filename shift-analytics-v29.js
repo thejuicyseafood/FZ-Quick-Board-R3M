@@ -1,4 +1,4 @@
-/* FZ Quick Board R3M.8.45 — Shift Analytics with Table Audit retention migration */
+/* FZ Quick Board R3M.8.39 — Day-Group Hour Charts • Extra-Large PDF Text */
 (function(global){
 'use strict';
 
@@ -28,7 +28,7 @@ function emptyRow(){return {server:'',section:'',workShift:'',beeper:'',active:f
 function normRow(raw){
   const r=raw&&typeof raw==='object'?raw:{};
   const server=text(r.server);
-  return {server,section:text(r.section),workShift:text(r.workShift),beeper:text(r.beeper),active:server?(r.active!==false):false,cutAt:Number(r.cutAt||0)||0,cutReason:text(r.cutReason),barAutoSkipEnabled:r.barAutoSkipEnabled!==false,barAutoSkipBaseActual:Number(r.barAutoSkipBaseActual||0)||0,barAutoSkipBaseSkips:Number(r.barAutoSkipBaseSkips||0)||0,barAutoSkipChangedAt:Number(r.barAutoSkipChangedAt||0)||0,turns:indexed(r.turns,CAPACITY).map(normTurn)};
+  return {server,section:text(r.section),workShift:text(r.workShift),beeper:text(r.beeper),active:server?(r.active!==false):false,cutAt:Number(r.cutAt||0)||0,cutReason:text(r.cutReason),turns:indexed(r.turns,CAPACITY).map(normTurn)};
 }
 function normalizeBoard(raw){return {rows:indexed(raw&&raw.rows,ROWS).map(normRow)}}
 function turnPayload(t){return !!(t&&(t.table||t.people||t.skipped||Number.isInteger(t.master)||t.entryId))}
@@ -90,7 +90,7 @@ function rebuildBarRow(rawRow,targetShift){
       ensure(1);out[cursor]={table:'',people:'',master:cursor,skipped:true,skipType:BAR_AUTO,entryId:unit.entryId};barAutoCount++;cursor++;
     }
   }
-  return {row:{...row,barAutoSkipEnabled:true,barAutoSkipBaseActual:0,barAutoSkipBaseSkips:0,barAutoSkipChangedAt:Date.now(),turns:out},oldToNew,entryToNew,partyCount,manualSkipCount,barAutoCount};
+  return {row:{...row,turns:out},oldToNew,entryToNew,partyCount,manualSkipCount,barAutoCount};
 }
 function transformBoardForShift(rawBoard,targetShift){
   const src=normalizeBoard(rawBoard),turnMaps={},entryMap={};
@@ -462,7 +462,7 @@ function tableRefTurnIsResolvable(state,sourceKey,transformed){
 }
 async function readShiftCorrectionBundle(sourceKey,targetKey){
   const roots=[
-    ['sourceBoard',BOARD_ROOT+'/'+sourceKey+'.json'],['targetBoard',BOARD_ROOT+'/'+targetKey+'.json'],['sourceFormation',FLOOR_FORMATION_ROOT+'/'+sourceKey+'.json'],['targetFormation',FLOOR_FORMATION_ROOT+'/'+targetKey+'.json'],['sourceAssignments',FLOOR_ASSIGN_ROOT+'/'+sourceKey+'.json'],['targetAssignments',FLOOR_ASSIGN_ROOT+'/'+targetKey+'.json'],['sourceLocks',SKIP_LOCK_ROOT+'/'+sourceKey+'.json'],['targetLocks',SKIP_LOCK_ROOT+'/'+targetKey+'.json'],['tables',TABLE_ROOT+'.json'],['sourceFloorHistory',FLOOR_HISTORY_ROOT+'/'+sourceKey+'.json'],['sourceCutUndo',CUT_UNDO_ROOT+'/'+sourceKey+'.json'],['sourceRecent',RECENT_SEAT_ROOT+'/'+sourceKey+'.json'],['sourceBreakAudit',BREAKTIME_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceSectionAudit',SECTION_CONTROL_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceTableAudit',ROOT+'/tableAuditV44/'+sourceKey+'.json'],['targetTableAudit',ROOT+'/tableAuditV44/'+targetKey+'.json'],['sourceTableRetention',ROOT+'/tableAuditRetentionV45/'+sourceKey+'.json'],['targetTableRetention',ROOT+'/tableAuditRetentionV45/'+targetKey+'.json'],['sourceBackup',BOARD_BACKUP_ROOT+'/'+sourceKey+'.json'],['sourceAnalytics',analyticsRoot()+'/'+sourceKey+'.json']
+    ['sourceBoard',BOARD_ROOT+'/'+sourceKey+'.json'],['targetBoard',BOARD_ROOT+'/'+targetKey+'.json'],['sourceFormation',FLOOR_FORMATION_ROOT+'/'+sourceKey+'.json'],['targetFormation',FLOOR_FORMATION_ROOT+'/'+targetKey+'.json'],['sourceAssignments',FLOOR_ASSIGN_ROOT+'/'+sourceKey+'.json'],['targetAssignments',FLOOR_ASSIGN_ROOT+'/'+targetKey+'.json'],['sourceLocks',SKIP_LOCK_ROOT+'/'+sourceKey+'.json'],['targetLocks',SKIP_LOCK_ROOT+'/'+targetKey+'.json'],['tables',TABLE_ROOT+'.json'],['sourceFloorHistory',FLOOR_HISTORY_ROOT+'/'+sourceKey+'.json'],['sourceCutUndo',CUT_UNDO_ROOT+'/'+sourceKey+'.json'],['sourceRecent',RECENT_SEAT_ROOT+'/'+sourceKey+'.json'],['sourceBreakAudit',BREAKTIME_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceSectionAudit',SECTION_CONTROL_AUDIT_ROOT+'/'+sourceKey+'.json'],['sourceBackup',BOARD_BACKUP_ROOT+'/'+sourceKey+'.json'],['sourceAnalytics',analyticsRoot()+'/'+sourceKey+'.json']
   ];
   const vals=await Promise.all(roots.map(x=>readJ(x[1]))),out={};roots.forEach((x,i)=>out[x[0]]=vals[i]);return out;
 }
@@ -503,7 +503,6 @@ async function correctCurrentShift(targetShift,onProgress){
     patch[relChild(RECENT_SEAT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceRecent||null,sourceKey,targetKey);patch[relChild(RECENT_SEAT_ROOT,sourceKey)]=null;
     patch[relChild(BREAKTIME_AUDIT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceBreakAudit||null,sourceKey,targetKey);patch[relChild(BREAKTIME_AUDIT_ROOT,sourceKey)]=null;
     patch[relChild(SECTION_CONTROL_AUDIT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceSectionAudit||null,sourceKey,targetKey);patch[relChild(SECTION_CONTROL_AUDIT_ROOT,sourceKey)]=null;
-    patch['tableAuditV44/'+targetKey]=recursiveBoardKeyReplace(pre.sourceTableAudit||pre.targetTableAudit||null,sourceKey,targetKey);patch['tableAuditV44/'+sourceKey]=null;patch['tableAuditRetentionV45/'+targetKey]=pre.sourceTableRetention||pre.targetTableRetention||null;patch['tableAuditRetentionV45/'+sourceKey]=null;
     if(pre.sourceBackup!=null){patch[relChild(BOARD_BACKUP_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceBackup,sourceKey,targetKey);patch[relChild(BOARD_BACKUP_ROOT,sourceKey)]=null}
     Object.entries(tableUpdates).forEach(([id,state])=>patch[relChild(TABLE_ROOT,id)]=state);
     patch[ANALYTICS_CHILD+'/'+targetKey]=snap;patch[ANALYTICS_CHILD+'/'+sourceKey]=null;
