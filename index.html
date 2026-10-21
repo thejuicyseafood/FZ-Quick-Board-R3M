@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.47" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.48" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.47 • REPORT GUEST COLUMN • SECONDARY + SWAP DETAIL • BAR CONTROL</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.48 • FAST SAVE • 2-TABLET SYNC • REPORT + BAR CONTROL</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -4293,6 +4293,14 @@ async function writeJ(url,data,method="PUT"){
     try{const confirmed=await readJ(BOARD_ROOT+'/'+key+'.json');if(confirmed!==null){cacheBoardSnapshot(key,confirmed,'VERIFIED WRITE');boardNewKey='';clearBoardRecovery(key)}}catch(e){}
   }
 }
+/* R3M.8.48: use only when the caller already holds the relevant Board barrier/server
+   locks AND performs its own explicit fresh read-back verification immediately after
+   the write. This avoids duplicate Board pre-read/post-read round trips without
+   weakening the caller's verification contract. */
+async function writeJLockedVerifiedByCaller(url,data,method="PUT"){
+  const r=await fetch(url,{method,headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+  if(!r.ok)throw new Error('Firebase write failed');
+}
 const TABLE_LOCK_LEASE_MS=120000;
 const CLEAR_SHIFT_LOCK_WAIT_MS=12000;
 const CLEAR_SHIFT_LOCK_RETRY_MS=220;
@@ -4377,9 +4385,27 @@ async function claimTableLocksBatched(tables,owner,limit=LOCK_PARALLEL_LIMIT){
 async function claimTableLocksWithRetry(tables,owner,waitMs=OPERATION_LOCK_WAIT_MS){
   const unique=Array.from(new Set((Array.isArray(tables)?tables:[tables]).filter(Boolean).map(String)));
   const deadline=Date.now()+Math.max(0,Number(waitMs)||0);
+  const barriers=unique.filter(name=>/^BOARD .+ CLEAR$/.test(name));
+  const rest=unique.filter(name=>!/^BOARD .+ CLEAR$/.test(name));
   do{
-    const claimed=await claimTableLocks(unique,owner);
-    if(claimed.length===unique.length)return claimed;
+    /* R3M.8.48 two-device optimization: take the shared Clear-Shift barrier first.
+       Only after one device owns that barrier do we claim independent table/server
+       locks in parallel. This avoids both tablets partially locking different tables
+       and repeatedly backing off against the same global Board barrier. */
+    if(barriers.length){
+      const held=[];let blocked=false;
+      for(const barrier of barriers){
+        if(await claimTableLock(barrier,owner))held.push(barrier);else{blocked=true;break}
+      }
+      if(!blocked){
+        const tail=rest.length?await claimTableLocksBatched(rest,owner,LOCK_PARALLEL_LIMIT):[];
+        if(tail.length===rest.length)return [...held,...tail];
+      }
+      await releaseTableLocksFast(held,owner);
+    }else{
+      const claimed=await claimTableLocks(unique,owner);
+      if(claimed.length===unique.length)return claimed;
+    }
     if(Date.now()>=deadline)return[];
     await clearShiftLockDelay(OPERATION_LOCK_RETRY_MS);
   }while(true)
@@ -4447,6 +4473,11 @@ async function renewTableLocks(tables,owner){
   const unique=[...new Set(tables)].sort();
   const renewed=await Promise.all(unique.map(async table=>{try{return await claimTableLock(table,owner)}catch(e){return false}}));
   return renewed.length===unique.length&&renewed.every(Boolean);
+}
+function quickMutationBusy(){
+  return !!(clearShiftInFlight||floorAutoSaving||moveBusy||tableStatusInFlight||resetWrongInFlight||
+    quickAssignInFlight||staffDutyInFlight||sectionControlInFlight||formationSaveInFlight||
+    pendingBoardFlushPromise||pendingBoardSave);
 }
 function sync(ok){
   const recovery=boardSafetyKey&&boardSafetyKey===boardKey();
@@ -5541,7 +5572,7 @@ async function updateBoardRowMetadataVerified(ri,changes,label='HOST BOARD UPDAT
     toast(label+' SAVED • VERIFIED • HISTORY KEPT');
     return true;
   }catch(e){toast((e&&e.message)||(label+' failed • history kept'));try{await fetchBoard(key)}catch(_){}renderSheet();sync(false);return false}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function handleServerSelect(ri,sel){
   if(sel.value==="__ADD__"){
@@ -5594,7 +5625,7 @@ async function saveServers(){
     const confirmed=await readJ(SERVER_ROOT+'.json');if(!Array.isArray(confirmed)||local.some(name=>!confirmed.some(value=>breaktimeServerKey(value)===breaktimeServerKey(name))))throw new Error('Employee list save could not be verified.');
     servers=normalizeServerList(confirmed);localStorage.setItem("jhb31_servers",JSON.stringify(servers));return true;
   }catch(e){toast((e&&e.message)||'Employee list save failed');return false}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function fetchServers(){try{const x=await readJ(SERVER_ROOT+".json"),raw=Array.isArray(x)&&x.length?x:[...DEFAULT_SERVERS];servers=normalizeServerList(raw);const hadAriana=raw.some(n=>['ariana graner','ariana garner','a.j','aj'].includes(String(n||'').trim().toLowerCase()));if(!Array.isArray(x)||!x.length||hadAriana)await saveServers()}catch(e){servers=normalizeServerList(JSON.parse(localStorage.getItem("jhb31_servers")||"null")||[...DEFAULT_SERVERS])}}
 function openDeleteServer(){$('deleteServerSelect').innerHTML=servers.map(s=>'<option value="'+esc(s)+'">'+esc(s)+'</option>').join('');openM('deleteServerModal')}
@@ -5624,7 +5655,7 @@ function deleteServer(){
       const confirmed=await readJ(SERVER_ROOT+'.json');if(!Array.isArray(confirmed)||confirmed.some(name=>breaktimeServerKey(name)===canonical)||next.some(name=>!confirmed.some(value=>breaktimeServerKey(value)===breaktimeServerKey(name))))throw new Error('Employee delete could not be verified.');
       servers=normalizeServerList(confirmed);localStorage.setItem('jhb31_servers',JSON.stringify(servers));closeM('deleteServerModal');renderSheet();toast("Server removed from employee list • Board history kept");
     }catch(e){closeM('deleteServerModal');toast((e&&e.message)||'Server delete failed • Board history kept')}
-    finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+    finally{await releaseTableLocksFast(claimed,owner)}
   },"Delete server");
 }
 
@@ -6236,7 +6267,7 @@ function updateNextServerSuggestion(){
   renderFormationCurrent();
 }
 async function refreshNextServerSuggestionFromBoard(){
-  if(sectionControlInFlight||clearShiftInFlight)return;
+  if(quickMutationBusy())return;
   const seq=++boardLoadSeq;
   const key=boardKey();
   try{
@@ -6253,7 +6284,7 @@ async function refreshNextServerSuggestionFromBoard(){
   updateNextServerSuggestion();
 }
 async function refreshPersistentNextRotation(){
-  if(sectionControlInFlight||clearShiftInFlight)return;
+  if(quickMutationBusy())return;
   if(!$('mapView')||!$('mapView').classList.contains('active')){
     updateNextServerSuggestion();
     return;
@@ -6772,8 +6803,7 @@ async function applyFloorSeat(autoMode=false){
         updates['rows/'+targetRi+'/turns/'+skipTurn]=skipCell(skipTurn,BAR_AUTO_SKIP_KIND,seatEntryId);
       }
 
-      await writeJ(BOARD_ROOT+'/'+operationKey+'.json',updates,'PATCH');
-      await new Promise(r=>setTimeout(r,80+attempt*90));
+      await writeJLockedVerifiedByCaller(BOARD_ROOT+'/'+operationKey+'.json',updates,'PATCH');
       confirmed=await readBoardStrict(operationKey,'SEAT READ-BACK');
       const locks2=await readSkipLocks(operationKey);applySkipLocksToBoard(confirmed,locks2);
       found=verifySavedBoard(confirmed,placement,firstAppendTurn);
@@ -6854,7 +6884,7 @@ async function applyFloorSeat(autoMode=false){
     }
     toast(msg);
     try{await fetchBoard()}catch(_){}
-  }finally{for(const lock of seatLocks)await releaseTableLock(lock,seatEntryId);floorAutoSaving=false}
+  }finally{await releaseTableLocksFast(seatLocks,seatEntryId);floorAutoSaving=false}
 }
 function selectTurnServer(name){
   $('turnServer').value=name;buildServerButtons('turnServerGrid',name,selectTurnServer);
@@ -7022,7 +7052,7 @@ async function saveMultipleSkipsImmediately(ri,start,count){
     board=confirmed;boardBaseline=cloneBoard(confirmed);loadedBoardKey=key;renderSheet();updateViewMeta();sync(true);
     return true
   }catch(e){toast((e&&e.message)||'Multi SKIP failed');return false}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function skipEditingTurn(){
   if(editRow===null)return;
@@ -7101,7 +7131,7 @@ async function saveSkipImmediately(ri,ti){
     board=confirmed;boardBaseline=cloneBoard(confirmed);loadedBoardKey=key;renderSheet();updateViewMeta();sync(true);
     return true;
   }catch(e){toast((e&&e.message)||"SKIP save failed");sync(false);return false}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function clearSkipImmediately(ri,ti){
   const key=loadedBoardKey||boardKey();
@@ -7125,7 +7155,7 @@ async function clearSkipImmediately(ri,ti){
     if(confirmedLocks[lockId]&&confirmedLocks[lockId].active!==false)throw new Error('SKIP lock deletion could not be verified.');
     if(key===boardKey()){board=confirmed;boardBaseline=cloneBoard(confirmed);loadedBoardKey=key;renderSheet();updateViewMeta();sync(true)}return true;
   }catch(e){toast((e&&e.message)||"Could not clear SKIP");return false}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function enforceSkipLocks(targetKey=boardKey()){
   if(clearShiftInFlight||resetWrongInFlight||tableStatusInFlight||moveBusy||floorAutoSaving||quickAssignInFlight||staffDutyInFlight||sectionControlInFlight)return;
@@ -7281,7 +7311,7 @@ async function saveBoard(targetKey=loadedBoardKey||boardKey(),localSnapshot=null
   let claimed=[];
   try{
     cacheBoardSnapshot(targetKey,base,'BEFORE SAVE');
-    if(managedLocks){claimed=await claimTableLocks(lockNames,owner);if(!claimed.length)throw new Error('Action is being processed. Pending edit kept.');}
+    if(managedLocks){claimed=await claimTableLocksWithRetry(lockNames,owner,700);if(!claimed.length)throw new Error('Action is being processed. Pending edit kept.');}
     const fresh=await readBoardStrict(targetKey,'BOARD CELL SAVE'),skipLocks=await readSkipLocksStrict(targetKey);applySkipLocksToBoard(fresh,skipLocks||{});
     for(const ri of changedRows){
       const baseServer=String((base.rows[ri]&&base.rows[ri].server)||''),localServer=String((local.rows[ri]&&local.rows[ri].server)||''),freshServer=String((fresh.rows[ri]&&fresh.rows[ri].server)||'');
@@ -7301,7 +7331,7 @@ async function saveBoard(targetKey=loadedBoardKey||boardKey(),localSnapshot=null
       Only fields/cells that actually changed on this device are written.
       Concurrent updates to earlier/later turns remain untouched.
     */
-    if(Object.keys(safePatch).length)await writeJ(path+".json",safePatch,"PATCH");
+    if(Object.keys(safePatch).length)await writeJLockedVerifiedByCaller(path+".json",safePatch,"PATCH");
 
     const confirmedRaw=await readJ(path+".json");
     if(confirmedRaw===null){activateBoardRecovery(targetKey,base,'SAVE READ-BACK');throw new Error('Host Board disappeared during verification')}
@@ -7322,7 +7352,7 @@ async function saveBoard(targetKey=loadedBoardKey||boardKey(),localSnapshot=null
     toast((e&&e.message)||"Board save failed • history kept");
     sync(false);
     return false;
-  }finally{if(managedLocks)for(const lock of claimed)await releaseTableLock(lock,owner)}
+  }finally{if(managedLocks)await releaseTableLocksFast(claimed,owner)}
 }
 async function fetchBoard(targetKey=boardKey()){
   if(clearShiftInFlight)return false;
@@ -8052,7 +8082,7 @@ async function handleFormationChange(){
     formationDraftServer='';formationEditorDirty=false;populateFormationSections();populateFormationServers();updateFormationTablesBox();renderSheet();renderFormationCurrent();renderFormationOverlays();
     toast(next?('FORMATION '+next+' READY • SERVER COUNTS/HISTORY MOVE WITH SERVER • ASSIGN SECTIONS'):'FORMATION CLEARED • SEATING COUNTS + HISTORY KEPT');
   }catch(e){floorFormation=previousFormation;floorAssignments=previousAssignments;$('formationSelect').value=previousFormation.formation||'';renderFormationOverlays();renderFormationCurrent();toast((e&&e.message)||'Formation change failed')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,lockOwner);formationSaveInFlight=false}
+  finally{await releaseTableLocksFast(claimed,lockOwner);formationSaveInFlight=false}
 }
 async function addFormationServer(){
   const raw=prompt("New server name:"),name=String(raw||"").trim();
@@ -8761,7 +8791,7 @@ async function submitSectionControl(){
     toast(action==='CLEAR'?(memoryChoice.label+' CLEARED • TABLES + HISTORY KEPT'):(server+' MOVED TO SECTION '+target+' • VERIFIED'));
   }catch(e){toast(committed?'SECTION CONTROL SAVED • VERIFY INCOMPLETE • CHECK LIVE DATA':((e&&e.message)||'Section Control failed'))}
   finally{
-    for(const lock of claimed)await releaseTableLock(lock,opId);
+    await releaseTableLocksFast(claimed,opId);
     sectionControlInFlight=false;formationSaveInFlight=false;formationEditorDirty=false;
     const refreshKey=boardKey();
     try{await Promise.all([fetchBoard(refreshKey),fetchFormationTableConfig(true),fetchFloorFormation(refreshKey),fetchFloorAssignments(refreshKey,true),fetchTables(true)])}catch(_){}
@@ -8868,7 +8898,7 @@ async function saveSectionBeeper(section,value){
     renderSheet();renderFormationOverlays();renderBeeperView();
     toast((section==='BAR'?'BAR':'Section '+section)+' • '+server+(beeper?(' • Beeper '+beeper):' • Beeper cleared')+' • VERIFIED');
   }catch(e){toast((e&&e.message)||'Beeper save failed')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,lockOwner);formationSaveInFlight=false}
+  finally{await releaseTableLocksFast(claimed,lockOwner);formationSaveInFlight=false}
 }
 
 function populateSectionEditFormation(){
@@ -8969,7 +8999,7 @@ async function saveSectionEdit(){
     }
     renderSectionEditEditor();toast(name+' • SECTION TABLES SAVED');
   }catch(e){toast((e&&e.message)||'Section table save failed')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function resetSectionEditDefault(){
   if(!sectionEditFormation)return toast('Choose Formation');
@@ -8987,7 +9017,7 @@ async function resetSectionEditDefault(){
     }
     renderSectionEditEditor();toast(name+' • DEFAULT TABLE MAP RESTORED');
   }catch(e){toast((e&&e.message)||'Reset default failed')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 function openSectionEditor(useCurrent=true){
   formationEditorDirty=false;formationDraftServer='';
@@ -9174,7 +9204,7 @@ async function saveFloorServerAssignment(){
     if(!serverCanReceive(server,board)||tables.some(t=>String((floorAssignments.tables[t]||{}).server||'')!==server))throw new Error('Manual assignment could not be verified.');
     renderSheet();renderTables();renderFloorAssignmentList();toast(server+' • Beeper '+beeper+' assignment saved • VERIFIED');resetFloorAssignForm();
   }catch(e){toast((e&&e.message)||'Assignment save failed')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,opId)}
+  finally{await releaseTableLocksFast(claimed,opId)}
 }
 async function clearFloorServerAssignment(){
   const server=editingFloorAssignServer||$('floorAssignServer').value;
@@ -9589,7 +9619,7 @@ async function submitBreaktimeTransferLegacyV1095(){
     breaktimeSelectedTables.clear();renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();renderBeeperView();renderFloorAssignmentList();updateNextServerSuggestion();renderBreaktimeView(true);
     toast('BREAKTIME VERIFIED • '+outgoing+' → '+replacement+' • '+(memorySection==='BAR'?'BAR':('SECTION '+memorySection))+' • HISTORY KEPT');
   }catch(e){toast(committed?'BREAKTIME SAVED • VERIFY INCOMPLETE • CHECK LIVE DATA':((e&&e.message)||'BREAKTIME transfer failed'));try{await fetchBoard(key);await fetchFloorFormation();await fetchFloorAssignments();await fetchTables()}catch(_){} }
-  finally{for(const lock of claimed)await releaseTableLock(lock,opId);breaktimeInFlight=false;shiftControl.disabled=shiftWasDisabled;dateControl.disabled=dateWasDisabled;renderBreaktimeView()}
+  finally{await releaseTableLocksFast(claimed,opId);breaktimeInFlight=false;shiftControl.disabled=shiftWasDisabled;dateControl.disabled=dateWasDisabled;renderBreaktimeView()}
 }
 
 /* V109.6: atomic full or partial section handoff. The V109.5 implementation
@@ -9768,7 +9798,7 @@ async function submitBreaktimeTransfer(){
     breaktimeSelectedTables.clear();renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();renderBeeperView();renderFloorAssignmentList();updateNextServerSuggestion();renderBreaktimeView(true);
     toast('BREAKTIME VERIFIED • '+outgoing+' → '+replacement+' • '+(targetLabel==='BAR'?'BAR':('SECTION '+targetLabel))+(liveChoice.releasedSections.length?' • S'+liveChoice.releasedSections.join('+')+' UNASSIGNED':'')+' • HISTORY KEPT');
   }catch(e){toast(committed?'BREAKTIME SAVED • VERIFY INCOMPLETE • CHECK LIVE DATA':((e&&e.message)||'BREAKTIME transfer failed'));try{await fetchBoard(key);await fetchFloorFormation();await fetchFloorAssignments();await fetchTables()}catch(_){} }
-  finally{for(const lock of claimed)await releaseTableLock(lock,opId);breaktimeInFlight=false;shiftControl.disabled=shiftWasDisabled;dateControl.disabled=dateWasDisabled;renderBreaktimeView()}
+  finally{await releaseTableLocksFast(claimed,opId);breaktimeInFlight=false;shiftControl.disabled=shiftWasDisabled;dateControl.disabled=dateWasDisabled;renderBreaktimeView()}
 }
 
 function activeSeatedTables(){
@@ -10197,7 +10227,7 @@ async function saveEditedSecondaries(){
     toast((e&&e.message)||"Secondary table update failed");
     await fetchTables();
   }
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 
 
@@ -10330,7 +10360,7 @@ async function restoreFloorHistory(){
     let when='';try{if(hit.at)when=' • '+new Date(Number(hit.at)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}catch(_){}
     toast('RESTORED • '+id+' • '+(hit.server||'UNASSIGNED')+when);
   }catch(e){toast((e&&e.message)||'RESTORE FAILED')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function quickWizardSetReserved(){
   const id=String(selectedTable||'');
@@ -10378,7 +10408,7 @@ async function clearHistoryParty26(ri,ti){
     if(refs.some(id=>!sameJson(checkFloor?.[id],patch['tables/'+id])))throw Error('Floor reference verification failed. Reload.');
     board=verified;boardBaseline=cloneBoard(verified);loadedBoardKey=key;tableState=checkFloor;closeM('turnModal');closeM('lockedTurnModal');editExisting=false;editAuthorized=false;renderSheet();quickRenderBoard();toast('Party deleted • Board rearranged');
   }catch(e){toast(e.message);await fetchBoard(boardKey());await fetchTables()}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner);resetWrongInFlight=false}
+  finally{await releaseTableLocksFast(claimed,owner);resetWrongInFlight=false}
 }
 
 function resizePartyRow26(row,target,people){
@@ -10594,7 +10624,7 @@ async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
     toast((e&&e.message)?e.message:"RESET failed");
     try{await fetchBoard(boardKey());await fetchTables()}catch(_){}
   }
-  finally{quickState.resettingEntryId='';for(const lock of claimed)await releaseTableLock(lock,owner);resetWrongInFlight=false}
+  finally{quickState.resettingEntryId='';await releaseTableLocksFast(claimed,owner);resetWrongInFlight=false}
 }
 
 async function markMoveSourceReady(){
@@ -10868,7 +10898,7 @@ async function saveMoveChange(){
         if(t&&t.master===current.ti){t.entryId=entryId;if(i===current.ti)t.table=target}
       }
     }else{
-      /* R3M.8.47 invariant: removing a party from a server row may NEVER
+      /* R3M.8.48 invariant: removing a party from a server row may NEVER
          leave a blank between older and newer Rotation History. Compact the
          source row first, then reconcile BAR PM auto-SKIPs and compact again. */
       clearGroup(current.ri,current.ti);
@@ -10980,7 +11010,7 @@ async function allClearFloor(){
     const confirmed=await readJ(TABLE_ROOT+'.json');if(confirmed===null||TABLE_IDS.some(id=>operationalTableStatus(confirmed[id]||{})!=='ready'||String((confirmed[id]||{}).server||'')))throw new Error('ALL READY could not be verified.');
     tableState=confirmed;renderTables();toast('ALL TABLES READY • HOST BOARD KEPT');
   }catch(e){toast((e&&e.message)||'ALL READY failed');await fetchTables()}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 
 function closeModalFromX(back){
@@ -11081,7 +11111,8 @@ function renderTables(){
   });
   $('readyCount').textContent=ready+" READY"+(cleaning?(" • "+cleaning+" CLEAN"):"");
 }async function fetchTables(force=false){
-  if(clearShiftInFlight||((sectionControlInFlight||tableStatusInFlight)&&!force))return false;
+  if(!force&&quickMutationBusy())return false;
+  if(clearShiftInFlight)return false;
   const seq=++tableLoadSeq;
   try{
   const next=canonicalizeTableServers((await readJ(TABLE_ROOT+".json"))||{});if(clearShiftInFlight||seq!==tableLoadSeq)return false;tableState=next;renderTables();updateNextServerSuggestion();
@@ -12187,7 +12218,7 @@ async function quickToggleBarAutoSkip(ri){
     board=confirmed;boardBaseline=cloneBoard(confirmed);loadedBoardKey=key;renderSheet();updateViewMeta();sync(true);
     toast('BAR AUTO SKIP '+(nextEnabled?'ON':'OFF')+' • previous BAR AUTO SKIPs kept');
   }catch(e){toast((e&&e.message)||'Could not change BAR AUTO SKIP')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 function quickRenderBoard(){
   const grid=$('quickServerGrid');if(!grid)return;
@@ -12443,7 +12474,7 @@ async function quickWriteAccessUser(id,changes,label){
     const confirmed=quickNormalizeAccessUsers({[id]:await readJ(ACCESS_USER_ROOT+'/'+id+'.json')})[id];if(!confirmed||confirmed.username!==next.username||confirmed.role!==next.role||confirmed.active!==(next.active!==false)||confirmed.passwordHash!==(next.passwordHash||''))throw new Error('User change could not be verified.');
     await writeJ(ACCESS_AUDIT_ROOT+'/'+Date.now()+'_'+id+'.json',{userId:id,username:next.username,role:next.role,active:next.active!==false,action:label,updatedAt:Date.now(),updatedBy:role(),deviceId:deviceId()});toast(label+' • VERIFIED');return true;
   }catch(e){toast((e&&e.message)||'User change failed');return false}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+  finally{await releaseTableLocksFast(claimed,owner)}
 }
 async function quickOpenUsersRoles(){
   if(!quickRequireManager(null,'Users & Roles'))return;const mount=quickPrepareLegacy('Users & Roles');mount.innerHTML='<div class="quickForm" style="max-width:900px"><div class="quickFormHint">Manager access records are stored separately from employee names. Passwords are saved as hashes, never as readable text.</div><div class="quickUserForm"><input id="quickUserName" placeholder="Username"><select id="quickUserRole"><option>Front Host</option><option>Manager</option></select><input id="quickUserPassword" type="password" placeholder="Password"><button id="quickUserAdd" type="button">ADD USER</button></div><div id="quickUsersList" class="quickUsersList"><div class="quickFormHint">Loading…</div></div></div>';quickSetOpen('quickLegacyPanel',true);
@@ -12668,7 +12699,10 @@ async function r3mFrontPoll(){
  c.deadline=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState!=='connected')r3mStopFront()},45000);
  }catch(e){if(c&&r3mCurrent(c)){await r3mStopFront();try{await r3mWrite('/sessions/'+c.id+'/frontState',{status:'error',message:String(e.message).slice(0,180),at:Date.now()})}catch(_){}}}finally{r3mFrontBusy=false}
 }
-setInterval(()=>{r3mPresence();r3mFrontPoll();if(r3mOwnerContext&&!ownerRoleUnlocked)r3mStopOwner(true)},1500);
+setInterval(()=>{
+  if(!quickMutationBusy()||r3mFrontContext){r3mPresence();r3mFrontPoll()}
+  if(r3mOwnerContext&&!ownerRoleUnlocked)r3mStopOwner(true)
+},3000);
 async function r3mLoadDevices(){if(!$('r3mOwnerLayer')?.classList.contains('show'))return;try{const raw=await r3mRead('/devices')||{},now=Date.now(),online=Object.values(raw).filter(x=>x&&now-(x.lastSeen||0)<20000),arr=online.filter(x=>x.armed);$('r3mDevices').innerHTML=arr.length?arr.map(x=>`<button class="r3mDevice ${x.id===r3mSelected?'sel':''}" data-r3m-device="${esc(x.id)}"><b>${esc(x.label)}</b><br>Online ${x.monitoring?'• MONITORING':''}</button>`).join(''):(online.length?'Front device online • camera/microphone permission required.':'No Front device online.');$('r3mDevices').querySelectorAll('[data-r3m-device]').forEach(b=>b.onclick=()=>{r3mSelected=b.dataset.r3mDevice;r3mLoadDevices()})}catch(e){$('r3mDevices').textContent='Cannot load Host devices. Check connection.'}}
 function r3mOpen(){if(!ownerRoleUnlocked)return toast('Owner only');$('r3mOwnerLayer').classList.add('show');$('r3mOwnerLayer').setAttribute('aria-hidden','false');r3mUpdateArmState();r3mLoadDevices()}
 async function r3mClose(){await r3mStopOwner(true);$('r3mOwnerLayer').classList.remove('show');$('r3mOwnerLayer').setAttribute('aria-hidden','true')}
@@ -13315,7 +13349,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.47-REPORT-GUEST-COLUMN';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.48-FAST-SAVE-SYNC';
   const APP_SCOPE='/FZ-Quick-Board-R3M/';
   let deferredInstallPrompt=null;
   let installBanner=null;
@@ -13380,7 +13414,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if('serviceWorker' in navigator){
     window.addEventListener('load',async function(){
       try{
-        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.47',{scope:'./',updateViaCache:'none'});
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.48',{scope:'./',updateViaCache:'none'});
         await reg.update();
       }catch(e){console.warn('FZ PWA SW:',e);}
       updateInstallUi();
@@ -13406,10 +13440,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.47"></script>
-<script src="monitor-captions.js?v=R3M.8.47"></script>
-<script src="beeper-history-v43.js?v=R3M.8.47"></script>
-<script src="table-audit-v47.js?v=R3M.8.47"></script>
+<script src="shift-analytics-v29.js?v=R3M.8.48"></script>
+<script src="monitor-captions.js?v=R3M.8.48"></script>
+<script src="beeper-history-v43.js?v=R3M.8.48"></script>
+<script src="table-audit-v48.js?v=R3M.8.48"></script>
 </body>
 </html>
 <style>
@@ -13452,7 +13486,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.47"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.47">
-<script src="smart-next.js?v=R3M.8.47"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.47"></script>
+<script src="table-capacity-v30.js?v=R3M.8.48"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.48">
+<script src="smart-next.js?v=R3M.8.48"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.48"></script>
