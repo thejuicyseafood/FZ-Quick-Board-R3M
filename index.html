@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.52" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.43" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.52 • DATABASE TRAFFIC FIX • ORIGINAL 43 FUNCTIONS</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.43 • ROTATION COMPACTION FIX • BAR RESTORE • PWA INSTALL</span></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2783,7 +2783,6 @@ body.quickOwner #quickManagerLogout{display:block!important}
 <div id="scheduledCutModal" class="modalBack scheduledCutLayer"><div class="modal scheduledCutModal">
 <div class="scheduledCutBadge">SCHEDULED STAFF ACTION</div><h2 id="scheduledCutTitle">Scheduled Cut</h2><p id="scheduledCutMessage"></p><div id="scheduledCutNames" class="scheduledCutNames"></div><div id="scheduledCutRule" class="scheduledCutRule"></div><div class="scheduledCutNote">BAR is excluded. Closing this notice will CUT the employees listed above. They can still be restored from CUT / UNCUT.</div><div class="actions"><button id="scheduledCutClose" class="btn scheduledCutClose">CLOSE</button></div></div></div>
 <audio id="voicePlayer" preload="auto" style="display:none"></audio><div id="toast" class="toast"></div>
-<script src="background-poll-v52.js?v=R3M.8.52"></script>
 <script>
 
 /* Embedded QR generator */
@@ -6530,9 +6529,6 @@ async function logRecentSeatGuard(server,table,people,entryId,at){try{await writ
 async function applyFloorSeat(autoMode=false){
   if(floorAutoSaving)return;
   floorAutoSaving=true;
-  /* Ignore background snapshots that started before this seating operation. */
-  tableLoadSeq++;
-  boardLoadSeq++;
 
   const table=selectedTable,server=canonicalServerName(floorSelectedServer),people=floorSelectedPeople;
   floorSelectedServer=server;
@@ -6750,8 +6746,8 @@ async function applyFloorSeat(autoMode=false){
 
       await writeJ(BOARD_ROOT+'/'+operationKey+'.json',updates,'PATCH');
       await new Promise(r=>setTimeout(r,80+attempt*90));
-      const verified=await Promise.all([readBoardStrict(operationKey,'SEAT READ-BACK'),readSkipLocks(operationKey)]);
-      confirmed=verified[0];applySkipLocksToBoard(confirmed,verified[1]);
+      confirmed=await readBoardStrict(operationKey,'SEAT READ-BACK');
+      const locks2=await readSkipLocks(operationKey);applySkipLocksToBoard(confirmed,locks2);
       found=verifySavedBoard(confirmed,placement,firstAppendTurn);
     }
 
@@ -6768,7 +6764,7 @@ async function applyFloorSeat(autoMode=false){
 
   try{
     if(!(await flushScheduledBoardSave()))throw new Error('Pending Host Board edit was not saved. Seating cancelled.');
-    seatLocks=await claimTableLocksBatchedWithRetry([table,...secondaryTables,'BOARD '+operationKey+' CLEAR','BOARD '+operationKey+' '+server],seatEntryId);
+    seatLocks=await claimTableLocksWithRetry([table,...secondaryTables,'BOARD '+operationKey+' CLEAR','BOARD '+operationKey+' '+server],seatEntryId);
     if(!seatLocks.length)throw new Error('This table/server stayed busy after waiting. Tap once again.');
     const latestTables=(await readJ(TABLE_ROOT+'.json'))||{};
     if(operationalTableStatus(latestTables[table]||{})!=='ready')throw new Error(table+' is no longer READY.');
@@ -6802,10 +6798,8 @@ async function applyFloorSeat(autoMode=false){
       floorVerified=check.status==='seated'&&String(check.partyId||'')===seatEntryId&&String(check.server||'')===server;
     }
     if(!floorVerified)throw new Error('Floor Map seating could not be verified.');
-    await Promise.allSettled([
-      logRecentSeatGuard(server,id,people,seatEntryId,ts),
-      writeJ(ANNOUNCE_ROOT+'/ann_'+ts+'_'+Math.random().toString(36).slice(2,6)+'.json',{table:id,status:'seated',from:role(),sourceId:deviceId(),createdAt:ts})
-    ]);
+    await logRecentSeatGuard(server,id,people,seatEntryId,ts);
+    try{await writeJ(ANNOUNCE_ROOT+'/ann_'+ts+'_'+Math.random().toString(36).slice(2,6)+'.json',{table:id,status:'seated',from:role(),sourceId:deviceId(),createdAt:ts})}catch(e){}
 
     floorAutoSaving=false;
     closeM('statusModal');
@@ -6832,7 +6826,7 @@ async function applyFloorSeat(autoMode=false){
     }
     toast(msg);
     try{await fetchBoard()}catch(_){}
-  }finally{await releaseTableLocksFast(seatLocks,seatEntryId);floorAutoSaving=false}
+  }finally{for(const lock of seatLocks)await releaseTableLock(lock,seatEntryId);floorAutoSaving=false}
 }
 function selectTurnServer(name){
   $('turnServer').value=name;buildServerButtons('turnServerGrid',name,selectTurnServer);
@@ -7361,8 +7355,6 @@ async function clearShiftBoardVerified(target){
  if(!quickIsManager()){toast('Clear All • Manager only');return false}
  if(clearShiftInFlight){toast('GLOBAL CLEAR IS ALREADY RUNNING');return false}
  if(!confirm('CLEAR ALL SHIFT?\n\nThis resets the current shift Board and Floor completely.\n\nToday\'s Team, employees, reservations, Table Map and user accounts will be kept.'))return false;
- if(typeof window.FZQBAnalyticsPreClear==='function'){const analyticsOk=await window.FZQBAnalyticsPreClear(target);if(!analyticsOk)return false}
- if(typeof window.FZQBBeeperPreClear==='function'){const beeperOk=await window.FZQBBeeperPreClear(target);if(!beeperOk)return false}
  clearShiftInFlight=true;boardLoadSeq++;formationLoadSeq++;floorAssignmentLoadSeq++;tableLoadSeq++;
  setClearShiftProgress(true,'CLEARING CURRENT SHIFT…','BOARD + FLOOR');
  try{
@@ -11244,21 +11236,7 @@ async function fetchTeamShout(){
   }catch(_){}
 }
 
-async function fetchAnnouncements(){
-  /* Keys are ann_<timestamp>_<suffix>. Query only this session's possible
-     notifications; the built-in key index needs no database-rule changes.
-     Keep all saved announcement history and the original local safety filters. */
-  const fromKey='ann_'+(sessionStart-3000);
-  const query='?orderBy='+encodeURIComponent(JSON.stringify('$key'))+'&startAt='+encodeURIComponent(JSON.stringify(fromKey));
-  try{
-    const a=(await readJ(ANNOUNCE_ROOT+'.json'+query))||{};
-    for(const [id,x] of Object.entries(a)){
-      if(x&&x.createdAt>=sessionStart-3000&&!announcementSeen.has(id)&&x.sourceId!==deviceId()){
-        if(await voice(x.status,x.table))announcementSeen.add(id);
-      }
-    }
-  }catch(e){/* The next scheduled poll retries the bounded query. */}
-}
+async function fetchAnnouncements(){try{const a=(await readJ(ANNOUNCE_ROOT+".json"))||{};for(const [id,x] of Object.entries(a)){if(x&&x.createdAt>=sessionStart-3000&&!announcementSeen.has(id)&&x.sourceId!==deviceId()){if(await voice(x.status,x.table))announcementSeen.add(id)}}}catch(e){}}
 
 function openAlarm(){unlockVoice();try{AndroidBridge.ensureNotificationPermission()}catch(e){}openM("alarmModal")}
 async function sendAlarm(target){const ts=Date.now(),id="alarm_"+ts+"_"+Math.random().toString(36).slice(2,6),payload={from:role(),to:target,sourceId:deviceId(),createdAt:ts,expiresAt:ts+12*60*60*1000,status:"ACTIVE"},pulse=n=>({from:"🚨 ALARM - "+role(),to:target,text:"🚨 URGENT ALARM ("+n+"/3): "+role()+" is calling "+target+".",sourceId:deviceId(),createdAt:Date.now(),alarmNative:true});try{await writeJ(ALARM_ROOT+"/"+id+".json",payload);await writeJ(MESSAGE_ROOT+"/"+id+"_1.json",pulse(1));setTimeout(()=>writeJ(MESSAGE_ROOT+"/"+id+"_2.json",pulse(2)).catch(()=>{}),1800);setTimeout(()=>writeJ(MESSAGE_ROOT+"/"+id+"_3.json",pulse(3)).catch(()=>{}),3600);closeM("alarmModal");toast("Alarm sent to "+target)}catch(e){toast("Alarm failed")}}
@@ -12797,11 +12775,6 @@ $('closeReservationDetail').onclick=()=>closeM('reservationDetailModal');
   document.addEventListener("touchstart",unlockVoice,{once:true,passive:true});document.addEventListener("pointerdown",unlockVoice,{once:true});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){publishCallPresence(true);pollManagerFrontCalls()}});window.addEventListener('online',()=>{publishCallPresence(true);pollManagerFrontCalls()});
 }
-function backgroundMutationBusy(){
-  return !!(floorAutoSaving||quickState.busy||quickAssignInFlight||clearShiftInFlight||staffDutyInFlight||
-    formationSaveInFlight||resetWrongInFlight||tableStatusInFlight||sectionControlInFlight||breaktimeInFlight||
-    moveBusy||pendingBoardFlushPromise);
-}
 async function init(){
   const today=dateKey();autoWorkDateDay=today;
   $('workDate').value=today;localStorage.setItem('jhb31_date',today);$('dateLabel').textContent=today;$('shift').value=localStorage.getItem("jhb31_shift")||((new Date()).getHours()<16?"AM":"PM");
@@ -12809,21 +12782,7 @@ async function init(){
   if(savedSession){ownerRoleUnlocked=savedSession.role==='Owner';managerRoleUnlocked=savedSession.role==='Manager'||savedSession.role==='Owner';lastNonManagerRole=['Front Host','Floor Host'].includes(savedSession.role)?savedSession.role:'Front Host';const baseRole=savedSession.role==='Owner'?'Manager':savedSession.role;$('role').value=baseRole;applyRole(baseRole)}
   else{lastNonManagerRole="Front Host";$('role').value="Front Host";managerRoleUnlocked=false;ownerRoleUnlocked=false;applyRole("Front Host")}
   buildFloor();bind();installModalCloseButtons();clearReservationForm();await fetchServers();await fetchTables();const resumedKey=resumeBoardSelectionFromActiveTables(tableState);if(resumedKey)toast('RESUMED ACTIVE FLOOR • '+resumedKey);await fetchBoard(boardKey());await fetchFormationTableConfig();await fetchFloorFormation();await fetchFloorAssignments();await fetchTables();await fetchReservations();await fetchManagerFrontChat();renderSheet();renderFormationOverlays();updateNextServerSuggestion();updateViewMeta();renderBeeperView();renderSectionEditEditor();renderBreaktimeView(true);quickInit();await publishCallPresence(true);await pollManagerFrontCalls();
-  const backgroundReady=()=>!backgroundMutationBusy();
-  FZBackgroundPoll.schedule('tables',()=>fetchTables(),3000,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('skip-locks',()=>enforceSkipLocks(boardKey()),2500,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('formation-config',()=>fetchFormationTableConfig(),8000,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('formation',()=>fetchFloorFormation(),8000,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('assignments',()=>fetchFloorAssignments(),8000,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('rotation',()=>refreshPersistentNextRotation(),4000,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('announcements',()=>fetchAnnouncements(),2500,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('alarms',()=>fetchAlarms(),1500,{shouldRun:()=>true});
-  FZBackgroundPoll.schedule('chat',()=>fetchManagerFrontChat(),2500,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('calls',()=>pollManagerFrontCalls(),1000,{shouldRun:()=>true});
-  FZBackgroundPoll.schedule('call-presence',()=>publishCallPresence(false),5000,{shouldRun:()=>true});
-  FZBackgroundPoll.schedule('reservations',()=>fetchReservations(),15000,{shouldRun:backgroundReady});
-  FZBackgroundPoll.schedule('team-shout',()=>fetchTeamShout(),3000,{shouldRun:backgroundReady});
-  setInterval(checkReservationAlarms,20000);setInterval(checkScheduledStaffAlerts,20000);setInterval(refreshAutomaticWorkDate,60000);
+  setInterval(fetchTables,3000);setInterval(()=>enforceSkipLocks(boardKey()),2500);setInterval(fetchFormationTableConfig,8000);setInterval(fetchFloorFormation,8000);setInterval(fetchFloorAssignments,8000);setInterval(refreshPersistentNextRotation,4000);setInterval(fetchAnnouncements,2500);setInterval(fetchAlarms,1500);setInterval(fetchManagerFrontChat,2500);setInterval(pollManagerFrontCalls,1000);setInterval(()=>publishCallPresence(false),5000);setInterval(fetchReservations,15000);setInterval(fetchTeamShout,3000);setInterval(checkReservationAlarms,20000);setInterval(checkScheduledStaffAlerts,20000);setInterval(refreshAutomaticWorkDate,60000);
 }
 init();
 
@@ -13303,7 +13262,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.52-DATABASE-TRAFFIC-FIX';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.43-ROTATION-COMPACTION-FIX';
   const APP_SCOPE='/FZ-Quick-Board-R3M/';
   let deferredInstallPrompt=null;
   let installBanner=null;
@@ -13368,7 +13327,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if('serviceWorker' in navigator){
     window.addEventListener('load',async function(){
       try{
-        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.52',{scope:'./',updateViaCache:'none'});
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.43',{scope:'./',updateViaCache:'none'});
         await reg.update();
       }catch(e){console.warn('FZ PWA SW:',e);}
       updateInstallUi();
@@ -13394,9 +13353,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
-<script src="shift-analytics-v29.js?v=R3M.8.52"></script>
-<script src="monitor-captions.js?v=R3M.8.52"></script>
-<script src="beeper-history-v43.js?v=R3M.8.52"></script>
+
+<script src="monitor-captions.js?v=R3M.8.43"></script>
+
 </body>
 </html>
 <style>
@@ -13439,7 +13398,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.52"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.52">
-<script src="smart-next.js?v=R3M.8.52"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.52"></script>
+<script src="table-capacity-v30.js?v=R3M.8.43"></script>
+<link rel="stylesheet" href="smart-next.css?v=R3M.8.43">
+<script src="smart-next.js?v=R3M.8.43"></script>
+<script src="scheduled-cut-v23.js?v=R3M.8.43"></script>
