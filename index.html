@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="application-name" content="FZ Quick Board">
 <meta name="apple-mobile-web-app-title" content="FZ Quick Board">
-<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.43" crossorigin="use-credentials">
+<link rel="manifest" href="./manifest.webmanifest?v=R3M.8.54" crossorigin="use-credentials">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
@@ -2095,7 +2095,7 @@ body.quickFormationEditing #formationEditTables{display:inline-flex!important}
 body.quickOwner #quickManagerLogout{display:block!important}
 .r3mLayer{position:fixed;inset:0;z-index:12000;display:none;overflow:auto;background:rgba(2,8,14,.97);padding:max(18px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));font-family:Arial,sans-serif;color:#fff}.r3mLayer.show{display:block}.r3mWrap{width:min(1100px,100%);margin:auto}.r3mTop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.r3mTop h2{margin:0;font-size:clamp(26px,5vw,42px)}.r3mCard{background:#0b2132;border:1px solid #31536d;border-radius:18px;padding:18px;margin:12px 0}.r3mDevice{width:100%;text-align:left;margin:6px 0;min-height:60px;border:1px solid #4d7591;border-radius:12px;background:#16466b;color:#fff;font-weight:900;padding:12px}.r3mDevice.sel{border:2px solid #facc15}.r3mMuted{color:#9db8cb}.r3mStage{position:relative;min-height:420px;background:#000;border-radius:14px;overflow:hidden}.r3mStage video{width:100%;height:100%;min-height:420px;object-fit:contain}.r3mStatus{position:absolute;top:10px;left:10px;background:#000c;padding:7px 10px;border-radius:99px;font-weight:1000}.r3mControls{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}.r3mBtn{min-height:52px;border:1px solid #4d7591;border-radius:12px;background:#16466b;color:#fff;font-weight:1000;padding:10px}.r3mBtn.primary{background:#176f46}.r3mBtn.danger{background:#8b1e2d}.r3mSetup{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.r3mBadge{display:inline-flex;padding:6px 10px;border-radius:999px;background:#064e3b;color:#bbf7d0;font-weight:1000;font-size:12px}@media(max-width:700px){.r3mControls{grid-template-columns:1fr}.r3mStage,.r3mStage video{min-height:300px}.r3mSetup{grid-template-columns:1fr}}
 </style>
-</head>
+<style>#quickEditTeamMenu,#quickBreakStaff,#quickHistory,#quickReports,#quickOwnerMonitor,#quickManagerCode,#staffClearCutRow,#boardPdfBtn,#boardPdfWaBtn,#boardPdfEmailBtn,#reservationXlsBtn,#reservationWaBtn{display:none!important}</style><script src="./fast-seat-v53.js"></script><script src="./daily-clear-v54.js"></script><script src="./firebase-app-compat.js"></script><script src="./firebase-database-compat.js"></script></head>
 <body class="quickMode">
 <div id="quickRoleGate" class="quickRoleGate" role="dialog" aria-modal="true" aria-labelledby="quickRoleTitle">
   <div class="quickRoleCard">
@@ -2176,7 +2176,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
   <button id="quickManagerLogout" class="quickManagerLogout" type="button" aria-label="Log out current session">LOG OUT</button>
   <header class="quickHeader">
     <div class="quickBrandRow">
-      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.43 • ROTATION COMPACTION FIX • BAR RESTORE • PWA INSTALL</span></div>
+      <div class="quickBrand">Fred Zhang Quick Board <span>R3M.8.54 • HOST ONLY • REALTIME</span><small id="hostLiveStatus" role="status">CONNECTING</small></div>
       <div class="quickHeaderSpacer"></div>
       <div id="quickLive" class="quickLive">CONNECTING</div>
       <button id="quickAlarm" class="quickAlarm" type="button" aria-label="Alarm">🚨</button>
@@ -2222,19 +2222,19 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <button id="quickEditFormation" class="quickMenuBtn quickManagerOnly"><strong>Edit Formation</strong><span>Manager • formation structure and servers</span></button>
       </div></div>
       <div class="quickGroup"><div class="quickGroupTitle">STAFF</div><div class="quickMenuGrid">
-        <button id="quickEditTeamMenu" class="quickMenuBtn"><strong>Edit Today's Team</strong><span>All roles • reopen Today's Team only when you need to make changes</span></button>
-        <button id="quickBreakStaff" class="quickMenuBtn"><strong>Break / Return Employee</strong><span>Hold the Section; pause or resume rotation</span></button>
+        
+        
         <button id="quickStaff" class="quickMenuBtn"><strong>Cut / Uncut Employee</strong><span>Hide or restore an employee; history stays protected</span></button>
       </div></div>
       <div class="quickGroup"><div class="quickGroupTitle">DATA &amp; COMMUNICATION</div><div class="quickMenuGrid">
         <button id="quickInstallApp" class="quickMenuBtn" type="button"><strong>⬇ INSTALL FZ QUICK BOARD</strong><span id="quickInstallAppHint">Samsung / Android • install this Quick Board as its own app</span></button>
         <button id="quickReservations" class="quickMenuBtn"><strong>Reservations</strong><span>Schedule and final save</span></button>
-        <button id="quickHistory" class="quickMenuBtn quickManagerOnly"><strong>Full History</strong><span>Manager • active and CUT rows × 60 turns</span></button>
-        <button id="quickReports" class="quickMenuBtn quickManagerOnly"><strong>Reports</strong><span>Manager • PDF, XLS, WhatsApp and email</span></button>
+        
+        
         <button id="quickChat" class="quickMenuBtn"><strong>Manager Chat / VN / Call</strong><span>Available to every device role</span></button>
         <button id="quickTeamShout" class="quickMenuBtn quickManagerOnly"><strong>📢 Team Shout Out</strong><span>Manager • send a large realtime announcement to Host screens</span></button>
-        <button id="quickOwnerMonitor" class="quickMenuBtn quickOwnerOnly"><strong>Owner Monitor</strong><span>Owner • camera, listen and local recording</span></button>
-        <button id="quickManagerCode" class="quickMenuBtn quickManagerOnly"><strong>Users &amp; Roles</strong><span>Manager • add users and edit access</span></button>
+        
+        
         <button id="quickEditManagerPassword" class="quickMenuBtn quickManagerOnly"><strong>Edit Manager Password</strong><span>Manager • change login password on this device</span></button>
         <button id="quickBarRepair817" class="quickMenuBtn quickManagerOnly" type="button"><strong>Repair BAR Manual → Auto SKIP</strong><span>R3M.8.39 • convert replacement manual SKIPs and review saved Floor links</span></button>
         <button id="quickClearShift" class="quickMenuBtn danger quickManagerOnly"><strong>Clear All Board + Floor</strong><span>Manager • ALL dates / AM / PM • no backup</span></button>
@@ -2304,7 +2304,7 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <span id="boardDayMeta" class="boardMeta">DAY</span>
         <span id="boardShiftMeta" class="boardMeta">SHIFT</span><span id="boardKeyMeta" class="boardMeta" style="border-color:#16a34a;color:#bbf7d0">BOARD LOCK</span>
         <span class="hint">Protected history • Cell-safe sync • SKIP LOCK • AM/PM locked</span>
-        <button id="boardPdfBtn" class="xlsBtn">DOWNLOAD PDF</button><button id="boardPdfWaBtn" class="waBtn">SEND PDF TO WHATSAPP</button><button id="boardPdfEmailBtn" class="xlsBtn" style="background:#7c3aed;border-color:#c4b5fd">SEND PDF TO EMAIL</button><button id="clearBoard" class="clearBtn">CLEAR ALL DAYS</button>
+        <button id="clearBoard" class="clearBtn">CLEAR ALL DAYS</button>
       </div>
       <div class="sheetScroll"><div id="sheet" class="sheet"></div></div>
     </div>
@@ -2340,8 +2340,8 @@ body.quickOwner #quickManagerLogout{display:block!important}
         <span class="title">RESERVATIONS</span>
         <span style="font-size:11px;color:#9fb2c7">New reservations save as Scheduled. EDIT and DELETE require the manager password. After FINAL SAVE, the reservation is locked.</span>
         <div class="spacer"></div>
-        <button id="reservationDeleteMultipleBtn" class="clearBtn" style="background:#b91c1c">DELETE SELECTED</button><button id="reservationXlsBtn" class="xlsBtn">DOWNLOAD XLS</button>
-        <button id="reservationWaBtn" class="waBtn">SEND XLS TO WHATSAPP</button>
+        <button id="reservationDeleteMultipleBtn" class="clearBtn" style="background:#b91c1c">DELETE SELECTED</button>
+        
       </div>
       <div class="resBody">
         <div class="resForm">
@@ -4064,9 +4064,9 @@ const TABLES=[{"id":"R7","label":"R7","x":7.0,"y":15.3,"w":7.0,"h":9.0,"r":-20},
 const WORK_SHIFTS=["AM","PM","Double","Long Shift"],ASSIGN_COLORS=["#FACC15","#22D3EE","#A78BFA","#FB923C","#F472B6","#A3E635","#2DD4BF","#60A5FA","#E879F9","#FDE047"];
 const MANAGER_PASSWORD="Laopho$1988",RESET_PASSWORD="888",BAR_AUTO_SKIP_KIND="barAuto";
 const MANAGER_PASSWORD_STORAGE_KEY="fzqb_manager_password_v207r3";
-try{localStorage.removeItem(MANAGER_PASSWORD_STORAGE_KEY)}catch(e){}
 
-function currentManagerPassword(){return MANAGER_PASSWORD}
+
+function currentManagerPassword(){return localStorage.getItem(MANAGER_PASSWORD_STORAGE_KEY)||MANAGER_PASSWORD}
 function managerPasswordMatches(value){return String(value||'')===currentManagerPassword()}
 
 const FLOOR_FORMATIONS={
@@ -4252,7 +4252,8 @@ async function refreshAutomaticWorkDate(){
 function shift(){return $('shift').value} function role(){return $('role').value} function selectedDate(){return $('workDate').value||dateKey()} function boardKey(){return selectedDate()+"_"+shift()}
 function toast(t){const x=$('toast');x.textContent=t;x.classList.add('show');clearTimeout(x._t);x._t=setTimeout(()=>x.classList.remove('show'),1700)}
 function openM(id){$ (id).classList.add('show')} function closeM(id){$ (id).classList.remove('show')}
-async function readJ(url){const r=await fetch(url);if(!r.ok)throw 0;return await r.json()}
+async function hostTimedFetch(url,options={}){const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{return await fetch(url,{...options,signal:ctrl.signal})}finally{clearTimeout(timer)}}
+async function readJ(url){const receipt=hostReceiptRead(url);if(receipt.found)return receipt.value;const r=await hostTimedFetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Connection failed ('+r.status+')');return await r.json()}
 async function readJFresh(url){
   const r=await fetch(url,{cache:'no-store',headers:{'Cache-Control':'no-cache','Pragma':'no-cache'}});
   if(!r.ok)throw new Error('Live Firebase verification read failed.');
@@ -4288,10 +4289,9 @@ async function verifyBoardWriteSafety(url,data){
 async function writeJ(url,data,method="PUT"){
   const boardKeys=boardKeysTouchedByWrite(url,data);
   await verifyBoardWriteSafety(url,data);
-  const r=await fetch(url,{method,headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});if(!r.ok)throw 0;
-  for(const key of boardKeys){
-    try{const confirmed=await readJ(BOARD_ROOT+'/'+key+'.json');if(confirmed!==null){cacheBoardSnapshot(key,confirmed,'VERIFIED WRITE');boardNewKey='';clearBoardRecovery(key)}}catch(e){}
-  }
+  data=hostFilterReceipts(url,data);if(hostReceiptOnly(url,data))return;
+  const r=await hostTimedFetch(url,{method,headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});if(!r.ok)throw 0;
+
 }
 const TABLE_LOCK_LEASE_MS=120000;
 const CLEAR_SHIFT_LOCK_WAIT_MS=12000;
@@ -6527,307 +6527,180 @@ async function confirmSeatGuard(server){const reasons=await seatGuardReasons(ser
 async function logRecentSeatGuard(server,table,people,entryId,at){try{await writeJ(RECENT_SEAT_ROOT+'/'+boardKey()+'/'+String(entryId||operationId('guard'))+'.json',{server:canonicalServerName(server),table:String(table||''),people:parseInt(people||0,10)||0,at:Number(at)||Date.now(),deviceId:deviceId(),updatedBy:role()})}catch(e){}}
 
 async function applyFloorSeat(autoMode=false){
-  if(floorAutoSaving)return;
+  if(floorAutoSaving)return false;
+  if(clearShiftInFlight||hostUndoBusy)return toast('GLOBAL CLEAR IS RUNNING • please wait'),false;
+  if(typeof quickInitialDataReady==='function'&&!quickInitialDataReady())return toast('Board data is still loading • please wait'),false;
   floorAutoSaving=true;
-
-  const table=selectedTable,server=canonicalServerName(floorSelectedServer),people=floorSelectedPeople;
-  floorSelectedServer=server;
-  if(!table||!people){
-    floorAutoSaving=false;
-    return toast('Choose number of people');
+  /* Invalidate snapshots started before the operation, including an in-flight poll. */
+  tableLoadSeq++;boardLoadSeq++;
+  let lease=null,releasePrepared=null,locks=null,operationKey='',table='',pending=null;
+  let verified=null,writeError=null;
+  const acceptedGuardEvents=new Set();
+  function fail(message){throw new Error(message)}
+  function guardReasons(tables,recent,server){
+    const cutoff=Date.now()-DOUBLE_SEAT_GUARD_MS,key=doubleSeatGuardKey(server),events=[],seen=new Set();
+    function add(value,id){if(!value)return;const at=Number(value.at||value.updatedAt||0),srv=canonicalServerName(value.server);if(at<cutoff||doubleSeatGuardKey(srv)!==key)return;const event={at,server:srv,table:String(id||value.table||''),people:parseInt(value.people||value.partyPeople||0,10)||0};event.signature=[event.at,event.table,event.people].join('|');if(!seen.has(event.signature)){seen.add(event.signature);events.push(event)}}
+    Object.entries(tables||{}).forEach(([id,value])=>{if(value&&!value.secondaryOf&&operationalTableStatus(value)==='seated')add(value,id)});
+    Object.values(recent||{}).forEach(value=>add(value,''));events.sort((a,b)=>b.at-a.at);
+    const reasons=[];
+    const last=events.find(event=>!acceptedGuardEvents.has('double|'+event.signature));
+    if(isDoubleSeatGuardServer(server)&&last){const mins=Math.max(0,Math.ceil((Date.now()-last.at)/60000));reasons.push({type:'double',text:canonicalServerName(server)+' was seated recently'+(last.table?' at Table '+last.table:'')+' ('+(mins<1?'less than 1':mins)+' minute'+(mins===1?'':'s')+' ago). This seating would create a DOUBLE SEAT within 5 minutes.'})}
+    const large=events.find(event=>event.people>5&&!acceptedGuardEvents.has('large|'+event.signature));
+    if(large){const mins=Math.max(0,Math.ceil((Date.now()-large.at)/60000));reasons.push({type:'large',text:canonicalServerName(server)+' recently received a LARGE PARTY of '+large.people+(large.table?' at Table '+large.table:'')+' ('+(mins<1?'less than 1':mins)+' minute'+(mins===1?'':'s')+' ago).'})}
+    return {reasons,events};
   }
-  if(!peopleWithinTableCapacity(table,people)){floorAutoSaving=false;return toast(table+' capacity is '+tableGuestCapacity(table)+' people')}
-  if(!server){
-    floorAutoSaving=false;
-    return toast('No server assigned. Set FORMATION / TABLE ASSIGNMENT first');
+  async function readState(withFormation=false){
+    const reads=[FZFastSeat.readJson(BOARD_ROOT+'/'+operationKey+'.json'),FZFastSeat.readJson(TABLE_ROOT+'.json'),FZFastSeat.readJson(SKIP_LOCK_ROOT+'/'+operationKey+'.json')];
+    if(withFormation)reads.push(FZFastSeat.readJson(FLOOR_FORMATION_ROOT+'/'+operationKey+'.json'),FZFastSeat.readJson(FLOOR_ASSIGN_ROOT+'/'+operationKey+'.json'),FZFastSeat.readJson(RECENT_SEAT_ROOT+'/'+operationKey+'.json'));
+    const values=await Promise.all(reads);
+    return {board:strictBoardFromRemote(operationKey,values[0],'ATOMIC SEAT'),tables:values[1]||{},skipLocks:values[2]||{},formation:values[3]||{},assignments:values[4]||{},recent:values[5]||{}};
   }
-  const flexDuty=staffDutyState(server);
-  if(flexDuty.state==='BREAK'||flexDuty.state==='CUT'){
-    floorAutoSaving=false;
-    return toast(unavailableServerMessage(server));
-  }
-  if(operationalTableStatus(tableState[table]||{})==="seated"){
-    floorAutoSaving=false;
-    return toast('Table is already seated. Use MOVE / CHANGE or mark READY first.');
-  }
-  if(operationalTableStatus(tableState[table]||{})==="cleaning"){
-    floorAutoSaving=false;
-    return toast('Table is CLEANING. Mark READY before seating.');
-  }
-
-  const peopleNum=parseInt(people,10);
-  let secondaryTables=[];
-
-  /*
-    HOST BOARD and FLOOR MAP are intentionally different:
-    Host Board always counts ceil(People / 4).
-    Physical secondary tables are a Host choice for parties of 6+.
-  */
-  if(peopleNum>=6){
-    if(!floorSecondaryMode){
-      floorAutoSaving=false;
-      return toast("Choose Secondary Table: YES or NO");
+  function sameRef(ref,record){return !!ref&&String(ref.boardKey||'')===operationKey&&Number(ref.row)===record.row&&Number(ref.turn)===record.turn&&String(ref.entryId||'')===record.entryId}
+  function verifyState(state,record){
+    if(!record||!Number.isInteger(record.row)||!Number.isInteger(record.turn))return null;
+    const rows=state.board.rows||[],row=rows[record.row],need=Math.ceil(Number(record.people)/4);
+    if(!row||String(row.server||'')!==record.server)return null;
+    for(let k=0;k<need;k++){
+      const cell=(row.turns||[])[record.turn+k];
+      if(!cell||cell.skipped||cell.master!==record.turn||String(cell.entryId||'')!==record.entryId||String(cell.people||'')!==String(record.people)||String(cell.table||'')!==(k===0?record.table:''))return null;
     }
-    if(floorSecondaryMode==="yes"){
-      secondaryTables=[...floorSecondarySelected];
-      if(!secondaryTables.length){
-        floorAutoSaving=false;
-        return toast("Choose at least one secondary table");
-      }
+    let matchingMasters=0;
+    rows.forEach(r=>(r.turns||[]).forEach((cell,index)=>{if(cell&&cell.entryId===record.entryId&&cell.master===index&&!cell.skipped&&cell.table)matchingMasters++}));
+    if(matchingMasters!==1)return null;
+    const primary=state.tables[record.table];
+    if(!primary||operationalTableStatus(primary)!=='seated'||primary.secondaryOf||String(primary.partyId||'')!==record.entryId||String(primary.server||'')!==record.server||String(primary.people||'')!==String(record.people)||!sameRef(primary.boardRef,record))return null;
+    const expected=[...record.secondaryTables].sort(),actual=Array.isArray(primary.secondaryTables)?[...primary.secondaryTables].sort():[];
+    if(JSON.stringify(expected)!==JSON.stringify(actual))return null;
+    for(const id of record.secondaryTables){const secondary=state.tables[id];if(!secondary||operationalTableStatus(secondary)!=='seated'||String(secondary.partyId||'')!==record.entryId||String(secondary.server||'')!==record.server||String(secondary.secondaryOf||'')!==record.table||String(secondary.partyPeople||'')!==String(record.people)||String(secondary.people||'')!==''||!sameRef(secondary.primaryBoardRef,record))return null}
+    for(const turn of record.barTurns||[]){
+      const cell=(row.turns||[])[turn],lock=state.skipLocks[skipLockId(record.row,turn)];
+      if(!cell||!cell.skipped||cell.master!==turn||cell.skipType!==BAR_AUTO_SKIP_KIND||cell.entryId!==record.entryId||!lock||lock.active!==true||Number(lock.row)!==record.row||Number(lock.turn)!==turn||String(lock.server||'')!==record.server||String(lock.skipType||'')!==BAR_AUTO_SKIP_KIND||String(lock.entryId||'')!==record.entryId)return null;
     }
+    return state;
   }
-
-  for(const secTable of secondaryTables){
-    if(operationalTableStatus(tableState[secTable]||{})!=="ready"){
-      floorAutoSaving=false;
-      return toast(secTable+" is no longer READY");
-    }
+  function hasEntry(state,record){
+    return (state.board.rows||[]).some(row=>(row.turns||[]).some(cell=>cell&&String(cell.entryId||'')===record.entryId))||Object.values(state.tables||{}).some(value=>value&&(String(value.partyId||'')===record.entryId||String((value.boardRef||value.primaryBoardRef||{}).entryId||'')===record.entryId))||Object.values(state.skipLocks||{}).some(value=>value&&String(value.entryId||'')===record.entryId);
   }
-
-  if(!(await confirmSeatGuard(server))){
-    floorAutoSaving=false;
-    toast('Seating cancelled • no changes made');
-    return;
-  }
-
-  const operationKey=boardKey();
-  if(loadedBoardKey!==operationKey){
-    await fetchBoard(operationKey);
-    if(loadedBoardKey!==operationKey){
-      floorAutoSaving=false;
-      return toast("Could not load "+operationKey+" Host Board");
-    }
-  }
-  const path=BOARD_ROOT+"/"+operationKey+".json";
-  const n=parseInt(people,10),need=Math.ceil(n/4);
-  const seatEntryId=operationId('seat');
-  let seatLocks=[],seatBoardSaved=null;
-
-  async function prepareLatestAndAppend(){
-    /* Always use the newest Host Board from Firebase before placing the table. */
-    const latest=await readBoardStrict(operationKey,'SEAT PREPARE');
-    const skipLocks=await readSkipLocks(operationKey);applySkipLocksToBoard(latest,skipLocks);
-    if(operationKey!==boardKey())throw new Error("Shift changed. Please send again.");
-    board=latest;
-    boardBaseline=cloneBoard(latest);
-    loadedBoardKey=operationKey;
-
-    /*
-      NEVER remove an older occurrence of this table.
-      Host Board is a shift history, so the same physical table may appear
-      multiple times as new guests are seated during the night.
-    */
-
-    /* Selected server may not be on the board yet; use first empty row. */
-    const targetRi=ensureBoardRowForServer(server,false);
-    if(targetRi===-2)throw new Error(unavailableServerMessage(server));
-    if(targetRi<0)throw new Error('Host Board is full. No empty server row available.');
-
-    /*
-      IMPORTANT: append after the LAST occupied turn for this server.
-      Do not fill an earlier gap.
-    */
-    const start=findAppendSpan(targetRi,need);
-    if(start<0)throw new Error('No room after the last turn for '+server+'.');
-
-    writeEntryAt(targetRi,start,table,people);
-    return {targetRi,start};
-  }
-
-  function verifySavedBoard(savedBoard,expected,minTurn=0){
-    if(!savedBoard||!expected)return null;
-    /* First verify the exact turn we just wrote. */
-    const row=savedBoard.rows[expected.targetRi];
-    if(row&&row.server===server){
-      const t=(row.turns||[])[expected.start];
-      if(t&&t.master===expected.start&&t.table===table&&String(t.people||'')===String(people)&&(!t.entryId||t.entryId===seatEntryId)){
-        return {ri:expected.targetRi,ti:expected.start};
-      }
-    }
-    /* A concurrent device may have shifted the append position. Accept only a NEW matching entry. */
-    for(let ri=0;ri<savedBoard.rows.length;ri++){
-      const r=savedBoard.rows[ri];
-      if(String(r.server||'')!==String(server||''))continue;
-      for(let ti=Math.max(0,minTurn);ti<(r.turns||[]).length;ti++){
-        const t=r.turns[ti];
-        if(t&&t.master===ti&&!t.skipped&&t.table===table&&String(t.people||'')===String(people)&&(!t.entryId||t.entryId===seatEntryId)){
-          return {ri,ti};
-        }
-      }
-    }
-    return null;
-  }
-
-  async function saveSeatDirectVerified(){
-    /*
-      V104: Floor SEND bypasses delayed/merge saveBoard(); sparse Firebase row/turn objects are normalized correctly.
-      It writes only the exact server metadata + turn cells, then reads back and verifies.
-      This prevents SKIP-lock sync or another local delayed save from making SEND appear to fail.
-    */
-    let firstAppendTurn=null;
-    let confirmed=null,found=null,placement=null;
-
-    for(let attempt=0;attempt<4&&!found;attempt++){
-      const [rawLatestBoard,rawLatestFormation,rawLatestAssignments,locks]=await Promise.all([
-        readJ(path),readJ(FLOOR_FORMATION_ROOT+'/'+operationKey+'.json'),readJ(FLOOR_ASSIGN_ROOT+'/'+operationKey+'.json'),readSkipLocks(operationKey)
-      ]);
-      let latest=strictBoardFromRemote(operationKey,rawLatestBoard,'SEAT APPEND');
-      applySkipLocksToBoard(latest,locks);
-      if(operationKey!==boardKey())throw new Error("Shift changed. Please send again.");
-
-      const liveFormation=normalizeFloorFormation(rawLatestFormation||{});
-      const liveAssignments=normalizeFloorAssignments(rawLatestAssignments||{});
-      let liveSection='';
-      const liveDef=effectiveFormation(liveFormation.formation);
-      if(liveDef){
-        for(const [sec,ids] of Object.entries(liveDef)){if(Array.isArray(ids)&&ids.includes(table)){liveSection=sec;break}}
-      }
-      const directAssignment=(liveAssignments.tables||{})[table];
-      const referenceServer=String((directAssignment&&directAssignment.server)||(liveSection&&liveFormation.sectionServers[liveSection])||'');
-      /* FLEXIBLE FLOOR: Formation / assignment is a reference only. Host may override server per seating. */
-
-      board=latest;boardBaseline=cloneBoard(latest);loadedBoardKey=operationKey;
-
-      let targetRi=latest.rows.findIndex(r=>String(r.server||'')===String(server||''));
-      let isNewServerRow=false;
-      if(targetRi<0){
-        targetRi=latest.rows.findIndex(r=>!String(r.server||'').trim());
-        if(targetRi<0)throw new Error('Host Board is full. No empty server row available.');
-        isNewServerRow=true;
-      }
-      const rowBefore=latest.rows[targetRi]||{};
-      if(!isNewServerRow&&rowBefore.active===false)throw new Error(unavailableServerMessage(server,latest));
-      const autoSection=liveSection;
-      const isPmBar=shift()==='PM'&&isBarSection(String(rowBefore.section||autoSection||''));
-      const barActualBefore=rotationPartyCount(rowBefore);
-      const barActualAfter=barActualBefore+1;
-      const barEarnedAfter=Math.floor(barActualAfter/2);
-      const barStoredBefore=rotationBarAutoSkipCount(rowBefore);
-      const dueBarSkips=isPmBar&&barActualAfter%2===0
-        ?Math.max(0,barEarnedAfter-barStoredBefore)
-        :0;
-
-      /* If an earlier attempt already made it to Firebase, accept it instead of duplicating it. */
-      if(firstAppendTurn!==null){
-        const already=verifySavedBoard(latest,{targetRi,start:firstAppendTurn},firstAppendTurn);
-        if(already){confirmed=latest;found=already;break}
-      }
-
-      const start=findAppendSpan(targetRi,need+dueBarSkips);
-      if(start<0)throw new Error('No room after the last turn for '+server+'.');
-      if(firstAppendTurn===null)firstAppendTurn=start;
-      placement={targetRi,start};
-
-      const updates={};
-      /* V104 keeps the V103 new-row metadata fix: persist row metadata too.
-         V102 changed the server name only in local memory, so Firebase received the turn cells
-         but not row.server. Read-back verification then failed only for that server. */
-      if(isNewServerRow || String(rowBefore.server||'')!==String(server||'')){
-        updates['rows/'+targetRi+'/server']=server;
-      }
-      if(!String(rowBefore.workShift||'').trim()){
-        updates['rows/'+targetRi+'/workShift']=shift();
-      }
-      if(autoSection && !String(rowBefore.section||'').trim()){
-        updates['rows/'+targetRi+'/section']=autoSection;
-      }
-      if(isNewServerRow){
-        updates['rows/'+targetRi+'/active']=true;
-        updates['rows/'+targetRi+'/cutAt']=0;
-        updates['rows/'+targetRi+'/cutReason']='';
-      }
-      for(let k=0;k<need;k++){
-        updates['rows/'+targetRi+'/turns/'+(start+k)]={table:k===0?table:'',people:String(n),master:start,skipped:false,skipType:'',entryId:seatEntryId};
-      }
-      for(let k=0;k<dueBarSkips;k++){
-        const skipTurn=start+need+k;
-        updates['rows/'+targetRi+'/turns/'+skipTurn]=skipCell(skipTurn,BAR_AUTO_SKIP_KIND,seatEntryId);
-      }
-
-      await writeJ(BOARD_ROOT+'/'+operationKey+'.json',updates,'PATCH');
-      await new Promise(r=>setTimeout(r,80+attempt*90));
-      confirmed=await readBoardStrict(operationKey,'SEAT READ-BACK');
-      const locks2=await readSkipLocks(operationKey);applySkipLocksToBoard(confirmed,locks2);
-      found=verifySavedBoard(confirmed,placement,firstAppendTurn);
-    }
-
-    if(!found)throw new Error('Host Board SEND failed to verify after 4 attempts. Please check connection.');
-    const foundRow=confirmed.rows[found.ri];
-    for(let ti=0;ti<(foundRow.turns||[]).length;ti++){
-      const t=foundRow.turns[ti];
-      if(t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND&&t.entryId===seatEntryId){
-        try{await setSkipLock(operationKey,found.ri,ti,server,true,BAR_AUTO_SKIP_KIND,seatEntryId)}catch(_){}
-      }
-    }
-    return {confirmed,found};
-  }
-
+  async function releaseSeat(){if(lease){const current=lease;lease=null;await locks.release(current,releasePrepared);releasePrepared=null}}
   try{
-    if(!(await flushScheduledBoardSave()))throw new Error('Pending Host Board edit was not saved. Seating cancelled.');
-    seatLocks=await claimTableLocksWithRetry([table,...secondaryTables,'BOARD '+operationKey+' CLEAR','BOARD '+operationKey+' '+server],seatEntryId);
-    if(!seatLocks.length)throw new Error('This table/server stayed busy after waiting. Tap once again.');
-    const latestTables=(await readJ(TABLE_ROOT+'.json'))||{};
-    if(operationalTableStatus(latestTables[table]||{})!=='ready')throw new Error(table+' is no longer READY.');
-    for(const secTable of secondaryTables){if(operationalTableStatus(latestTables[secTable]||{})!=='ready')throw new Error(secTable+' is no longer READY.');}
-    tableState=latestTables;
-    const saved=await saveSeatDirectVerified();
-    seatBoardSaved=saved;
-    const confirmed=saved.confirmed,found=saved.found;
-
-    if(operationKey!==boardKey())throw new Error("Shift changed. Table was saved to "+operationKey+".");
-    board=confirmed;
-    boardBaseline=cloneBoard(confirmed);
-    loadedBoardKey=operationKey;
-    renderSheet();
-    sync(true);
-
-    /* Primary goes to Host Board. Secondary tables are Floor Map only. */
-    const id=table,ts=Date.now(),floorUpdates={};
-    const ref=boardRefFor(found.ri,found.ti,seatEntryId,operationKey);
-    const payload={...(tableState[id]||{}),status:'seated',available:false,updatedBy:role(),updatedAt:ts,server,people:String(people),secondaryTables,partyId:seatEntryId,boardRef:ref};
-    tableState[id]=payload;floorUpdates[id]=payload;
-    secondaryTables.forEach(secTable=>{
-      const sp={...(tableState[secTable]||{}),status:'seated',available:false,updatedBy:role(),updatedAt:ts,server,people:"",partyPeople:String(people),secondaryOf:id,partyId:seatEntryId,primaryBoardRef:ref};
-      tableState[secTable]=sp;floorUpdates[secTable]=sp;
-    });
-    renderTables();
-    let floorVerified=false;
-    for(let attempt=0;attempt<4&&!floorVerified;attempt++){
-      await writeJ(TABLE_ROOT+'.json',floorUpdates,"PATCH");
-      const check=(await readJ(TABLE_ROOT+'/'+id+'.json'))||{};
-      floorVerified=check.status==='seated'&&String(check.partyId||'')===seatEntryId&&String(check.server||'')===server;
+    if(typeof FZFastSeat==='undefined')fail('Seating connection is not ready. Reload this app.');
+    table=String(selectedTable||'');operationKey=boardKey();
+    let server=canonicalServerName(floorSelectedServer),n=validPeopleCount(floorSelectedPeople),secondaryTables=[];
+    floorSelectedServer=server;
+    if(!table||!n)fail('Choose number of people');
+    if(!peopleWithinTableCapacity(table,n))fail(table+' capacity is '+tableGuestCapacity(table)+' people');
+    if(!server)fail('No server assigned. Set FORMATION / TABLE ASSIGNMENT first');
+    pending=FZFastSeat.getPending(operationKey,table);
+    if(pending){server=pending.server;n=Number(pending.people);secondaryTables=[...(pending.secondaryTables||[])];}
+    else{
+      const duty=staffDutyState(server);if(duty.state==='BREAK'||duty.state==='CUT')fail(unavailableServerMessage(server));
+      const status=operationalTableStatus(tableState[table]||{});
+      if(status==='seated')fail('Table is already seated. Use MOVE / CHANGE or mark READY first.');
+      if(status==='cleaning')fail('Table is CLEANING. Mark READY before seating.');
+      /* Board turns count ceil(people/4); physical secondary tables remain a Host choice for 6+. */
+      if(n>=6){if(!floorSecondaryMode)fail('Choose Secondary Table: YES or NO');if(floorSecondaryMode==='yes'){secondaryTables=[...floorSecondarySelected];if(!secondaryTables.length)fail('Choose at least one secondary table')}}
     }
-    if(!floorVerified)throw new Error('Floor Map seating could not be verified.');
-    await logRecentSeatGuard(server,id,people,seatEntryId,ts);
-    try{await writeJ(ANNOUNCE_ROOT+'/ann_'+ts+'_'+Math.random().toString(36).slice(2,6)+'.json',{table:id,status:'seated',from:role(),sourceId:deviceId(),createdAt:ts})}catch(e){}
-
-    floorAutoSaving=false;
-    closeM('statusModal');
-    voice('seated',id);
-    const barSkipNow=(confirmed.rows[found.ri].turns||[]).some(t=>t&&t.skipped&&t.skipType===BAR_AUTO_SKIP_KIND&&t.entryId===seatEntryId);
-    toast(table+' → '+server+' • Turn '+(found.ti+1)+(barSkipNow?' • BAR SKIP AUTO':'')+' • SAVED');nextSuggestedServer='';
-  }catch(e){
-    floorAutoSaving=false;
-    const msg=(e&&e.message)?e.message:'Host Board save failed';
-    /* If Board succeeded but Floor did not, remove only this exact entryId.
-       Real table/server locks remain held until this rollback completes. */
-    if(seatBoardSaved){
-      try{
-        const livePrimary=(await readJ(TABLE_ROOT+'/'+table+'.json'))||{};
-        const floorOwnsEntry=operationalTableStatus(livePrimary)==='seated'&&String(livePrimary.partyId||'')===seatEntryId;
-        if(!floorOwnsEntry){
-          const liveBoard=await readBoardStrict(operationKey,'SEAT ROLLBACK'),rootPatch={};
-          (liveBoard.rows||[]).forEach((row,ri)=>(row.turns||[]).forEach((turn,ti)=>{
-            if(turn&&String(turn.entryId||'')===seatEntryId){rootPatch['rotationBoardV31/'+operationKey+'/rows/'+ri+'/turns/'+ti]=null;rootPatch['rotationSkipLocksV101/'+operationKey+'/'+skipLockId(ri,ti)]=null}
-          }));
-          if(Object.keys(rootPatch).length)await writeJ(ROOT+'.json',rootPatch,'PATCH');
-        }
-      }catch(rollbackError){toast('SEAT SAFETY ALERT • CHECK '+table+' HISTORY')}
+    secondaryTables=[...new Set(secondaryTables.map(String))];
+    if(secondaryTables.includes(table))fail('Primary table cannot also be a secondary table.');
+    const entryId=pending?pending.entryId:operationId('seat');
+    locks=FZFastSeat.createLocks({root:TABLE_LOCK_ROOT,key:tableLockKey,device:deviceId,session:RUNTIME_LOCK_SESSION_ID,held:runtimeHeldLocks,markClaiming:markRuntimeLockClaiming,unmarkClaiming:unmarkRuntimeLockClaiming,isClaiming:isRuntimeLockClaiming,leaseMs:TABLE_LOCK_LEASE_MS,wait:clearShiftLockDelay,limit:LOCK_PARALLEL_LIMIT});
+    if(!(await flushScheduledBoardSave()))fail('Pending Host Board edit was not saved. Seating cancelled.');
+    const lockNames=[table,...secondaryTables,'BOARD '+operationKey+' CLEAR','BOARD '+operationKey+' '+server];
+    let latest=null;
+    for(let attempt=0;attempt<5;attempt++){
+      lease=await locks.claim(lockNames,entryId);
+      if(!lease)fail('This table/server stayed busy after waiting. Tap once again.');
+      latest=await readState(true);
+      if(operationKey!==boardKey()||clearShiftInFlight)fail('Shift changed. Please send again.');
+      if(pending){
+        verified=verifyState(latest,pending);if(verified)break;
+        if(hasEntry(latest,pending))fail('SAVE STATUS NEEDS REVIEW • check '+table+' before another submission.');
+        FZFastSeat.dropPending(operationKey,table);pending=null;
+      }
+      if(operationalTableStatus(latest.tables[table]||{})!=='ready')fail(table+' is no longer READY.');
+      for(const id of secondaryTables)if(operationalTableStatus(latest.tables[id]||{})!=='ready')fail(id+' is no longer READY.');
+      const guard=guardReasons(latest.tables,latest.recent,server);
+      if(!guard.reasons.length)break;
+      await releaseSeat();
+      if(!(await showSeatGuardDialog(server,guard.reasons)))fail('Seating cancelled • no changes made');
+      guard.events.forEach(event=>{if(isDoubleSeatGuardServer(server))acceptedGuardEvents.add('double|'+event.signature);if(event.people>5)acceptedGuardEvents.add('large|'+event.signature)});
+      latest=null;
     }
-    toast(msg);
-    try{await fetchBoard()}catch(_){}
-  }finally{for(const lock of seatLocks)await releaseTableLock(lock,seatEntryId);floorAutoSaving=false}
+    if(!verified){
+      if(!latest||!lease)fail('Seating changed while confirming. Please check the table and try again.');
+      locks.assertValid(lease);
+      applySkipLocksToBoard(latest.board,latest.skipLocks);
+      const formation=normalizeFloorFormation(latest.formation);
+      let section='';const definition=effectiveFormation(formation.formation);
+      if(definition)for(const [name,ids]of Object.entries(definition)){if(Array.isArray(ids)&&ids.includes(table)){section=name;break}}
+      /* Formation / assignment is a reference; FLEXIBLE FLOOR permits a Host override. */
+      let ri=latest.board.rows.findIndex(row=>String(row.server||'')===server),newRow=false;
+      if(ri<0){ri=latest.board.rows.findIndex(row=>!String(row.server||'').trim());newRow=true}
+      if(ri<0)fail('Host Board is full. No empty server row available.');
+      const row=latest.board.rows[ri];if(!newRow&&row.active===false)fail(unavailableServerMessage(server,latest.board));
+      const need=Math.ceil(n/4),after=rotationPartyCount(row)+1;
+      const due=shift()==='PM'&&isBarSection(String(row.section||section||''))&&after%2===0?Math.max(0,Math.floor(after/2)-rotationBarAutoSkipCount(row)):0;
+      /* Use the existing append helper on the authoritative snapshot; never fill an earlier gap. */
+      board=latest.board;boardBaseline=cloneBoard(latest.board);loadedBoardKey=operationKey;
+      const start=findAppendSpan(ri,need+due);if(start<0)fail('No room after the last turn for '+server+'.');
+      const ts=Date.now(),base='rotationBoardV31/'+operationKey+'/rows/'+ri+'/',updates={},barTurns=[];
+      updates['rotationBoardV31/'+operationKey+'/cleared']=false;
+      updates['rotationBoardV31/'+operationKey+'/clearShift']=false;
+      updates['rotationBoardV31/'+operationKey+'/updatedAt']=ts;
+      if(newRow||String(row.server||'')!==server)updates[base+'server']=server;
+      if(!String(row.workShift||'').trim())updates[base+'workShift']=shift();
+      if(section&&!String(row.section||'').trim())updates[base+'section']=section;
+      if(newRow){updates[base+'active']=true;updates[base+'cutAt']=0;updates[base+'cutReason']=''}
+      for(let k=0;k<need;k++)updates[base+'turns/'+(start+k)]={table:k===0?table:'',people:String(n),master:start,skipped:false,skipType:'',entryId};
+      for(let k=0;k<due;k++){
+        const turn=start+need+k;barTurns.push(turn);updates[base+'turns/'+turn]=skipCell(turn,BAR_AUTO_SKIP_KIND,entryId);
+        updates['rotationSkipLocksV101/'+operationKey+'/'+skipLockId(ri,turn)]={active:true,row:ri,turn,server,skipType:BAR_AUTO_SKIP_KIND,entryId,updatedAt:ts,updatedBy:role()};
+      }
+      const ref=boardRefFor(ri,start,entryId,operationKey);
+      updates['tables/'+table]={...(latest.tables[table]||{}),status:'seated',available:false,updatedBy:role(),updatedAt:ts,server,people:String(n),partyPeople:'',secondaryOf:'',secondaryTables,partyId:entryId,boardRef:ref,primaryBoardRef:null};
+      secondaryTables.forEach(id=>{updates['tables/'+id]={...(latest.tables[id]||{}),status:'seated',available:false,updatedBy:role(),updatedAt:ts,server,people:'',partyPeople:String(n),secondaryOf:table,secondaryTables:[],partyId:entryId,boardRef:null,primaryBoardRef:ref}});
+      updates['recentSeatGuardV1/'+operationKey+'/'+entryId]={server,table,people:n,at:ts,deviceId:deviceId(),updatedBy:role()};
+      pending={boardKey:operationKey,table,server,people:String(n),secondaryTables,entryId,row:ri,turn:start,barTurns,at:ts};
+      FZFastSeat.putPending(pending);locks.assertValid(lease);
+      try{await FZFastSeat.writeJson(ROOT+'.json',updates)}catch(error){writeError=error}
+      /* A lost response may follow a successful atomic commit. Read the exact
+         entry back before deciding; never replay or roll back a committed party. */
+      let observed=null,readError=null;
+      for(let attempt=0;attempt<2&&!observed;attempt++){
+        try{const result=await Promise.all([readState(),locks.prepareRelease(lease).catch(()=>null)]);observed=result[0];releasePrepared=result[1]}catch(error){readError=error}
+      }
+      if(!observed)fail('SAVE STATUS UNCERTAIN • check '+table+' before retrying. '+(readError&&readError.message||''));
+      verified=verifyState(observed,pending);
+      if(!verified){
+        if(!hasEntry(observed,pending)){FZFastSeat.dropPending(operationKey,table);pending=null;throw writeError||new Error('Seating did not save. Please check connection and try again.')}
+        fail('SAVE STATUS NEEDS REVIEW • check '+table+' before another submission.');
+      }
+    }else releasePrepared=await locks.prepareRelease(lease).catch(()=>null);
+    const record=pending;
+    if(!record)fail('Seating confirmation is missing. Check '+table+'.');
+    FZFastSeat.dropPending(operationKey,table);
+    await releaseSeat();
+    /* Only verified database state is shown as SAVED. */
+    if(operationKey===boardKey()){
+      tableLoadSeq++;boardLoadSeq++;
+      board=verified.board;boardBaseline=cloneBoard(board);loadedBoardKey=operationKey;tableState=verified.tables;
+      if(typeof cacheBoardSnapshot==='function')cacheBoardSnapshot(operationKey,board,'ATOMIC SEAT VERIFIED');
+      if(typeof clearBoardRecovery==='function')clearBoardRecovery(operationKey);
+      boardNewKey='';renderSheet();renderTables();sync(true);
+    }
+    closeM('statusModal');voice('seated',table);
+    toast(table+' → '+record.server+' • Turn '+(record.turn+1)+(record.barTurns.length?' • BAR SKIP AUTO':'')+' • SAVED');nextSuggestedServer='';
+    /* Announcements are independent of the atomic Board/Floor/guard commit. */
+    void FZFastSeat.writeJson(ANNOUNCE_ROOT+'/ann_'+record.at+'_'+entryId.slice(-6)+'.json',{table,status:'seated',from:role(),sourceId:deviceId(),createdAt:record.at}).catch(()=>{});
+    return true;
+  }catch(error){
+    /* Keep unresolved entryIds across retries/reloads. A subsequent submit first
+       reconciles that exact party while holding the same locks. */
+    toast(error&&error.message||'Host Board save failed');
+    return false;
+  }finally{try{await releaseSeat()}finally{floorAutoSaving=false}}
 }
+
 function selectTurnServer(name){
   $('turnServer').value=name;buildServerButtons('turnServerGrid',name,selectTurnServer);
 }
@@ -7352,39 +7225,36 @@ async function writeClearShiftPatch(rootPatch){
   if(!response.ok)throw new Error('CLEAR SHIFT ATOMIC SAVE FAILED');
 }
 async function clearShiftBoardVerified(target){
- if(!quickIsManager()){toast('Clear All • Manager only');return false}
- if(clearShiftInFlight){toast('GLOBAL CLEAR IS ALREADY RUNNING');return false}
- if(!confirm('CLEAR ALL SHIFT?\n\nThis resets the current shift Board and Floor completely.\n\nToday\'s Team, employees, reservations, Table Map and user accounts will be kept.'))return false;
- clearShiftInFlight=true;boardLoadSeq++;formationLoadSeq++;floorAssignmentLoadSeq++;tableLoadSeq++;
- setClearShiftProgress(true,'CLEARING CURRENT SHIFT…','BOARD + FLOOR');
+ if(!quickIsManager())return toast('Clear All • Manager only');
+ if(hostOperationBusy())return toast('An operation is saving. Please wait.');
+ if(!confirm('CLEAR ALL BOARD + FLOOR?\n\nDeletes all shifts, Floor parties and Undo records. Settings and reservations stay.'))return false;
+ clearShiftInFlight=true;boardLoadSeq++;tableLoadSeq++;setClearShiftProgress(true,'CLEARING BOARD + FLOOR…');
  try{
   await discardScheduledBoardSaveForClear();
-  const key=boardKey(),ts=Date.now();
-  /* Keep a real online document. Missing Board means RECOVERY, which is wrong after Clear All. */
-  const emptyOnlineBoard={rows:[],formation:'',cleared:true,clearShift:true,clearedAt:ts,updatedAt:ts,date:$('workDate')&&$('workDate').value||dateKey(),shift:(($('shiftLabel')&&$('shiftLabel').textContent||'AM').trim().toUpperCase()==='PM'?'PM':'AM')};
-  await writeJ(BOARD_ROOT+'/'+key+'.json',emptyOnlineBoard,'PUT');
-    try{await writeJ(FLOOR_HISTORY_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
-  try{await writeJ(BOARD_BACKUP_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
-  try{await writeJ(SKIP_LOCK_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
-  try{await writeJ(CUT_UNDO_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
-  try{await writeJ(RECENT_SEAT_ROOT+'/'+key+'.json',null,'PUT')}catch(_){}
-  await writeJ(FLOOR_ASSIGN_ROOT+'.json',{tables:{}},'PUT');
-  await writeJ(FLOOR_FORMATION_ROOT+'.json',{formation:'',sectionMode:'',sectionServers:{},sectionBeepers:{},sectionAutoSkips:{}},'PUT');
-  const live=(await readJ(TABLE_ROOT+'.json'))||{},floor={},now=Date.now();
-  TABLE_IDS.forEach(id=>floor[id]={...(live[id]||{}),status:'ready',available:true,server:'',people:'',partyPeople:'',secondaryOf:'',secondaryTables:[],partyId:'',boardRef:null,primaryBoardRef:null,moveOperationId:'',updatedBy:role(),updatedAt:now});
-  await writeJ(TABLE_ROOT+'.json',floor,'PUT');
-  const [vb,vt]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json')]);
-  if(!vb||vb.cleared!==true||!Array.isArray(vb.rows)||vb.rows.length)throw new Error('VERIFY FAILED • EMPTY ONLINE BOARD WAS NOT SAVED');
-  const bad=TABLE_IDS.find(id=>{const s=(vt||{})[id]||{};return operationalTableStatus(s)!=='ready'||s.available!==true||String(s.server||'')||String(s.people||'')||String(s.partyPeople||'')||String(s.partyId||'')||String(s.secondaryOf||'')||(Array.isArray(s.secondaryTables)&&s.secondaryTables.length)||s.boardRef!=null||s.primaryBoardRef!=null});
-  if(bad)throw new Error('VERIFY FAILED • FLOOR TABLE '+bad+' IS NOT READY');
-  try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i)||'';if(k.startsWith(BOARD_CACHE_PREFIX)||k.startsWith('flex_cutundo_')||k.startsWith('fz_scheduled_cut_'))localStorage.removeItem(k)}}catch(_){}
-  board=normalizeBoard(emptyOnlineBoard);boardBaseline=cloneBoard(board);loadedBoardKey=key;boardNewKey=key;
-  floorFormation=normalizeFloorFormation({});floorAssignments=normalizeFloorAssignments({});tableState=vt||{};
-  renderSheet();renderTables();renderFormationOverlays();renderFormationCurrent();renderBeeperView();updateViewMeta();updateNextServerSuggestion();quickScheduleRefresh();sync(true);
-  toast('CLEAR COMPLETE • EMPTY ONLINE BOARD + FLOOR READY');return true;
- }catch(e){toast((e&&e.message)||'CLEAR ALL SHIFT FAILED');sync(false);return false}
- finally{clearShiftInFlight=false;setClearShiftProgress(false)}
+  const result=await hostDailyEngine().run({force:true,date:selectedDate()});
+  hostForgetBoardCaches();toast('CLEAR COMPLETE • BOARD EMPTY + FLOOR READY');
+  await Promise.all([fetchBoard(boardKey()),fetchTables(true)]);location.reload();return result.cleared;
+ }catch(e){toast(e.message||'CLEAR FAILED');return false;}
+ finally{clearShiftInFlight=false;setClearShiftProgress(false);}
 }
+var hostDailyEngineInstance=null,hostDailyChecking=false,hostDailyCycle='',hostDailyObservedAt=0;
+function hostDailyEngine(){return hostDailyEngineInstance||(hostDailyEngineInstance=FZHostDailyClear.create({root:ROOT,fetch:(...args)=>fetch(...args),tableIds:TABLE_IDS}));}
+function hostForgetBoardCaches(){
+ for(let i=localStorage.length-1;i>=0;i--){const key=localStorage.key(i)||'';if(key.startsWith(BOARD_CACHE_PREFIX)||key.startsWith('flex_cutundo_')||key.startsWith('fz_scheduled_cut_'))localStorage.removeItem(key);}
+ boardNewKey='';quickUndoPending=null;if(window.FZFastSeat)FZFastSeat.clearPending();
+}
+async function hostCheckDailyReset(){
+ if(hostDailyChecking||hostOperationBusy())return;
+ const cycle=FZHostDailyClear.clock(new Date()).cycle;if(cycle===hostDailyCycle)return;
+ hostDailyChecking=true;clearShiftInFlight=true;
+ try{
+  const result=await hostDailyEngine().run();hostDailyCycle=cycle;
+  if(result.cleared){hostForgetBoardCaches();location.reload();}
+ }catch(e){sync(false);}
+ finally{hostDailyChecking=false;clearShiftInFlight=false;}
+}
+async function hostApplyDailyResetMarker(){const m=await readJ(ROOT+'/hostDailyClearV54.json');if(!m?.completedAt||m.completedAt<=sessionStart||m.completedAt<=hostDailyObservedAt)return;if(hostDailyChecking||clearShiftInFlight){setTimeout(()=>void hostApplyDailyResetMarker().catch(()=>sync(false)),100);return;}hostDailyObservedAt=m.completedAt;clearShiftInFlight=true;hostInvalidatePendingReads();await discardScheduledBoardSaveForClear();hostForgetBoardCaches();location.reload();}
+function hostStartDailyReset(){void hostCheckDailyReset();setInterval(hostCheckDailyReset,30000);}
 function dayNameFor(dateStr){
   try{return new Date(dateStr+"T12:00:00").toLocaleDateString("en-US",{weekday:"long"}).toUpperCase()}catch(e){return""}
 }
@@ -10172,26 +10042,8 @@ async function saveEditedSecondaries(){
 
 
 let quickUndoPending=null;
-async function saveFloorHistory(action,tableId){
-  const id=String(tableId||selectedTable||'');if(!id)return;
-  const state=JSON.parse(JSON.stringify((tableState||{})[id]||{}));
-  const rec={action,tableId:id,server:canonicalServerName(state.server||''),at:Date.now(),boardKey:boardKey(),state,
-    board:JSON.parse(JSON.stringify(board||{})),formation:JSON.parse(JSON.stringify(floorFormation||{})),
-    assignments:JSON.parse(JSON.stringify(floorAssignments||{}))};
-  try{
-    const path=FLOOR_HISTORY_ROOT+'/'+boardKey();
-    const raw=(await readJ(path+'.json'))||{};
-    raw[String(rec.at)+'_'+Math.random().toString(36).slice(2,7)]=rec;
-    const keep=Object.fromEntries(Object.entries(raw).sort((a,b)=>Number(b[1].at||0)-Number(a[1].at||0)).slice(0,50));
-    await writeJ(path+'.json',keep,'PUT');
-  }catch(e){console.warn('Floor history save failed',e)}
-}
-async function latestFloorHistory(action){
-  try{
-    const raw=(await readJ(FLOOR_HISTORY_ROOT+'/'+boardKey()+'.json'))||{};
-    return Object.values(raw).filter(x=>x&&x.action===action).sort((a,b)=>Number(b.at||0)-Number(a.at||0))[0]||null;
-  }catch(e){return null}
-}
+async function saveFloorHistory(){return;}
+async function latestFloorHistory(){return null;}
 function boardEventTableId(ev){
   if(ev==null)return '';
   if(typeof ev==='string')return ev.trim();
@@ -10236,71 +10088,77 @@ function findLatestBoardTableRecord(tableId,sourceBoard=board,serverHint='',entr
   });
   return best;
 }
+function hostUndoNormalize(value){
+  if(Array.isArray(value)){const v={};value.forEach((x,i)=>{const n=hostUndoNormalize(x);if(n!==null)v[i]=n});return Object.keys(v).length?v:null;}
+  if(value&&typeof value==='object'){const v={};Object.keys(value).sort().forEach(k=>{const n=hostUndoNormalize(value[k]);if(n!==null)v[k]=n});return Object.keys(v).length?v:null;}
+  return value==null?null:value;
+}
+function hostUndoEqual(a,b){return JSON.stringify(hostUndoNormalize(a))===JSON.stringify(hostUndoNormalize(b));}
+async function hostReadUndoRecords(key){
+  return (await readJ(ROOT+'/hostUndoDeleteV54/'+key+'.json?orderBy='+encodeURIComponent(JSON.stringify('$key'))+'&limitToLast=25'))||{};
+}
+function hostBuildUndoPatch(rec,liveBoard,liveFloor,key){
+  if(!rec||rec.boardKey!==key)throw new Error('Shift changed. Reopen UNDO DELETE.');
+  if(!hostUndoEqual(liveBoard.rows[rec.ri],rec.afterRow))throw new Error('This server row changed after Delete. Undo stopped to protect newer parties.');
+  for(const [id,expected] of Object.entries(rec.afterFloor||{})){
+    if(!hostUndoEqual(liveFloor[id],expected))throw new Error(id+' changed after Delete. Undo stopped to protect the current Floor.');
+  }
+  if(!Array.isArray(rec.partyTables)||!rec.partyTables.length)throw new Error('Undo party information is missing.');
+  if(!rec.beforeRow||String(rec.beforeRow.server||'')!==String(liveBoard.rows[rec.ri].server||''))throw new Error('Server changed. Reopen UNDO DELETE.');
+  const patch={};patch['rotationBoardV31/'+key+'/rows/'+rec.ri]=rec.beforeRow;
+  Object.entries(rec.beforeFloor).forEach(([id,state])=>patch['tables/'+id]=state);
+  for(let ti=0;ti<BOARD_TURN_CAPACITY;ti++){
+    const t=rec.beforeRow.turns[ti]||{};
+    patch['rotationSkipLocksV101/'+key+'/'+skipLockId(rec.ri,ti)]=t.skipped?{active:true,row:rec.ri,turn:ti,server:rec.server,skipType:t.skipType||'manual',entryId:t.entryId||'',updatedAt:Date.now(),updatedBy:role()}:null;
+  }
+  patch['hostUndoDeleteV54/'+key+'/'+rec.id]=null;return patch;
+}
 async function openFloorUndo(action){
   if(action!=='delete')return;
-  const tableId=String(selectedTable||'').trim();
-  if(!tableId)return toast('Select a READY table first');
-  /* UNDO DELETE is scoped to the active AM/PM Board only. It restores the
-     LAST occurrence of this physical table in this shift — never an older
-     occurrence from another shift. */
-  try{await fetchBoard()}catch(_){}
-  const hit=findLatestBoardTableRecord(tableId,board);
-  if(!hit)return toast(tableId+' was not found in the current '+shift()+' Board history');
-  quickUndoPending={action:'delete',boardKey:boardKey(),tableId:hit.tableId,server:hit.server,at:hit.at,event:hit.event,entryId:hit.entryId,people:hit.people,ri:hit.ri,ti:hit.ti,master:hit.master};
-  let when='Time unavailable';
-  try{if(hit.at)when=new Date(Number(hit.at)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}catch(_){}
-  $('quickUndoTitle').textContent='UNDO DELETE?';
-  $('quickUndoDetail').innerHTML='Table: <b>'+esc(hit.tableId)+'</b><br>Server: <b>'+esc(hit.server||'Unassigned')+'</b><br>Last seated: <b>'+esc(when)+'</b><br><br>Restore '+esc(hit.tableId)+' to the Floor under '+esc(hit.server||'Unassigned')+'?';
-  $('quickUndoConfirm').classList.add('show');
+  if(!quickCanResetWrongEntry())return toast('Host or Manager only');
+  const id=String(selectedTable||'');if(!id)return toast('Select the deleted table first');
+  try{
+    const key=boardKey(),records=await hostReadUndoRecords(key);
+    const hit=Object.values(records).filter(r=>r&&r.boardKey===key&&Array.isArray(r.partyTables)&&r.partyTables.includes(id)).sort((a,b)=>b.at-a.at)[0];
+    if(!hit)return toast('No Delete to undo for '+id+' in this shift.');
+    quickUndoPending=hit;
+    $('quickUndoTitle').textContent='UNDO DELETE?';
+    $('quickUndoDetail').textContent='Restore '+hit.partyTables.join(' + ')+' and its Board entry for '+hit.server+'?';
+    $('quickUndoConfirm').classList.add('show');
+  }catch(e){toast(e.message||'Could not load Undo.');}
 }
 async function restoreFloorHistory(){
-  const rec=quickUndoPending;if(!rec||rec.action!=='delete')return;
-  const id=String(rec.tableId||''),operationKey=boardKey(),owner=operationId('undo-delete');let claimed=[];
+  const rec=quickUndoPending;if(!rec||hostUndoBusy)return;
+  if(!quickCanResetWrongEntry())return toast('Host or Manager only');
+  const key=boardKey(),owner=operationId('undo-delete');let claimed=[];hostUndoBusy=true;hostInvalidatePendingReads();
+  $('quickUndoRestore').disabled=true;
   try{
-    if(String(rec.boardKey||'')!==String(operationKey))throw new Error('Shift changed. Reopen UNDO DELETE.');
-    claimed=await claimTableLocksWithRetry([id],owner);
-    if(!claimed.length)throw new Error(id+' is busy. Try UNDO DELETE again.');
-    const [rawBoard,latestTables]=await Promise.all([readJ(BOARD_ROOT+'/'+operationKey+'.json'),readJ(TABLE_ROOT+'.json')]);
-    if(rawBoard===null||latestTables===null)throw new Error('Live Board/Floor data could not be read.');
-    const liveBoard=strictBoardFromRemote(operationKey,rawBoard,'UNDO DELETE RESTORE');
-    /* Re-resolve the exact occurrence shown in the dialog. If its modern
-       entryId exists, require that exact party. Legacy rows fall back to the
-       last same-table occurrence for the same server in this shift. */
-    let hit=findLatestBoardTableRecord(id,liveBoard,rec.server,rec.entryId||'');
-    if(!hit&&rec.entryId)throw new Error('That exact '+id+' seating is no longer in this shift Board.');
-    if(!hit)hit=findLatestBoardTableRecord(id,liveBoard,rec.server||'');
-    if(!hit)throw new Error(id+' history is no longer available in this '+shift()+' shift.');
-    const state=latestTables[id]||{},status=operationalTableStatus(state);
-    if(status==='seated'){
-      if(String(state.partyId||'')===String(hit.entryId||'')&&canonicalServerName(state.server||'')===hit.server){
-        $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;toast(id+' is already restored to '+(hit.server||'UNASSIGNED'));return;
-      }
-      throw new Error(id+' is already SEATED by another active party.');
+    if(rec.boardKey!==key)throw new Error('Shift changed. Reopen UNDO DELETE.');
+    claimed=await claimTableLocksBatchedWithRetry([...Object.keys(rec.afterFloor),'BOARD '+key+' CLEAR','BOARD '+key+' '+rec.server],owner);
+    if(!claimed.length)throw new Error('Party is busy. Try UNDO DELETE again.');
+    const [raw,floor,saved]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json'),readJ(ROOT+'/hostUndoDeleteV54/'+key+'/'+rec.id+'.json')]);
+    if(!saved||!hostUndoEqual(saved,rec))throw new Error('This Delete was already restored or cleared.');
+    if(raw===null||floor===null)throw new Error('Live Board/Floor could not be read.');
+    const live=strictBoardFromRemote(key,raw,'UNDO DELETE');
+    const patch=hostBuildUndoPatch(rec,live,floor,key);
+    if(key!==boardKey()||!await renewTableLocks(claimed,owner))throw new Error('Shift or lock changed. Nothing restored.');
+    await writeJ(ROOT+'.json',patch,'PATCH');
+    const [vb,vf,remaining,vl]=await Promise.all([readJ(BOARD_ROOT+'/'+key+'.json'),readJ(TABLE_ROOT+'.json'),readJ(ROOT+'/hostUndoDeleteV54/'+key+'/'+rec.id+'.json'),readSkipLocksStrict(key)]);
+    const verified=strictBoardFromRemote(key,vb,'UNDO VERIFY');
+    if(remaining!==null||!hostUndoEqual(verified.rows[rec.ri],rec.beforeRow)||Object.entries(rec.beforeFloor).some(([id,expected])=>!hostUndoEqual((vf||{})[id],expected)))throw new Error('Restore verification failed. Reload before retrying.');
+    for(let ti=0;ti<BOARD_TURN_CAPACITY;ti++){
+      const path='rotationSkipLocksV101/'+key+'/'+skipLockId(rec.ri,ti);
+      if(!hostUndoEqual(vl[skipLockId(rec.ri,ti)],patch[path]))throw new Error('Restore skip verification failed.');
     }
-    if(status==='reserved')throw new Error(id+' is RESERVED. Cancel the reservation before restore.');
-    if(!['ready','cleaning',''].includes(status))throw new Error(id+' is not available for restore.');
-    const people=String(hit.people||rec.people||'');
-    const entryId=String(hit.entryId||rec.entryId||'');
-    const master=Number.isInteger(hit.master)?hit.master:hit.ti;
-    const ts=Date.now(),restored={
-      ...state,status:'seated',available:false,reserved:false,server:hit.server,
-      people,partyPeople:'',secondaryOf:'',secondaryTables:[],partyId:entryId,
-      boardRef:boardRefFor(hit.ri,master,entryId,operationKey),primaryBoardRef:null,
-      updatedBy:role(),updatedAt:ts
-    };
-    await writeJ(TABLE_ROOT+'/'+id+'.json',restored,'PUT');
-    const confirmed=await readJ(TABLE_ROOT+'/'+id+'.json');
-    if(!confirmed||operationalTableStatus(confirmed)!=='seated'||canonicalServerName(confirmed.server||'')!==hit.server||String(confirmed.partyId||'')!==entryId||!sameJson(confirmed.boardRef,restored.boardRef))throw new Error('RESTORE could not be verified.');
-    tableState[id]=confirmed;
-    if(operationKey===boardKey()){board=liveBoard;boardBaseline=cloneBoard(liveBoard);loadedBoardKey=operationKey}
-    renderTables();sync(true);
-    $('quickUndoConfirm').classList.remove('show');quickUndoPending=null;
-    quickCloseWizard();quickShowPane('floor');
-    let when='';try{if(hit.at)when=' • '+new Date(Number(hit.at)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}catch(_){}
-    toast('RESTORED • '+id+' • '+(hit.server||'UNASSIGNED')+when);
-  }catch(e){toast((e&&e.message)||'RESTORE FAILED')}
-  finally{for(const lock of claimed)await releaseTableLock(lock,owner)}
+    board=verified;boardBaseline=cloneBoard(verified);loadedBoardKey=key;tableState=vf;
+    quickUndoPending=null;$('quickUndoConfirm').classList.remove('show');quickCloseWizard();
+    renderTables();renderSheet();quickRenderBoard();quickShowPane('floor');sync(true);
+    toast('RESTORED • '+rec.partyTables.join(' + ')+' • '+rec.server);
+  }catch(e){toast(e.message||'RESTORE FAILED');try{await Promise.all([fetchBoard(key),fetchTables()])}catch(_){} }
+  finally{await releaseTableLocksFast(claimed,owner);hostUndoBusy=false;$('quickUndoRestore').disabled=false;}
 }
+var hostUndoBusy=false;
+
 async function quickWizardSetReserved(){
   const id=String(selectedTable||'');
   if(!id)return toast('Select a table first');
@@ -10320,7 +10178,7 @@ async function clearHistoryParty26(ri,ti){
   if(resetWrongInFlight)return toast('Another edit is saving. Please wait.');
   const key=boardKey(),beforeTurn=JSON.parse(JSON.stringify(board.rows[ri].turns[ti])),server=board.rows[ri].server,owner=operationId('clear-history');
   if(!confirm('DELETE this party from Board history? Later entries will move left.'))return;
-  resetWrongInFlight=true;let claimed=[];
+  resetWrongInFlight=true;hostInvalidatePendingReads();let claimed=[];
   try{
     const refs=boardRowReferencedTables(tableState,key,ri);
     claimed=await claimTableLocksWithRetry([...refs,'BOARD '+key+' CLEAR','BOARD '+key+' '+server],owner);
@@ -10415,7 +10273,7 @@ async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
   const initialRi=initialCurrent?initialCurrent.ri:Number(floorState.boardRef&&floorState.boardRef.row);
   if(!Number.isInteger(initialRi)||initialRi<0||initialRi>=15)return toast('Active Host Board link is not ready. Reload Board and try RESET again.');
   const initialRefTables=boardRowReferencedTables(tableState,operationKey,initialRi);
-  resetWrongInFlight=true;
+  resetWrongInFlight=true;hostInvalidatePendingReads();
   quickState.resettingEntryId=editingPeople?'':String((floorState.boardRef&&floorState.boardRef.entryId)||floorState.partyId||'');
   quickSetOpen('quickTableAction',false);closeM('moveChangeModal');quickRenderBoard();
   toast((editingPeople?'EDIT PEOPLE ':'RESET ')+source+' • SAVING & VERIFYING…');
@@ -10423,10 +10281,10 @@ async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
   let claimed=[];
 
   try{
-    claimed=await claimTableLocksWithRetry([source,...initialLinked,...initialRefTables,'BOARD '+operationKey+' CLEAR','BOARD '+operationKey+' '+currentServerAtOpen],owner);
+    claimed=await claimTableLocksBatchedWithRetry([source,...initialLinked,...initialRefTables,'BOARD '+operationKey+' CLEAR','BOARD '+operationKey+' '+currentServerAtOpen],owner);
     if(!claimed.length)throw new Error('RESET could not secure this party after waiting. Tap once again.');
-    const [latestTables,latestRawBoard,latestSkipLocks]=await Promise.all([
-      readJ(TABLE_ROOT+'.json'),readJ(BOARD_ROOT+'/'+operationKey+'.json'),readSkipLocksStrict(operationKey)
+    const [latestTables,latestRawBoard,latestSkipLocks,undoKeys]=await Promise.all([
+      readJ(TABLE_ROOT+'.json'),readJ(BOARD_ROOT+'/'+operationKey+'.json'),readSkipLocksStrict(operationKey),editingPeople?Promise.resolve({}):readJ(ROOT+'/hostUndoDeleteV54/'+operationKey+'.json?shallow=true')
     ]);
     if(latestTables===null)throw new Error('Floor Map data is missing. RESET stopped safely.');
     const liveState=latestTables[source]||{};
@@ -10525,12 +10383,21 @@ async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
     (board.rows[current.ri].turns||[]).forEach((turn,ti)=>{
       if(turn&&turn.skipped)rootPatch['rotationSkipLocksV101/'+operationKey+'/'+skipLockId(current.ri,ti)]={active:true,row:current.ri,turn:ti,server:currentServer,skipType:String(turn.skipType||'manual'),entryId:String(turn.entryId||''),updatedAt:ts,updatedBy:role()};
     });
+    if(!editingPeople){
+      const undoId=String(ts)+'_'+owner,undoPath='hostUndoDeleteV54/'+operationKey+'/';
+      const beforeFloor={};Object.keys(floorUpdates).forEach(id=>beforeFloor[id]=latestTables[id]||{});
+      rootPatch[undoPath+undoId]={id:undoId,boardKey:operationKey,tableId:source,server:currentServer,at:ts,
+        partyTables:[source,...liveLinked],ri:current.ri,beforeRow:boardBefore.rows[current.ri],afterRow:board.rows[current.ri],
+        beforeFloor,afterFloor:floorUpdates};
+      const old=undoKeys||{};
+      Object.keys(old).sort().slice(0,Math.max(0,Object.keys(old).length-24)).forEach(id=>rootPatch[undoPath+id]=null);
+    }
     if(operationKey!==boardKey())throw new Error('Shift changed. RESET stopped before saving.');
     if(!(await renewTableLocks(claimed,owner)))throw new Error('RESET lock expired. Nothing was changed; tap once again.');
     await writeJ(ROOT+'.json',rootPatch,'PATCH');
 
     const [confirmedRawBoard,confirmedFloor,confirmedSkipLocks]=await Promise.all([
-      readJ(BOARD_ROOT+'/'+operationKey+'.json'),readJ(TABLE_ROOT+'.json'),readSkipLocksStrict(operationKey)
+      readJ(BOARD_ROOT+'/'+operationKey+'.json'),readJ(TABLE_ROOT+'.json'),readSkipLocksStrict(operationKey),editingPeople?Promise.resolve({}):readJ(ROOT+'/hostUndoDeleteV54/'+operationKey+'.json?shallow=true')
     ]);
     const confirmed=strictBoardFromRemote(operationKey,confirmedRawBoard,'RESET READ-BACK');
     applySkipLocksToBoard(confirmed,confirmedSkipLocks||{});
@@ -10563,7 +10430,7 @@ async function resetWrongFloorEntry(sourceOverride="",peopleOverride=null){
     toast((e&&e.message)?e.message:"RESET failed");
     try{await fetchBoard(boardKey());await fetchTables()}catch(_){}
   }
-  finally{quickState.resettingEntryId='';for(const lock of claimed)await releaseTableLock(lock,owner);resetWrongInFlight=false}
+  finally{quickState.resettingEntryId='';await releaseTableLocksFast(claimed,owner);resetWrongInFlight=false}
 }
 
 async function markMoveSourceReady(){
@@ -10837,7 +10704,7 @@ async function saveMoveChange(){
         if(t&&t.master===current.ti){t.entryId=entryId;if(i===current.ti)t.table=target}
       }
     }else{
-      /* R3M.8.43 invariant: removing a party from a server row may NEVER
+      /* R3M.8.54 invariant: removing a party from a server row may NEVER
          leave a blank between older and newer Rotation History. Compact the
          source row first, then reconcile BAR PM auto-SKIPs and compact again. */
       clearGroup(current.ri,current.ti);
@@ -11076,7 +10943,7 @@ async function setStatus(status){
   if(tableStatusInFlight||floorAutoSaving||moveBusy)return toast('Another table operation is still saving. Please wait.');
   status=String(status||'').toLowerCase()==='clean'?'cleaning':String(status||'').toLowerCase();
   if(!['ready','reserved','cleaning'].includes(status))return toast('Unknown table status');
-  tableStatusInFlight=true;tableLoadSeq++;
+  tableStatusInFlight=true;hostInvalidatePendingReads();tableLoadSeq++;
   ['floorReadyBtn','floorCleanBtn','floorReservedBtn','floorSaveBoard','floorMoveChange','closeStatus'].forEach(buttonId=>{const button=$(buttonId);if(button)button.disabled=true});
   const id=selectedTable,initial=JSON.parse(JSON.stringify(tableState[id]||{})),owner=operationId('table-status');let claimed=[];
   const initialLinked=new Set(Array.isArray(initial.secondaryTables)?initial.secondaryTables.filter(t=>TABLE_IDS.includes(t)):[]);
@@ -11236,7 +11103,21 @@ async function fetchTeamShout(){
   }catch(_){}
 }
 
-async function fetchAnnouncements(){try{const a=(await readJ(ANNOUNCE_ROOT+".json"))||{};for(const [id,x] of Object.entries(a)){if(x&&x.createdAt>=sessionStart-3000&&!announcementSeen.has(id)&&x.sourceId!==deviceId()){if(await voice(x.status,x.table))announcementSeen.add(id)}}}catch(e){}}
+async function fetchAnnouncements(){
+  /* Keys are ann_<timestamp>_<suffix>. Query only this session's possible
+     notifications; the built-in key index needs no database-rule changes.
+     Keep all saved announcement history and the original local safety filters. */
+  const fromKey='ann_'+(sessionStart-3000);
+  const query='?orderBy='+encodeURIComponent(JSON.stringify('$key'))+'&startAt='+encodeURIComponent(JSON.stringify(fromKey));
+  try{
+    const a=(await readJ(ANNOUNCE_ROOT+'.json'+query))||{};
+    for(const [id,x] of Object.entries(a)){
+      if(x&&x.createdAt>=sessionStart-3000&&!announcementSeen.has(id)&&x.sourceId!==deviceId()){
+        if(await voice(x.status,x.table))announcementSeen.add(id);
+      }
+    }
+  }catch(e){/* The next scheduled poll retries the bounded query. */}
+}
 
 function openAlarm(){unlockVoice();try{AndroidBridge.ensureNotificationPermission()}catch(e){}openM("alarmModal")}
 async function sendAlarm(target){const ts=Date.now(),id="alarm_"+ts+"_"+Math.random().toString(36).slice(2,6),payload={from:role(),to:target,sourceId:deviceId(),createdAt:ts,expiresAt:ts+12*60*60*1000,status:"ACTIVE"},pulse=n=>({from:"🚨 ALARM - "+role(),to:target,text:"🚨 URGENT ALARM ("+n+"/3): "+role()+" is calling "+target+".",sourceId:deviceId(),createdAt:Date.now(),alarmNative:true});try{await writeJ(ALARM_ROOT+"/"+id+".json",payload);await writeJ(MESSAGE_ROOT+"/"+id+"_1.json",pulse(1));setTimeout(()=>writeJ(MESSAGE_ROOT+"/"+id+"_2.json",pulse(2)).catch(()=>{}),1800);setTimeout(()=>writeJ(MESSAGE_ROOT+"/"+id+"_3.json",pulse(3)).catch(()=>{}),3600);closeM("alarmModal");toast("Alarm sent to "+target)}catch(e){toast("Alarm failed")}}
@@ -11841,7 +11722,7 @@ function quickEditManagerPassword(){
   const confirmPw=prompt('Confirm NEW Manager password:');
   if(confirmPw===null)return;
   if(next!==String(confirmPw))return toast('Password confirmation does not match');
-  toast('Security mode: protected passwords are not stored on this device. Use Users & Roles for account-based access.');
+  localStorage.setItem(MANAGER_PASSWORD_STORAGE_KEY,next);toast('Manager password updated on this device');
 }
 const QUICK_SESSION_KEY='fzqb_quick_session_v31';
 const TEAM_DAY_DONE_PREFIX='fzqb_team_done_v31_';
@@ -11945,7 +11826,7 @@ function showShiftAutoDialog(title,text,fields,yes='CONTINUE',no='NOT YET'){retu
 function closeShiftAutoDialog(v){$('shiftAutoOverlay').classList.remove('show');const r=shiftAutoResolver;shiftAutoResolver=null;if(r)r(!!v)}
 async function maybePmShiftReminder(){if(shiftAutoResolver)return;const d=new Date(),day=d.getDay(),weekend=day===5||day===6||day===0,key=dateKey(d),h=d.getHours(),m=d.getMinutes(),ready=weekend?(h===15&&m>=25):(h===15&&m>=50);if(!ready||shiftAutomationLast.pm===key)return;shiftAutomationLast.pm=key;const label=weekend?'3:30 PM':'4:00 PM',yes=await showShiftAutoDialog('PM SHIFT STARTS AT '+label,'Prepare the PM rotation and section assignments.','','START CHANGE TO PM','NOT YET');if(yes){setShift('PM');quickShowPane('more');setTimeout(()=>{try{openFormationManager()}catch(e){}},100)}}
 async function maybeShortShiftArrival(){if(shiftAutoResolver)return;const d=new Date();if(!(d.getHours()===13&&d.getMinutes()>=50))return;for(const e of (teamDayRows||[]).filter(x=>x.shift==='Short Shift 2-4 PM')){const token=dateKey(d)+'|'+doubleSeatGuardKey(e.name);if(shiftAutomationLast.short.has(token))continue;shiftAutomationLast.short.add(token);const rows=(board.rows||[]).filter(r=>r&&r.server&&r.active!==false&&!r.cutAt),serverOpts=rows.map(r=>'<option>'+esc(r.server)+'</option>').join(''),secs=Object.keys(floorFormation.sectionServers||{}).filter(s=>String(s).toUpperCase()!=='BAR'),secOpts=secs.map(s=>'<option>'+esc(s)+'</option>').join(''),fields='<select id="shiftCutServer"><option value="">— SELECT SERVER TO CUT —</option>'+serverOpts+'</select><select id="shiftArrivalSection"><option value="">— SELECT SECTION —</option>'+secOpts+'</select>';const yes=await showShiftAutoDialog(e.name+' STARTS AT 2:00 PM','Select the server to CUT and the section for '+e.name+'. Smart Join Skip will run after confirmation.',fields,'CONFIRM CHANGE','NOT YET');if(!yes)continue;const cut=$('shiftCutServer').value,sec=$('shiftArrivalSection').value;if(!cut||!sec){toast('Select a server to CUT and a section');continue}const ri=(board.rows||[]).findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(cut));if(ri>=0)await applyServerStatusChange(ri,'CUT');try{await fetchFormation();floorFormation.sectionServers[sec]=e.name;floorFormation.serverShifts=floorFormation.serverShifts||{};floorFormation.serverShifts[e.name]='Short Shift 2-4 PM';await saveFormation();await fetchBoard();const baseline=smartJoinBaselineFromBoard(board,e.name);if(baseline>0){const waiting=await showJoinSkipDialog(e.name,baseline),skip=waiting?baseline:Math.max(0,baseline-1),idx=(board.rows||[]).findIndex(r=>r&&doubleSeatGuardKey(r.server)===doubleSeatGuardKey(e.name));if(idx>=0&&skip>0)await saveMultipleSkipsImmediately(idx,null,skip)}}catch(err){toast('Shift change failed')}}}
-setInterval(()=>{maybePmShiftReminder();maybeShortShiftArrival()},15000);
+
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='formationServer'){const n=e.target.value;setTimeout(()=>bindTodayTeamToFormation(n),0)}});
 
 let teamDayRoleSelected='Front Host',teamDayRows=[],teamDayEditing=false;
@@ -12013,12 +11894,8 @@ async function quickEnterRole(selectedRole,options={}){
   quickApplyAccessVisibility();quickCloseRoleGate();quickPersistSession(selectedRole);
   teamDayRoleSelected=selectedRole;
   try{$('workDate').value=dateKey()}catch(e){}
-  const configured=await isTeamDayConfigured(teamDayDateKey());
-  if(configured||options.skipTeam===true){
-    try{await loadTeamDay()}catch(e){}
-    closeTeamDay();quickShowPane('board');
-  }else await openTeamDay(selectedRole,true);
-  if(selectedRole==='Front Host')setTimeout(()=>{try{r3mAutoFrontSetup()}catch(e){}},150);
+  closeTeamDay();quickShowPane('board');
+
 }
 let quickPendingProtectedRole='Manager';
 function quickChooseEntryRole(selectedRole){
@@ -12512,7 +12389,7 @@ async function quickAssignSectionToServer(section,targetServer,beeper=''){
   finally{quickAssignProgress('FINISHING…');await releaseTableLocksFast(claimed,owner);quickAssignInFlight=false}
 }
 function quickOpenLegacy(type){
-  if(type==='history')return quickOpenHistoryMatrix();
+
   if(type==='sections'&&!quickRequireManager(null,'Edit Table Map'))return;
   const titles={reservations:'Reservations',beeper:'Beeper Assignment',sections:'Edit Table Map'},mount=quickPrepareLegacy(titles[type]||'Details');let node=null;
   if(type==='reservations')node=document.querySelector('.resWrap');
@@ -12523,10 +12400,6 @@ function quickOpenLegacy(type){
   if(type==='beeper')renderBeeperView();
   if(type==='sections'){if(!sectionEditFormation)loadSectionEditFormation(floorFormation.formation||Object.keys(FLOOR_FORMATIONS)[0],true);else renderSectionEditEditor()}
   quickSetOpen('quickLegacyPanel',true);
-}
-function quickOpenReports(){
-  if(!quickRequireManager(null,'Reports'))return;const mount=quickPrepareLegacy('Reports');mount.innerHTML='<div style="padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px"><button id="quickReportPdf" class="quickMenuBtn"><strong>Download Host Board PDF</strong><span>Current date and shift</span></button><button id="quickReportWa" class="quickMenuBtn"><strong>Send PDF to WhatsApp</strong><span>Uses Android share when available</span></button><button id="quickReportEmail" class="quickMenuBtn"><strong>Send PDF to Email</strong><span>Uses Android share when available</span></button><button id="quickReportXls" class="quickMenuBtn"><strong>Reservation XLS</strong><span>Current reservation date</span></button></div>';
-  $('quickReportPdf').onclick=downloadHostBoardPdf;$('quickReportWa').onclick=()=>shareHostBoardPdf('wa');$('quickReportEmail').onclick=()=>shareHostBoardPdf('email');$('quickReportXls').onclick=downloadReservationXls;quickSetOpen('quickLegacyPanel',true);
 }
 function quickInstallHooks(){
   if(quickHooked)return;quickHooked=true;
@@ -12553,111 +12426,13 @@ window.addEventListener('beforeunload',()=>{try{if(document.getElementById('quic
    Front Host UI contains no monitoring controls/status.
    Browser/OS privacy indicators remain controlled by the device/browser.
 */
-const R3M_MON_ROOT="https://table-live-by-iwanto-zhang-default-rtdb.firebaseio.com/juicyTableLive/JUICY-HUNTSVILLE/ownerMonitorR3M";
-function r3mKey(){return deviceId().replace(/[.#$\[\]\/]/g,'_')}
-function r3mLabel(){return 'Front Host '+r3mKey().slice(-6).toUpperCase()}
-async function r3mHttp(path,method='GET',body){
- const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),10000);
- try{const r=await fetch(R3M_MON_ROOT+path+'.json'+(method==='GET'?'?x='+Date.now():''),{method,cache:'no-store',signal:abort.signal,headers:{'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});if(!r.ok)throw Error('Monitor network HTTP '+r.status);return await r.json()}finally{clearTimeout(timer)}
-}
-function r3mRead(p){return r3mHttp(p)}
-function r3mWrite(p,d){return r3mHttp(p,'PUT',d)}
-function r3mPatch(p,d){return r3mHttp(p,'PATCH',d)}
-function r3mWaitIce(pc){return new Promise(resolve=>{let timer;const done=()=>{clearTimeout(timer);pc.removeEventListener('icegatheringstatechange',check);resolve()},check=()=>{if(pc.iceGatheringState==='complete')done()};timer=setTimeout(done,4500);pc.addEventListener('icegatheringstatechange',check);check()})}
-let r3mArmed=localStorage.getItem('fz_r3m_front_armed')==='1',r3mFrontPc=null,r3mFrontStream=null,r3mFrontSession='',r3mFrontBusy=false;
-let r3mSelected='',r3mOwnerPc=null,r3mRemote=null,r3mSession='',r3mCameraOn=true,r3mListenOn=true,r3mRecorder=null,r3mChunks=[],r3mRetryUsed=false;
-let r3mFrontContext=null,r3mOwnerContext=null,r3mStarting=false,r3mPresenceBusy=false,r3mOwnerGeneration=0;
-function r3mIsFrontRole(){try{return !ownerRoleUnlocked&&!managerRoleUnlocked&&$('role')&&$('role').value==='Front Host'}catch(e){return false}}
-function r3mNotice(text){let el=$('r3mActiveNotice');if(!el){el=document.createElement('div');el.id='r3mActiveNotice';el.style.cssText='position:fixed;bottom:90px;left:10px;z-index:15000;background:#742b15;color:white;padding:10px;border-radius:10px;max-width:90vw';document.body.appendChild(el)}el.textContent=text;el.hidden=!text}
-async function r3mPresence(){
- if(!r3mIsFrontRole()||r3mPresenceBusy)return;r3mPresenceBusy=true;
- try{await r3mPatch('/devices/'+r3mKey(),{id:r3mKey(),label:r3mLabel(),armed:!!r3mArmed,lastSeen:Date.now(),monitoring:!!r3mFrontContext})}catch(e){}finally{r3mPresenceBusy=false}
-}
-async function r3mAutoFrontSetup(){if(!r3mIsFrontRole())return;if(!r3mArmed)try{const s=await navigator.mediaDevices.getUserMedia({video:true,audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});s.getTracks().forEach(t=>t.stop());r3mArmed=true;localStorage.setItem('fz_r3m_front_armed','1')}catch(e){r3mArmed=false}await r3mPresence()}
-async function r3mArmThisDevice(){if(!ownerRoleUnlocked)return toast('Owner only');try{const s=await navigator.mediaDevices.getUserMedia({video:true,audio:true});s.getTracks().forEach(t=>t.stop());r3mArmed=true;localStorage.setItem('fz_r3m_front_armed','1');r3mUpdateArmState();toast('This device is ready as Front Monitor')}catch(e){toast('Camera / microphone permission not granted')}}
-function r3mUpdateArmState(){const e=$('r3mArmState');if(e)e.textContent=r3mArmed?'READY ON THIS DEVICE':'Not set on this device'}
-function r3mSetStatus(x){if($('r3mStatus'))$('r3mStatus').textContent=x}
-function r3mCloseContext(c){if(!c)return;c.closed=true;clearInterval(c.poll);clearTimeout(c.deadline);clearTimeout(c.reconnect);if(c.channel)try{c.channel.close()}catch(e){}if(c.pc){c.pc.onconnectionstatechange=null;c.pc.onicecandidate=null;c.pc.ontrack=null;c.pc.close()}if(c.stream)c.stream.getTracks().forEach(t=>t.stop())}
-function r3mCurrent(c){return !c.closed&&(c.side==='owner'?r3mOwnerContext===c:r3mFrontContext===c)}
-function r3mCandidates(c){
- c.pc.onicecandidate=e=>{if(e.candidate&&r3mCurrent(c)){const k='c'+(++c.seq);r3mWrite('/sessions/'+c.id+'/'+c.side+'Ice/'+k,e.candidate.toJSON()).catch(()=>{})}};
- c.poll=setInterval(async()=>{if(!r3mCurrent(c)||c.pollBusy)return;c.pollBusy=true;try{
-  const data=await r3mRead('/sessions/'+c.id);if(!r3mCurrent(c)||!data)return;
-  if(c.side==='front'&&data.ownerState?.status==='closed'){await r3mStopFront();return}
-  if(c.side==='owner'&&data.frontState?.status==='error'){await r3mFailOwner(c,'Host: '+data.frontState.message);return}
-  if(c.side==='owner'&&data.frontState?.status==='closed'){await r3mFailOwner(c,'Host disconnected');return}
-  if(c.side==='owner'&&data.frontState?.status==='answered'){c.noise=data.frontState.noiseSuppression;if(c.pc.connectionState==='connected')r3mSetStatus(c.noise?'LIVE • Noise reduction ON':'LIVE • Noise reduction not confirmed')}
-  if(c.side==='owner'&&data.answer&&!c.pc.remoteDescription)await c.pc.setRemoteDescription(data.answer);
-  if(!r3mCurrent(c)||!c.pc.remoteDescription)return;
-  const candidates=data[c.side==='owner'?'frontIce':'ownerIce']||{};
-  for(const [k,v] of Object.entries(candidates)){if(!r3mCurrent(c))break;if(c.seen.has(k))continue;try{await c.pc.addIceCandidate(v);c.seen.add(k)}catch(e){}}
- }catch(e){if(r3mCurrent(c)&&c.side==='owner')r3mSetStatus('SIGNAL RETRY…')}finally{c.pollBusy=false}},1000);
-}
-async function r3mStopFront(){const c=r3mFrontContext;r3mFrontContext=null;r3mFrontPc=null;r3mFrontStream=null;r3mFrontSession='';r3mCloseContext(c);r3mNotice('');if(c)try{await r3mWrite('/sessions/'+c.id+'/frontState',{status:'closed',at:Date.now()})}catch(e){}await r3mPresence()}
-async function r3mFrontPoll(){
- if(r3mFrontBusy)return;if(!r3mIsFrontRole()){if(r3mFrontContext)await r3mStopFront();return}if(!r3mArmed)return;r3mFrontBusy=true;let c;
- try{
- const req=await r3mRead('/devices/'+r3mKey()+'/request');if(!req?.session)return;
- if(req.stop){if(req.session===r3mFrontSession)await r3mStopFront();return}
- if(Date.now()-Number(req.at)>45000)return;
- if(r3mFrontContext?.id===req.session)return;
- const data=await r3mRead('/sessions/'+req.session);if(!data?.offer||data.ownerState?.status==='closed')return;
- await r3mStopFront();
- c={id:req.session,side:'front',seq:0,seen:new Set(),closed:false};r3mFrontContext=c;r3mFrontSession=c.id;
- r3mNotice('Owner Monitor: camera and microphone active');
- const stream=await acquireCallMedia('video');if(!r3mCurrent(c)||!r3mIsFrontRole()){stream.getTracks().forEach(t=>t.stop());return}c.stream=stream;r3mFrontStream=stream;
- const config=await loadCallRtcConfig();if(!r3mCurrent(c))return;c.pc=new RTCPeerConnection(config);r3mFrontPc=c.pc;r3mCandidates(c);
- stream.getTracks().forEach(t=>c.pc.addTrack(t,stream));
- c.pc.ondatachannel=e=>{c.channel=e.channel;c.channel.onmessage=m=>{if(r3mCurrent(c))r3mNotice(m.data==='captions:on'?'Owner Monitor: camera, microphone and live transcription active':'Owner Monitor: camera and microphone active')}};
- c.pc.onconnectionstatechange=()=>{if(!r3mCurrent(c))return;const s=c.pc.connectionState;if(s==='connected'){clearTimeout(c.deadline);clearTimeout(c.reconnect)}if(s==='failed'||s==='closed')r3mStopFront();if(s==='disconnected'){clearTimeout(c.reconnect);c.reconnect=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState==='disconnected')r3mStopFront()},12000)}};
- await c.pc.setRemoteDescription(data.offer);if(!r3mCurrent(c))return;await c.pc.setLocalDescription(await c.pc.createAnswer());await r3mWaitIce(c.pc);if(!r3mCurrent(c))return;
- await r3mPatch('/sessions/'+c.id,{answer:c.pc.localDescription.toJSON(),frontState:{status:'answered',at:Date.now(),noiseSuppression:stream.getAudioTracks()[0]?.getSettings().noiseSuppression===true}});
- c.deadline=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState!=='connected')r3mStopFront()},45000);
- }catch(e){if(c&&r3mCurrent(c)){await r3mStopFront();try{await r3mWrite('/sessions/'+c.id+'/frontState',{status:'error',message:String(e.message).slice(0,180),at:Date.now()})}catch(_){}}}finally{r3mFrontBusy=false}
-}
-setInterval(()=>{r3mPresence();r3mFrontPoll();if(r3mOwnerContext&&!ownerRoleUnlocked)r3mStopOwner(true)},1500);
-async function r3mLoadDevices(){if(!$('r3mOwnerLayer')?.classList.contains('show'))return;try{const raw=await r3mRead('/devices')||{},now=Date.now(),online=Object.values(raw).filter(x=>x&&now-(x.lastSeen||0)<20000),arr=online.filter(x=>x.armed);$('r3mDevices').innerHTML=arr.length?arr.map(x=>`<button class="r3mDevice ${x.id===r3mSelected?'sel':''}" data-r3m-device="${esc(x.id)}"><b>${esc(x.label)}</b><br>Online ${x.monitoring?'• MONITORING':''}</button>`).join(''):(online.length?'Front device online • camera/microphone permission required.':'No Front device online.');$('r3mDevices').querySelectorAll('[data-r3m-device]').forEach(b=>b.onclick=()=>{r3mSelected=b.dataset.r3mDevice;r3mLoadDevices()})}catch(e){$('r3mDevices').textContent='Cannot load Host devices. Check connection.'}}
-function r3mOpen(){if(!ownerRoleUnlocked)return toast('Owner only');$('r3mOwnerLayer').classList.add('show');$('r3mOwnerLayer').setAttribute('aria-hidden','false');r3mUpdateArmState();r3mLoadDevices()}
-async function r3mClose(){await r3mStopOwner(true);$('r3mOwnerLayer').classList.remove('show');$('r3mOwnerLayer').setAttribute('aria-hidden','true')}
-async function r3mFailOwner(c,message){if(!r3mCurrent(c))return;await r3mStopOwner(true);if(!r3mOwnerContext)r3mSetStatus('FAILED • '+message)}
-async function r3mStartOwner(retry=false){
- if(!ownerRoleUnlocked)return toast('Owner only');if(!r3mSelected)return toast('Select a Front device');if(r3mStarting)return;r3mStarting=true;let c;
- try{
- const cleanup=r3mStopOwner(true),generation=r3mOwnerGeneration;await cleanup;if(!ownerRoleUnlocked||generation!==r3mOwnerGeneration)return;
- c={id:'s_'+Date.now()+'_'+Math.random().toString(36).slice(2,9),device:r3mSelected,side:'owner',seq:0,seen:new Set(),closed:false,retry:retry===true};r3mOwnerContext=c;r3mSession=c.id;
- r3mSetStatus('CONNECTING • contacting Host…');const config=await loadCallRtcConfig();if(!r3mCurrent(c))return;
- c.pc=new RTCPeerConnection(config);r3mOwnerPc=c.pc;
- await r3mWrite('/sessions/'+c.id,{target:c.device,created:Date.now()});if(!r3mCurrent(c))return;r3mCandidates(c);
- c.channel=c.pc.createDataChannel('monitor-status');c.channel.onopen=()=>{if(r3mCurrent(c))c.channel.send('captions:off')};
- c.pc.addTransceiver('video',{direction:'recvonly'});c.pc.addTransceiver('audio',{direction:'recvonly'});
- c.pc.ontrack=e=>{if(!r3mCurrent(c))return;r3mRemote=e.streams[0]||r3mRemote||new MediaStream();if(!e.streams[0])r3mRemote.addTrack(e.track);$('r3mVideo').srcObject=r3mRemote;$('r3mVideo').muted=!r3mListenOn;$('r3mVideo').play().catch(()=>r3mSetStatus('Tap video to play audio'));};
- c.pc.onconnectionstatechange=()=>{if(!r3mCurrent(c))return;const s=c.pc.connectionState;
- if(s==='connected'){clearTimeout(c.deadline);clearTimeout(c.reconnect);r3mSetStatus('LIVE')}
- if(s==='failed'||s==='disconnected'){r3mSetStatus('RECONNECTING…');clearTimeout(c.reconnect);c.reconnect=setTimeout(()=>{if(!r3mCurrent(c)||c.pc.connectionState==='connected')return;if(!c.retry)r3mStartOwner(true);else r3mFailOwner(c,'Network connection failed. Tap START to retry.')},s==='failed'?1500:8000)}
- };
- await c.pc.setLocalDescription(await c.pc.createOffer());await r3mWaitIce(c.pc);if(!r3mCurrent(c))return;
- await r3mPatch('/sessions/'+c.id,{offer:c.pc.localDescription.toJSON()});if(!r3mCurrent(c))return;
- await r3mWrite('/devices/'+c.device+'/request',{session:c.id,at:Date.now()});
- if(!r3mCurrent(c))return;c.deadline=setTimeout(()=>{if(r3mCurrent(c)&&c.pc.connectionState!=='connected')r3mFailOwner(c,c.pc.remoteDescription?'Host answered, but media connection failed':'Host did not answer. Keep the Host app open and check camera permission.')},45000);
- }catch(e){if(c)await r3mFailOwner(c,String(e.message))}finally{r3mStarting=false}
-}
-async function r3mStopOwner(signal=true){
- r3mOwnerGeneration++;window.FZCaptions?.stop();if(r3mRecorder?.state==='recording')r3mRecorder.stop();const c=r3mOwnerContext;r3mOwnerContext=null;r3mSession='';r3mCloseContext(c);r3mOwnerPc=null;r3mRemote=null;if($('r3mVideo'))$('r3mVideo').srcObject=null;r3mSetStatus('IDLE');
- if(c)try{await r3mWrite('/sessions/'+c.id+'/ownerState',{status:'closed',at:Date.now()})}catch(e){}
-}
-
-function r3mToggleCamera(){r3mCameraOn=!r3mCameraOn;$('r3mVideo').style.visibility=r3mCameraOn?"visible":"hidden";$('r3mCam').textContent=r3mCameraOn?"CAMERA ON":"CAMERA OFF"}
-function r3mToggleListen(){r3mListenOn=!r3mListenOn;const st=$('r3mVideo').srcObject;$('r3mVideo').muted=!r3mListenOn;$('r3mListen').textContent=r3mListenOn?"LISTEN ON":"LISTEN OFF"}
-function r3mToggleRecord(){const st=$('r3mVideo').srcObject;if(!st)return toast('Start monitor first');if(r3mRecorder&&r3mRecorder.state==="recording"){r3mRecorder.stop();return}try{r3mChunks=[];r3mRecorder=new MediaRecorder(st);r3mRecorder.ondataavailable=e=>{if(e.data.size)r3mChunks.push(e.data)};r3mRecorder.onstop=()=>{const b=new Blob(r3mChunks,{type:r3mRecorder.mimeType||"video/webm"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="FZ_Owner_Monitor_"+new Date().toISOString().replace(/[:.]/g,"-")+".webm";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);$('r3mRec').textContent="● RECORD"};r3mRecorder.start(1000);$('r3mRec').textContent="■ STOP RECORD"}catch(e){toast('Recording not supported by this browser')}}
-function r3mBind(){if($('quickOwnerMonitor'))$('quickOwnerMonitor').onclick=r3mOpen;if($('r3mClose'))$('r3mClose').onclick=r3mClose;if($('r3mArmThis'))$('r3mArmThis').onclick=r3mArmThisDevice;if($('r3mStart'))$('r3mStart').onclick=r3mStartOwner;if($('r3mCam'))$('r3mCam').onclick=r3mToggleCamera;if($('r3mListen'))$('r3mListen').onclick=r3mToggleListen;if($('r3mRec'))$('r3mRec').onclick=r3mToggleRecord;if($('r3mStop'))$('r3mStop').onclick=()=>r3mStopOwner(true);setInterval(r3mLoadDevices,2500)}
-
 function quickBind(){
   document.querySelectorAll('[data-quick-nav]').forEach(button=>button.onclick=()=>quickShowPane(button.dataset.quickNav));
   document.querySelectorAll('[data-entry-role]').forEach(button=>button.onclick=()=>quickChooseEntryRole(button.dataset.entryRole));
   if($('teamDayAddNewToggle'))$('teamDayAddNewToggle').onclick=toggleNewEmployee;if($('teamNewSave'))$('teamNewSave').onclick=addNewEmployeeToday;
   if($('teamDayUpdate'))$('teamDayUpdate').onclick=async()=>{if(await saveTeamDay())closeTeamDay()};
   if($('teamDayEdit'))$('teamDayEdit').onclick=()=>{if(!teamDayCanEdit())return;teamDayEditing=!teamDayEditing;renderTeamDay()};
-  if($('quickEditTeamMenu'))$('quickEditTeamMenu').onclick=openTeamDayFromMenu;
+  if($('quickEditTeamMenu'))
   if($('cutRecommendClose'))$('cutRecommendClose').onclick=()=>{$('cutRecommendLayer').classList.remove('show');$('cutRecommendLayer').setAttribute('aria-hidden','true')};
   $('quickManagerBack').onclick=quickShowRoleGate;$('quickManagerEnter').onclick=quickSubmitManagerGate;$('quickManagerPassword').onfocus=quickManagerPasswordFocused;$('quickManagerPassword').onblur=()=>{const gate=$('quickRoleGate');if(gate)setTimeout(()=>{if(document.activeElement!==$('quickManagerPassword'))gate.classList.remove('managerKeyboard')},120)};$('quickManagerPassword').onkeydown=e=>{if(e.key==='Enter')quickSubmitManagerGate()};
   if($('shiftAutoCancel'))$('shiftAutoCancel').onclick=()=>closeShiftAutoDialog(false);if($('shiftAutoConfirm'))$('shiftAutoConfirm').onclick=()=>closeShiftAutoDialog(true);if($('joinSkipNo'))$('joinSkipNo').onclick=()=>closeJoinSkipDialog(false);if($('joinSkipYes'))$('joinSkipYes').onclick=()=>closeJoinSkipDialog(true);if($('seatGuardNo'))$('seatGuardNo').onclick=()=>closeSeatGuardDialog(false);if($('seatGuardYes'))$('seatGuardYes').onclick=()=>closeSeatGuardDialog(true);$('quickAlarm').onclick=openAlarm;$('quickMoreAlarm').onclick=openAlarm;$('quickTeamShout').onclick=openTeamShoutManager;$('quickChangeRole').onclick=()=>(quickAssignInFlight||staffDutyInFlight||clearShiftInFlight)?toast('AN OPERATION IS STILL SAVING…'):quickShowRoleGate();$('quickManagerLogout').onclick=quickLogoutManager;$('quickSeatNext').onclick=()=>{const next=getNextServerSuggestion();if(next)quickOpenWizard(next.row.server,'')};
@@ -12675,7 +12450,7 @@ $('quickWizardReservation').onclick=quickWizardSetReserved;
 $('quickUndoCancel').onclick=()=>{$('quickUndoConfirm').classList.remove('show');quickUndoPending=null};
 $('quickUndoRestore').onclick=restoreFloorHistory;
   $('quickActionClose').onclick=()=>quickSetOpen('quickTableAction',false);$('quickActionCancel').onclick=()=>quickSetOpen('quickTableAction',false);$('quickAdvancedToggle').onclick=()=>$('quickAdvancedActions').classList.toggle('show');$('quickLegacyClose').onclick=quickCloseLegacy;
-  $('quickFormation').onclick=()=>{document.body.classList.remove('quickFormationEditing');openFormationManager()};$('quickAddServer').onclick=quickOpenAssignSection;$('quickBeeper').onclick=()=>quickOpenLegacy('beeper');$('quickEditSection').onclick=()=>quickRequireManager(()=>quickOpenLegacy('sections'),'Edit Table Map');$('quickEditFormation').onclick=()=>quickRequireManager(()=>{document.body.classList.add('quickFormationEditing');openFormationManager()},'Edit Formation');$('quickBreakStaff').onclick=quickOpenBreakStaff;$('quickStaff').onclick=quickOpenCutStaff;$('quickReservations').onclick=()=>quickOpenLegacy('reservations');$('quickHistory').onclick=quickOpenHistoryMatrix;$('quickReports').onclick=quickOpenReports;$('quickChat').onclick=openManagerFrontChat;$('quickManagerCode').onclick=quickOpenUsersRoles;$('quickEditManagerPassword').onclick=quickEditManagerPassword;$('quickClearShift').onclick=()=>quickRequireManager(()=>$('clearBoard').click(),'Clear Shift');
+  $('quickFormation').onclick=()=>{document.body.classList.remove('quickFormationEditing');openFormationManager()};$('quickAddServer').onclick=quickOpenAssignSection;$('quickBeeper').onclick=()=>quickOpenLegacy('beeper');$('quickEditSection').onclick=()=>quickRequireManager(()=>quickOpenLegacy('sections'),'Edit Table Map');$('quickEditFormation').onclick=()=>quickRequireManager(()=>{document.body.classList.add('quickFormationEditing');openFormationManager()},'Edit Formation');$('quickStaff').onclick=quickOpenCutStaff;$('quickReservations').onclick=()=>quickOpenLegacy('reservations');$('quickChat').onclick=openManagerFrontChat;$('quickEditManagerPassword').onclick=quickEditManagerPassword;$('quickClearShift').onclick=()=>quickRequireManager(()=>$('clearBoard').click(),'Clear Shift');
   window.addEventListener('resize',fzScheduleViewportSync);
   window.addEventListener('orientationchange',()=>{fzScheduleViewportSync();setTimeout(fzScheduleViewportSync,180)});
   if(window.visualViewport){window.visualViewport.addEventListener('resize',fzScheduleViewportSync);window.visualViewport.addEventListener('scroll',fzScheduleViewportSync)}
@@ -12694,7 +12469,7 @@ function quickInit(){
     if(quickState.pane!=='board'){quickShowPane('board');return true}
     return false;
   };
-  quickBind();r3mBind();quickInstallHooks();quickRebindTables();quickSyncHeader();quickRenderBoard();quickRenderFloorMeta();quickShowPane('board');
+  quickBind();quickInstallHooks();quickRebindTables();quickSyncHeader();quickRenderBoard();quickRenderFloorMeta();quickShowPane('board');
   const savedSession=quickPersistentSession();if(savedSession){quickCloseRoleGate();setTimeout(()=>{void quickEnterRole(savedSession.role)},0)}else quickShowRoleGate();
   setInterval(quickScheduleRefresh,3500);
 }
@@ -12771,7 +12546,7 @@ $('closeReservationDetail').onclick=()=>closeM('reservationDetailModal');
   $('floorReadyBtn').onclick=()=>setTableStatusDirect('ready');$('floorCleanBtn').onclick=()=>setTableStatusDirect('cleaning');$('floorReservedBtn').onclick=()=>setTableStatusDirect('reserved');$('floorSaveBoard').onclick=()=>applyFloorSeat(false);$('closeStatus').onclick=()=>closeM("statusModal");$('ackAlarm').onclick=ackAlarm;$('floorAddOtherServer').onclick=openFlexibleOtherServers;$('flexOtherClose').onclick=()=>closeM('flexOtherServerModal');$('flexAddNewName').onclick=flexAddNewServerName;$('staffUndoCut').onclick=()=>undoCutStaff($('staffStatusServer').value);$('staffClearCutRow').onclick=()=>{const server=$('staffStatusServer').value;requireManagerAuthorization(()=>clearCutBoardRow(server),'Clear CUT employee row')};$('staffAddServer').onclick=openFlexibleAddServer;$('flexAssignCancel').onclick=()=>closeM('flexAddServerModal');$('flexAssignSave').onclick=saveFlexibleAddServer;
   $('saveTurn').onclick=saveEditingTurn;$('skipTurn').onclick=skipEditingTurn;$('clearTurnDirect').onclick=clearEditingTurn;$('cancelTurn').onclick=()=>{editAuthorized=false;editExisting=false;closeM("turnModal")};$('editLockedTurn').onclick=editLockedTurn;$('clearLockedTurn').onclick=clearLockedTurn;$('closeLockedTurn').onclick=()=>closeM('lockedTurnModal');
   $('deleteServerConfirm').onclick=deleteServer;$('deleteServerCancel').onclick=()=>closeM("deleteServerModal");$('managerQrBtn').onclick=openManagerQr;$('refreshManagerQr').onclick=issueManagerQr;$('closeManagerQr').onclick=closeManagerQr;$('authorizeDynamicCode').onclick=authorizeByDynamicCode;$('authByPassword').onclick=authorizeByManagerPassword;$('cancelManagerAuth').onclick=()=>{pendingManagerAction=null;pendingManagerLabel="";$('managerDynamicCodeInput').value="";closeM("managerAuthModal")};$('managerDynamicCodeInput').onkeydown=e=>{if(e.key==="Enter")authorizeByDynamicCode()};
-  $('boardPdfBtn').onclick=downloadHostBoardPdf;$('boardPdfWaBtn').onclick=()=>shareHostBoardPdf('wa');$('boardPdfEmailBtn').onclick=()=>shareHostBoardPdf('email');$('reservationDeleteMultipleBtn').onclick=deleteMultipleReservations;$('reservationXlsBtn').onclick=downloadReservationXls;$('reservationWaBtn').onclick=shareReservationXls;$('saveReservationBtn').onclick=saveNewReservation;$('saveReservationEdit').onclick=saveReservationEdit;$('cancelReservationEdit').onclick=()=>{editingReservationId=null;editingReservationManager=false;closeM('reservationEditModal')};$('confirmReservationFinal').onclick=finalSaveReservation;$('cancelReservationFinal').onclick=()=>{finalizingReservationId=null;closeM('reservationFinalModal')};$('clearBoard').onclick=()=>{const target={key:boardKey(),date:selectedDate(),shift:shift()};requireManagerAuthorization(()=>clearShiftBoardVerified(target),"Clear entire shift")};
+  $('reservationDeleteMultipleBtn').onclick=deleteMultipleReservations;$('saveReservationBtn').onclick=saveNewReservation;$('saveReservationEdit').onclick=saveReservationEdit;$('cancelReservationEdit').onclick=()=>{editingReservationId=null;editingReservationManager=false;closeM('reservationEditModal')};$('confirmReservationFinal').onclick=finalSaveReservation;$('cancelReservationFinal').onclick=()=>{finalizingReservationId=null;closeM('reservationFinalModal')};$('clearBoard').onclick=()=>{const target={key:boardKey(),date:selectedDate(),shift:shift()};requireManagerAuthorization(()=>clearShiftBoardVerified(target),"Clear entire shift")};
   document.addEventListener("touchstart",unlockVoice,{once:true,passive:true});document.addEventListener("pointerdown",unlockVoice,{once:true});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){publishCallPresence(true);pollManagerFrontCalls()}});window.addEventListener('online',()=>{publishCallPresence(true);pollManagerFrontCalls()});
 }
@@ -12781,9 +12556,73 @@ async function init(){
   const savedSession=quickPersistentSession();
   if(savedSession){ownerRoleUnlocked=savedSession.role==='Owner';managerRoleUnlocked=savedSession.role==='Manager'||savedSession.role==='Owner';lastNonManagerRole=['Front Host','Floor Host'].includes(savedSession.role)?savedSession.role:'Front Host';const baseRole=savedSession.role==='Owner'?'Manager':savedSession.role;$('role').value=baseRole;applyRole(baseRole)}
   else{lastNonManagerRole="Front Host";$('role').value="Front Host";managerRoleUnlocked=false;ownerRoleUnlocked=false;applyRole("Front Host")}
-  buildFloor();bind();installModalCloseButtons();clearReservationForm();await fetchServers();await fetchTables();const resumedKey=resumeBoardSelectionFromActiveTables(tableState);if(resumedKey)toast('RESUMED ACTIVE FLOOR • '+resumedKey);await fetchBoard(boardKey());await fetchFormationTableConfig();await fetchFloorFormation();await fetchFloorAssignments();await fetchTables();await fetchReservations();await fetchManagerFrontChat();renderSheet();renderFormationOverlays();updateNextServerSuggestion();updateViewMeta();renderBeeperView();renderSectionEditEditor();renderBreaktimeView(true);quickInit();await publishCallPresence(true);await pollManagerFrontCalls();
-  setInterval(fetchTables,3000);setInterval(()=>enforceSkipLocks(boardKey()),2500);setInterval(fetchFormationTableConfig,8000);setInterval(fetchFloorFormation,8000);setInterval(fetchFloorAssignments,8000);setInterval(refreshPersistentNextRotation,4000);setInterval(fetchAnnouncements,2500);setInterval(fetchAlarms,1500);setInterval(fetchManagerFrontChat,2500);setInterval(pollManagerFrontCalls,1000);setInterval(()=>publishCallPresence(false),5000);setInterval(fetchReservations,15000);setInterval(fetchTeamShout,3000);setInterval(checkReservationAlarms,20000);setInterval(checkScheduledStaffAlerts,20000);setInterval(refreshAutomaticWorkDate,60000);
+  buildFloor();bind();installModalCloseButtons();clearReservationForm();await Promise.all([fetchServers(),fetchTables()]);const resumedKey=resumeBoardSelectionFromActiveTables(tableState);if(resumedKey)toast('RESUMED ACTIVE FLOOR • '+resumedKey);await Promise.all([fetchBoard(boardKey()),fetchFormationTableConfig(),fetchFloorFormation(),fetchFloorAssignments(),fetchReservations(),fetchManagerFrontChat()]);renderSheet();renderFormationOverlays();updateNextServerSuggestion();updateViewMeta();renderBeeperView();renderSectionEditEditor();renderBreaktimeView(true);quickInit();await publishCallPresence(true);await pollManagerFrontCalls();
+  hostStartRealtime();
+  hostStartDailyReset();
+  setInterval(pollManagerFrontCalls,1000);setInterval(()=>publishCallPresence(false),5000);
+  setInterval(fetchAlarms,3000);setInterval(checkReservationAlarms,20000);setInterval(refreshAutomaticWorkDate,60000);
+
 }
+
+// Host-only: temporary operation receipts used by existing conflict verification.
+var hostReceipts=new Map();
+function hostReceiptPath(url){return /\/(breaktimeTransfersV1096|sectionTransfersV1097|accessAuditV2)(\/|\.json)/.test(url);}
+function hostReceiptRead(url){return {found:hostReceipts.has(url),value:hostReceipts.get(url)};}
+function hostFilterReceipts(url,data){
+ if(hostReceiptPath(url)){hostReceipts.set(url,data);return data;}
+ if(url===ROOT+'.json'&&data&&typeof data==='object'){
+ const next={};for(const [path,value] of Object.entries(data)){
+ if(hostReceiptPath(ROOT+'/'+path+'.json'))hostReceipts.set(ROOT+'/'+path+'.json',value);else next[path]=value;
+ }data=next;}
+ if(hostReceipts.size>100)hostReceipts.delete(hostReceipts.keys().next().value);return data;
+}
+function hostReceiptOnly(url,data){return hostReceiptPath(url)||(url===ROOT+'.json'&&Object.keys(data||{}).length===0);}
+var hostLiveStreams=[],hostLiveKey='',hostRefreshJobs=new Map(),hostLiveGeneration=0,hostLiveConnected=false,hostDatabase=null;
+function hostInvalidatePendingReads(){boardLoadSeq++;tableLoadSeq++;}
+function hostOperationBusy(){return !!pendingBoardSave||!!pendingBoardFlushPromise||breaktimeInFlight||resetWrongInFlight||clearShiftInFlight||floorAutoSaving||moveBusy||tableStatusInFlight||sectionControlInFlight||formationSaveInFlight||staffDutyInFlight||quickAssignInFlight||hostUndoBusy;}
+function hostLiveBadge(){const el=$('hostLiveStatus');if(el)el.textContent=hostLiveConnected&&hostLiveStreams.every(s=>s.healthy)?'LIVE':'RECONNECTING';}
+function hostQueueRefresh(name,run,generation=hostLiveGeneration){
+ let job=hostRefreshJobs.get(name);if(job){job.dirty=true;return;}
+ job={dirty:true};hostRefreshJobs.set(name,job);
+ const drain=async()=>{
+ if(generation!==hostLiveGeneration){if(hostRefreshJobs.get(name)===job)hostRefreshJobs.delete(name);return;}
+ if(hostOperationBusy()){job.timer=setTimeout(drain,100);return;}
+ job.dirty=false;try{await run();}catch(e){sync(false);}
+ if(generation!==hostLiveGeneration)return;
+ if(job.dirty)job.timer=setTimeout(drain,50);else hostRefreshJobs.delete(name);};
+ job.timer=setTimeout(drain,20);
+}
+function hostStartRealtime(){
+ ++hostLiveGeneration;hostLiveStreams.forEach(s=>s.close());hostLiveStreams=[];
+ hostRefreshJobs.forEach(j=>clearTimeout(j.timer));hostRefreshJobs.clear();
+ hostLiveKey=boardKey();const key=hostLiveKey,generation=hostLiveGeneration;
+ if(!hostDatabase){
+   const app=firebase.apps.find(a=>a.name==='fz-host-live')||firebase.initializeApp({databaseURL:new URL(ROOT).origin},'fz-host-live');
+   hostDatabase=app.database();
+   hostDatabase.ref('.info/connected').on('value',snap=>{hostLiveConnected=!!snap.val();hostLiveBadge();});
+ }
+ const paths=[[BOARD_ROOT+'/'+key,()=>fetchBoard(key),'board'],[TABLE_ROOT,fetchTables,'tables'],
+ [FLOOR_FORMATION_ROOT+'/'+key,()=>fetchFloorFormation(key),'formation'],[FLOOR_ASSIGN_ROOT+'/'+key,()=>fetchFloorAssignments(key),'assignments'],
+ [FORMATION_TABLE_ROOT,fetchFormationTableConfig,'config'],[SERVER_ROOT,fetchServers,'servers'],
+ [SKIP_LOCK_ROOT+'/'+key,()=>fetchBoard(key),'board'],[RESERVATION_ROOT,fetchReservations,'reservations'],
+ [CHAT_ROOT,fetchManagerFrontChat,'chat'],[TEAM_SHOUT_ROOT+'/current',fetchTeamShout,'shout'],[ANNOUNCE_ROOT,fetchAnnouncements,'announcements'],
+ [ROOT+'/hostDailyClearV54',hostApplyDailyResetMarker,'daily-reset'],[CALL_INBOX_ROOT+'/'+callDeviceKey(),pollManagerFrontCalls,'calls'],[ALARM_ROOT,fetchAlarms,'alarms']];
+ for(const [path,run,name] of paths){
+ let ref=hostDatabase.refFromURL(path);if(name==='announcements')ref=ref.orderByKey().startAt('ann_'+(sessionStart-3000));
+ const stream={healthy:false,close:()=>ref.off('value',changed)};
+ const changed=()=>{if(generation!==hostLiveGeneration||key!==boardKey())return;stream.healthy=true;hostLiveBadge();if(name==='daily-reset'){void run().catch(()=>sync(false));return;}hostQueueRefresh(name,run,generation);};
+ ref.on('value',changed,()=>{stream.healthy=false;hostLiveBadge();});hostLiveStreams.push(stream);
+ }
+ hostLiveBadge();
+}
+setInterval(()=>{if(hostLiveKey&&hostLiveKey!==boardKey())hostStartRealtime();},500);
+setInterval(()=>{if(hostLiveKey&&(!hostLiveConnected||hostLiveStreams.some(s=>!s.healthy))){
+ hostQueueRefresh('fallback',()=>Promise.all([fetchBoard(),fetchTables(),fetchFloorFormation(),fetchFloorAssignments(),fetchReservations(),fetchManagerFrontChat(),fetchTeamShout(),fetchAlarms()]));
+}},15000);
+window.addEventListener('online',()=>{if(hostLiveKey)hostStartRealtime();});
+window.addEventListener('pagehide',()=>{hostLiveStreams.forEach(s=>s.close());hostLiveStreams=[];});
+window.addEventListener('pageshow',e=>{if(e.persisted&&hostLiveKey)hostStartRealtime();});
+
 init();
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -12807,7 +12646,7 @@ function scheduledShow(rule,candidates){if(scheduledCutEvent||!candidates.length
 async function scheduledCloseAndCut(){if(!scheduledCutEvent||scheduledCutBusy)return;scheduledCutBusy=true;const button=$('scheduledCutClose'),rule=scheduledCutEvent.rule;button.disabled=true;button.textContent='CUTTING…';for(const item of scheduledCutEvent.candidates){if(staffDutyState(item.server,board).state==='ACTIVE')await performStaffDutyChange(item.server,'CUT','',{skipConfirm:true,reason:'SCHEDULED '+rule.id})}const remaining=scheduledCandidates(rule);if(remaining.length){scheduledCutEvent.candidates=remaining;$('scheduledCutNames').innerHTML=remaining.map(x=>'<div class="scheduledCutName"><span>'+esc(x.server)+'</span><small>'+esc(x.shift||'')+'</small></div>').join('');button.disabled=false;button.textContent='CLOSE';scheduledCutBusy=false;speakManagerFrontChat('Some employees could not be cut. Press Close to retry.');return}try{localStorage.setItem(scheduledAckKey(rule.id),String(Date.now()))}catch(e){}scheduledCutBusy=false;scheduledCutEvent=null;closeM('scheduledCutModal');button.disabled=false;button.textContent='CLOSE'}
 function scheduledCheck(){if(scheduledCutEvent||scheduledCutBusy||clearShiftInFlight||formationSaveInFlight||staffDutyInFlight)return;if(!board||!Array.isArray(board.rows)||loadedBoardKey!==boardKey())return;const now=new Date(),minutes=now.getHours()*60+now.getMinutes(),currentShift=shift();for(const rule of scheduledRulesForToday(now)){if(rule.boardShift!==currentShift)continue;const due=rule.hour*60+rule.minute;if(minutes<due)continue;try{if(localStorage.getItem(scheduledAckKey(rule.id,now)))continue}catch(e){}const candidates=scheduledCandidates(rule);if(candidates.length){scheduledShow(rule,candidates);return}try{localStorage.setItem(scheduledAckKey(rule.id,now),'none:'+Date.now())}catch(e){}}}
 function initScheduledCuts(){if($('scheduledCutClose'))$('scheduledCutClose').onclick=scheduledCloseAndCut;clearInterval(scheduledCutTimer);scheduledCutTimer=setInterval(scheduledCheck,15000);setTimeout(scheduledCheck,2500)}
-window.addEventListener('load',()=>setTimeout(initScheduledCuts,1200));
+
 /* ===== END R3I SCHEDULED SHIFT CUT AUTOMATION ===== */
 
 /* BEGIN BAR818 ISOLATED REPAIR MODULE */
@@ -13262,7 +13101,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 (function(){
-  window.__FZ_PWA_VERSION__ = 'R3M.8.43-ROTATION-COMPACTION-FIX';
+  window.__FZ_PWA_VERSION__ = 'R3M.8.54-ROTATION-COMPACTION-FIX';
   const APP_SCOPE='/FZ-Quick-Board-R3M/';
   let deferredInstallPrompt=null;
   let installBanner=null;
@@ -13327,7 +13166,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if('serviceWorker' in navigator){
     window.addEventListener('load',async function(){
       try{
-        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.43',{scope:'./',updateViaCache:'none'});
+        const reg=await navigator.serviceWorker.register('./sw.js?v=R3M.8.54',{scope:'./',updateViaCache:'none'});
         await reg.update();
       }catch(e){console.warn('FZ PWA SW:',e);}
       updateInstallUi();
@@ -13354,7 +13193,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <div id="seatGuardOverlay" class="seatGuardOverlay" role="dialog" aria-modal="true" aria-labelledby="seatGuardTitle"><div class="seatGuardBox"><span class="seatGuardBadge">SEATING SAFETY CHECK</span><div id="seatGuardTitle" class="seatGuardTitle">DOUBLE SEAT ALERT</div><div id="seatGuardServer" class="seatGuardServer"></div><div id="seatGuardReason" class="seatGuardReason"></div><div class="seatGuardAsk">Please ask the server first. Continue this seating?</div><div class="seatGuardActions"><button id="seatGuardNo" type="button">NO • GO BACK</button><button id="seatGuardYes" type="button">YES • CONTINUE</button></div></div></div>
 <div id="nextFullOverlay" class="nextFullOverlay" role="dialog" aria-modal="true"><div class="nextFullBox"><span class="nextFullBadge">FLOOR • NEXT SERVER ALERT</span><div class="nextFullTitle">SECTION IS FULL</div><div id="nextFullServer" class="nextFullServer"></div><div id="nextFullReason" class="nextFullReason"></div><button class="nextFullAck" type="button" onclick="acknowledgeNextFullAlert()">ACKNOWLEDGE &amp; CLOSE</button></div></div>
 
-<script src="monitor-captions.js?v=R3M.8.43"></script>
+
 
 </body>
 </html>
@@ -13398,7 +13237,229 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </style>
 
 <style>.turnBtn.master .n,.turnBtn.skip .n{color:#fee2e2}.turnBtn.master .v{color:#fff}</style>
-<script src="table-capacity-v30.js?v=R3M.8.43"></script>
-<link rel="stylesheet" href="smart-next.css?v=R3M.8.43">
-<script src="smart-next.js?v=R3M.8.43"></script>
-<script src="scheduled-cut-v23.js?v=R3M.8.43"></script>
+
+
+
+
+<script>
+(function(){
+const BAR_AUTO='barAuto';
+const CAPACITY=60;
+const ROWS=15;
+
+const clone=v=>JSON.parse(JSON.stringify(v==null?null:v));
+const text=v=>String(v==null?'':v);
+const int=v=>Number.isInteger(v)?v:(typeof v==='string'&&/^\d+$/.test(v)?Number(v):null);
+const safeInt=(v,d=0)=>{const n=parseInt(v,10);return Number.isFinite(n)?n:d};
+const pad2=n=>String(n).padStart(2,'0');
+
+function indexed(value,len){
+  const out=Array.from({length:len},()=>null);
+  if(Array.isArray(value)){for(let i=0;i<Math.min(len,value.length);i++)out[i]=value[i];return out}
+  if(value&&typeof value==='object')Object.entries(value).forEach(([k,v])=>{if(/^\d+$/.test(k)){const i=Number(k);if(i>=0&&i<len)out[i]=v}});
+  return out;
+}
+function emptyTurn(){return {table:'',people:'',master:null,skipped:false,skipType:'',entryId:''}}
+function normTurn(t){
+  t=t&&typeof t==='object'?t:{};
+  return {table:text(t.table),people:text(t.people),master:int(t.master),skipped:!!t.skipped,skipType:text(t.skipType||t.skipKind||(t.skipped?'manual':'')),entryId:text(t.entryId||t.partyId)};
+}
+function emptyRow(){return {server:'',section:'',workShift:'',beeper:'',active:false,cutAt:0,cutReason:'',turns:Array.from({length:CAPACITY},emptyTurn)}}
+function normRow(raw){
+  const r=raw&&typeof raw==='object'?raw:{};
+  const server=text(r.server);
+  return {server,section:text(r.section),workShift:text(r.workShift),beeper:text(r.beeper),active:server?(r.active!==false):false,cutAt:Number(r.cutAt||0)||0,cutReason:text(r.cutReason),turns:indexed(r.turns,CAPACITY).map(normTurn)};
+}
+function normalizeBoard(raw){return {rows:indexed(raw&&raw.rows,ROWS).map(normRow)}}
+function turnPayload(t){return !!(t&&(t.table||t.people||t.skipped||Number.isInteger(t.master)||t.entryId))}
+function isBarAuto(t){return !!(t&&t.skipped&&text(t.skipType).toLowerCase()===BAR_AUTO.toLowerCase())}
+function isBarSection(section){return /bar/i.test(text(section))}
+function hasBoardHistory(raw){
+  const b=normalizeBoard(raw);
+  return b.rows.some(r=>(r.turns||[]).some(turnPayload));
+}
+function hasBoardSetup(raw){
+  const b=normalizeBoard(raw);
+  return b.rows.some(r=>r.server||r.section||r.workShift||r.beeper||(r.turns||[]).some(turnPayload));
+}
+function partyEpoch(entryId){const m=text(entryId).match(/^seat_(\d{13})_/);return m?Number(m[1]):0}
+function weekdayForDate(date){try{return new Date(date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long'})}catch(_){return ''}}
+function boardTurnUnits(rawRow){
+  const row=normRow(rawRow),turns=row.turns,units=[];
+  for(let i=0;i<CAPACITY;i++){
+    const t=turns[i];
+    if(!turnPayload(t))continue;
+    if(isBarAuto(t))continue;
+    if(t.skipped){units.push({type:'skip',oldStart:i,oldIndexes:[i],turn:clone(t)});continue}
+    if(t.table){
+      const people=Math.max(1,safeInt(t.people,1)),need=Math.max(1,Math.ceil(people/4)),master=Number.isInteger(t.master)?t.master:i,oldIndexes=[i];
+      for(let j=i+1;j<CAPACITY&&oldIndexes.length<need;j++){
+        const q=turns[j];
+        if(!q||q.skipped||q.table)break;
+        const sameMaster=Number.isInteger(q.master)&&q.master===master;
+        const sameId=t.entryId&&q.entryId&&q.entryId===t.entryId;
+        if(!(sameMaster||sameId))break;
+        oldIndexes.push(j);
+      }
+      if(oldIndexes.length!==need)throw new Error('BAR history is incomplete at '+(t.table||('turn '+(i+1)))+'. Shift correction stopped.');
+      units.push({type:'party',oldStart:i,oldIndexes,table:t.table,people:String(people),entryId:t.entryId,slots:need});
+      i=oldIndexes[oldIndexes.length-1];
+      continue;
+    }
+    /* An orphan continuation is unsafe to move because it can change party chronology. */
+    if(t.people||Number.isInteger(t.master)||t.entryId)throw new Error('BAR continuation cannot be linked safely at turn '+(i+1)+'. Shift correction stopped.');
+  }
+  return units;
+}
+function rebuildBarRow(rawRow,targetShift){
+  const row=normRow(rawRow),units=boardTurnUnits(row),out=Array.from({length:CAPACITY},emptyTurn),oldToNew={},entryToNew={};
+  let cursor=0,partyCount=0,manualSkipCount=0,barAutoCount=0;
+  const ensure=n=>{if(cursor+n>CAPACITY)throw new Error('BAR history needs more than '+CAPACITY+' turns after shift correction. Nothing changed.')};
+  for(const unit of units){
+    if(unit.type==='skip'){
+      ensure(1);const t=normTurn(unit.turn);t.master=cursor;t.skipped=true;t.skipType=t.skipType||'manual';out[cursor]=t;oldToNew[unit.oldStart]=cursor;manualSkipCount++;cursor++;continue;
+    }
+    ensure(unit.slots+(targetShift==='PM'&&((partyCount+1)%2===0)?1:0));
+    const start=cursor;
+    for(let k=0;k<unit.slots;k++){
+      out[cursor]={table:k===0?unit.table:'',people:unit.people,master:start,skipped:false,skipType:'',entryId:unit.entryId};
+      oldToNew[unit.oldIndexes[k]]=cursor;cursor++;
+    }
+    oldToNew[unit.oldStart]=start;if(unit.entryId)entryToNew[unit.entryId]=start;partyCount++;
+    if(targetShift==='PM'&&partyCount%2===0){
+      ensure(1);out[cursor]={table:'',people:'',master:cursor,skipped:true,skipType:BAR_AUTO,entryId:unit.entryId};barAutoCount++;cursor++;
+    }
+  }
+  return {row:{...row,turns:out},oldToNew,entryToNew,partyCount,manualSkipCount,barAutoCount};
+}
+function transformBoardForShift(rawBoard,targetShift){
+  const src=normalizeBoard(rawBoard),turnMaps={},entryMap={};
+  const rows=src.rows.map((row,ri)=>{
+    if(!isBarSection(row.section))return clone(row);
+    const built=rebuildBarRow(row,targetShift);turnMaps[ri]=built.oldToNew;
+    Object.entries(built.entryToNew).forEach(([entryId,turn])=>entryMap[entryId]={row:ri,turn});
+    return built.row;
+  });
+  /* Also index non-BAR parties for active Floor references. */
+  rows.forEach((row,ri)=>(row.turns||[]).forEach((t,ti)=>{if(t&&!t.skipped&&t.table&&t.entryId&&!entryMap[t.entryId])entryMap[t.entryId]={row:ri,turn:ti}}));
+  return {board:{rows},turnMaps,entryMap};
+}
+function buildSkipLocksFromBoard(rawBoard,updatedBy='Shift Correction'){
+  const b=normalizeBoard(rawBoard),locks={},now=Date.now();
+  b.rows.forEach((row,ri)=>(row.turns||[]).forEach((t,ti)=>{if(!t||!t.skipped)return;locks['r'+ri+'_t'+ti]={active:true,row:ri,turn:ti,server:text(row.server),skipType:text(t.skipType||'manual'),entryId:text(t.entryId),updatedAt:now,updatedBy:text(updatedBy)}}));
+  return locks;
+}
+function rewriteBoardRef(ref,sourceKey,targetKey,entryMap,turnMaps){
+  if(!ref||typeof ref!=='object'||text(ref.boardKey)!==sourceKey)return ref;
+  const out={...ref,boardKey:targetKey};const eid=text(ref.entryId);
+  if(eid&&entryMap[eid]){out.row=entryMap[eid].row;out.turn=entryMap[eid].turn;return out}
+  const ri=Number(ref.row),ti=Number(ref.turn),mapped=turnMaps[ri]&&turnMaps[ri][ti];
+  if(Number.isInteger(mapped)){out.turn=mapped;return out}
+  return out;
+}
+function rewriteTableRefs(tables,sourceKey,targetKey,entryMap,turnMaps){
+  const updates={};
+  Object.entries(tables||{}).forEach(([id,state])=>{
+    if(!state||typeof state!=='object')return;
+    let changed=false,next={...state};
+    for(const field of ['boardRef','primaryBoardRef']){
+      const before=state[field],after=rewriteBoardRef(before,sourceKey,targetKey,entryMap,turnMaps);
+      if(after!==before){next[field]=after;changed=true}
+    }
+    if(changed){next.updatedAt=Date.now();next.shiftCorrectedFrom=sourceKey;updates[id]=next}
+  });
+  return updates;
+}
+function recursiveBoardKeyReplace(value,sourceKey,targetKey){
+  if(Array.isArray(value))return value.map(v=>recursiveBoardKeyReplace(v,sourceKey,targetKey));
+  if(value&&typeof value==='object'){
+    const out={};for(const [k,v] of Object.entries(value)){if(k==='boardKey'&&text(v)===sourceKey)out[k]=targetKey;else out[k]=recursiveBoardKeyReplace(v,sourceKey,targetKey)}return out;
+  }
+  return value;
+}
+
+let shiftCorrectionBusy=false;
+function relChild(rootUrl,key=''){return String(rootUrl).slice(String(ROOT).length+1)+(key?'/'+key:'')}
+function rawRowsHaveTurns(raw){return hasBoardHistory(raw)}
+function activeTargetRefs(tables,targetKey){return Object.entries(tables||{}).filter(([,s])=>s&&((s.boardRef&&text(s.boardRef.boardKey)===targetKey)||(s.primaryBoardRef&&text(s.primaryBoardRef.boardKey)===targetKey))).map(([id])=>id)}
+function tableRefTurnIsResolvable(state,sourceKey,transformed){
+  for(const field of ['boardRef','primaryBoardRef']){
+    const ref=state&&state[field];if(!ref||text(ref.boardKey)!==sourceKey)continue;
+    const eid=text(ref.entryId);if(eid&&transformed.entryMap[eid])continue;
+    const ri=Number(ref.row),ti=Number(ref.turn);if(!Number.isInteger(ri)||!Number.isInteger(ti)||!transformed.turnMaps[ri]||!Number.isInteger(transformed.turnMaps[ri][ti]))return false;
+  }
+  return true;
+}
+async function readShiftCorrectionBundle(sourceKey,targetKey){
+  const roots=[
+    ['sourceBoard',BOARD_ROOT+'/'+sourceKey+'.json'],['targetBoard',BOARD_ROOT+'/'+targetKey+'.json'],['sourceFormation',FLOOR_FORMATION_ROOT+'/'+sourceKey+'.json'],['targetFormation',FLOOR_FORMATION_ROOT+'/'+targetKey+'.json'],['sourceAssignments',FLOOR_ASSIGN_ROOT+'/'+sourceKey+'.json'],['targetAssignments',FLOOR_ASSIGN_ROOT+'/'+targetKey+'.json'],['sourceLocks',SKIP_LOCK_ROOT+'/'+sourceKey+'.json'],['targetLocks',SKIP_LOCK_ROOT+'/'+targetKey+'.json'],['tables',TABLE_ROOT+'.json']
+  ];
+  const vals=await Promise.all(roots.map(x=>readJ(x[1]))),out={};roots.forEach((x,i)=>out[x[0]]=vals[i]);return out;
+}
+async function correctCurrentShift(targetShift,onProgress){
+  targetShift=text(targetShift).toUpperCase();if(!['AM','PM'].includes(targetShift))throw new Error('Choose AM or PM.');
+  if(shiftCorrectionBusy||clearShiftInFlight)throw new Error('Another Board operation is running.');
+  const sourceShift=shift(),date=selectedDate();if(sourceShift===targetShift)throw new Error('Current Board is already '+targetShift+'.');
+  if(!(await flushScheduledBoardSave()))throw new Error('Pending Board edit must finish first.');
+  const sourceKey=date+'_'+sourceShift,targetKey=date+'_'+targetShift,owner=operationId('shift-correction');let claimed=[];
+  const progress=t=>{try{if(typeof onProgress==='function')onProgress(t)}catch(_){}};
+  shiftCorrectionBusy=true;progress('CHECKING LIVE BOARD…');
+  try{
+    let pre=await readShiftCorrectionBundle(sourceKey,targetKey);
+    if(!pre.sourceBoard||!hasBoardSetup(pre.sourceBoard))throw new Error(sourceKey+' has no Board data to move.');
+    if(rawRowsHaveTurns(pre.targetBoard))throw new Error('SAFETY STOP • '+targetKey+' already has table/SKIP history. Nothing was overwritten.');
+    const targetRefs=activeTargetRefs(pre.tables,targetKey);if(targetRefs.length)throw new Error('SAFETY STOP • '+targetKey+' already has active Floor tables: '+targetRefs.join(', '));
+    const sourceTableIds=Object.entries(pre.tables||{}).filter(([,s])=>s&&((s.boardRef&&text(s.boardRef.boardKey)===sourceKey)||(s.primaryBoardRef&&text(s.primaryBoardRef.boardKey)===sourceKey))).map(([id])=>id);
+    progress('LOCKING BOARD + ACTIVE TABLES…');
+    claimed=await claimTableLocksWithRetry(['BOARD '+sourceKey+' CLEAR','BOARD '+targetKey+' CLEAR',...sourceTableIds],owner,7000);
+    if(!claimed.length)throw new Error('Could not secure Board and active tables. Try again.');
+    clearShiftInFlight=true;boardLoadSeq++;formationLoadSeq++;floorAssignmentLoadSeq++;tableLoadSeq++;
+    progress('RE-READING LIVE DATA…');pre=await readShiftCorrectionBundle(sourceKey,targetKey);
+    if(!pre.sourceBoard||!hasBoardSetup(pre.sourceBoard))throw new Error(sourceKey+' changed or disappeared.');
+    if(rawRowsHaveTurns(pre.targetBoard)||activeTargetRefs(pre.tables,targetKey).length)throw new Error('Target shift changed on another device. Nothing was moved.');
+
+    progress(targetShift==='AM'?'REMOVING BAR PM AUTO SKIPS…':'REBUILDING BAR • 2 TABLES → 1 AUTO SKIP…');
+    const transformed=transformBoardForShift(pre.sourceBoard,targetShift);
+    for(const [id,state] of Object.entries(pre.tables||{}))if(state&&!tableRefTurnIsResolvable(state,sourceKey,transformed))throw new Error('Floor reference '+id+' cannot be moved safely. Nothing changed.');
+    const newLocks=buildSkipLocksFromBoard(transformed.board,typeof role==='function'?role():'Shift Correction'),tableUpdates=rewriteTableRefs(pre.tables||{},sourceKey,targetKey,transformed.entryMap,transformed.turnMaps);
+    const patch={};
+    patch[relChild(BOARD_ROOT,targetKey)]={...transformed.board,date,shift:targetShift,shiftCorrectedAt:Date.now(),shiftCorrectedFrom:sourceKey};patch[relChild(BOARD_ROOT,sourceKey)]=null;
+    patch[relChild(FLOOR_FORMATION_ROOT,targetKey)]=pre.sourceFormation||pre.targetFormation||null;patch[relChild(FLOOR_FORMATION_ROOT,sourceKey)]=null;
+    patch[relChild(FLOOR_ASSIGN_ROOT,targetKey)]=pre.sourceAssignments||pre.targetAssignments||null;patch[relChild(FLOOR_ASSIGN_ROOT,sourceKey)]=null;
+    patch[relChild(SKIP_LOCK_ROOT,targetKey)]=newLocks;patch[relChild(SKIP_LOCK_ROOT,sourceKey)]=null;
+    patch[relChild(CUT_UNDO_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceCutUndo||null,sourceKey,targetKey);patch[relChild(CUT_UNDO_ROOT,sourceKey)]=null;
+    patch[relChild(RECENT_SEAT_ROOT,targetKey)]=recursiveBoardKeyReplace(pre.sourceRecent||null,sourceKey,targetKey);patch[relChild(RECENT_SEAT_ROOT,sourceKey)]=null;
+    Object.entries(tableUpdates).forEach(([id,state])=>patch[relChild(TABLE_ROOT,id)]=state);
+
+    progress('MOVING HISTORY ATOMICALLY…');
+    const response=await fetch(ROOT+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(patch)});if(!response.ok)throw new Error('Shift correction save failed.');
+    progress('VERIFYING…');
+    const [verifyBoard,verifySource,verifyTables,verifyLocks]=await Promise.all([readJ(BOARD_ROOT+'/'+targetKey+'.json'),readJ(BOARD_ROOT+'/'+sourceKey+'.json'),readJ(TABLE_ROOT+'.json'),readJ(SKIP_LOCK_ROOT+'/'+targetKey+'.json')]);
+    if(!verifyBoard||verifySource!==null)throw new Error('Shift correction verification failed. Source/target Board state is not exact.');
+    const vb=normalizeBoard(verifyBoard),barRows=vb.rows.filter(r=>isBarSection(r.section)),actualBar=barRows.reduce((n,r)=>n+r.turns.filter(t=>t&&!t.skipped&&t.table).length,0),autoBar=barRows.reduce((n,r)=>n+r.turns.filter(isBarAuto).length,0);
+    const expectedAuto=targetShift==='PM'?barRows.reduce((n,r)=>n+Math.floor(r.turns.filter(t=>t&&!t.skipped&&t.table).length/2),0):0;if(autoBar!==expectedAuto)throw new Error('BAR AUTO SKIP verification failed: expected '+expectedAuto+', found '+autoBar+'.');
+    const staleTable=Object.entries(verifyTables||{}).find(([,s])=>s&&((s.boardRef&&text(s.boardRef.boardKey)===sourceKey)||(s.primaryBoardRef&&text(s.primaryBoardRef.boardKey)===sourceKey)));if(staleTable)throw new Error('Floor reference verification failed for '+staleTable[0]+'.');
+    const lockCount=Object.values(verifyLocks||{}).filter(x=>x&&x.active!==false).length,boardSkipCount=vb.rows.reduce((n,r)=>n+r.turns.filter(t=>t&&t.skipped).length,0);if(lockCount!==boardSkipCount)throw new Error('SKIP lock verification failed.');
+
+    try{clearBoardSnapshot(sourceKey);cacheBoardSnapshot(targetKey,vb,'SHIFT CORRECTION');clearBoardRecovery(sourceKey);clearBoardRecovery(targetKey)}catch(_){}
+    clearShiftInFlight=false;
+    $('shift').value=targetShift;if($('quickShift'))$('quickShift').value=targetShift;localStorage.setItem('jhb31_shift',targetShift);localStorage.setItem('jhb31_date',date);
+    await fetchBoard(targetKey);await fetchFloorFormation(targetKey);await fetchFloorAssignments(targetKey);await fetchTables();updateNextServerSuggestion();updateViewMeta();renderBreaktimeView(true);if(typeof quickSyncHeader==='function')quickSyncHeader();if(typeof quickScheduleRefresh==='function')quickScheduleRefresh();
+    progress('DONE');toast(sourceShift+' → '+targetShift+' • HISTORY MOVED • BAR AUTO '+autoBar);return {sourceKey,targetKey,barParties:actualBar,barAuto:autoBar};
+  }finally{
+    clearShiftInFlight=false;shiftCorrectionBusy=false;await releaseTableLocksFast(claimed,owner);
+  }
+}
+
+
+function hostOpenShiftCorrection(){
+ const target=shift()==='AM'?'PM':'AM';
+ if(!confirm('Correct '+shift()+' to '+target+'? All live parties, secondary links and rotation move. Existing target parties block this action.'))return;
+ correctCurrentShift(target,msg=>toast(msg)).catch(e=>toast(e.message));
+}
+const install=()=>{const b=document.createElement('button');b.id='quickShiftCorrection';b.className='quickMenuBtn';b.innerHTML='<strong>Correct Wrong AM/PM</strong><span>Move live Board and Floor links safely</span>';b.onclick=hostOpenShiftCorrection;document.getElementById('quickFormation').parentElement.appendChild(b);};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+window.FZHostShiftCore={transformBoardForShift,rewriteTableRefs,buildSkipLocksFromBoard};
+
+})();
+</script>
